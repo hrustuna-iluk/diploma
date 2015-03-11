@@ -1,7 +1,6 @@
 #-*-coding:UTF-8-*-
 from django.db import models
 from django.contrib import admin
-from django.contrib.auth.models import User
 
 POSITIONS = (
     ('dean', 'Декан'),
@@ -50,37 +49,39 @@ PASS_TYPES = (
 class Faculty(models.Model):
     title = models.CharField(max_length=255)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
 
 class Department(models.Model):
     title = models.CharField(max_length=255)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
 
 class Group(models.Model):
     number = models.CharField(max_length=25)
     department = models.ForeignKey(Department)
-    leader = models.ForeignKey('Student', related_name='gr_lead')
+    leader = models.CharField(max_length=255)
     yearStudy = models.IntegerField()
     tuition = models.CharField(max_length=50, choices=TUITION_TYPES)
-    curator = models.ForeignKey('Teacher')
+    curator = models.ForeignKey('Teacher', blank=True, null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.number
 
 
 class Language(models.Model):
     title = models.CharField(max_length=255)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
 
-class Teacher(User):
+class Teacher(models.Model):
+    firstName = models.CharField(max_length=255, blank=True)
+    lastName = models.CharField(max_length=255, blank=True)
     middleName = models.CharField(max_length=255, blank=True)
     position = models.CharField(max_length=255, choices=POSITIONS)
     department = models.ForeignKey(Department)
@@ -88,23 +89,25 @@ class Teacher(User):
     class Meta:
         verbose_name = 'Teacher'
 
-    def __unicode__(self):
-        return self.first_name + ' ' +  self.last_login
+    def __str__(self):
+        return self.firstName + ' ' +  self.lastName
 
 
 class Benefits(models.Model):
     type = models.CharField(max_length=255)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.type
 
 
-class Student(User):
+class Student(models.Model):
+    firstName = models.CharField(max_length=255, blank=True)
+    lastName = models.CharField(max_length=255, blank=True)
     middleName = models.CharField(max_length=255, blank=True)
     address = models.CharField(max_length=255)
     language = models.ForeignKey(Language)
     phone = models.CharField(max_length=30)
-    benefits = models.ManyToManyField(Benefits)
+    benefits = models.ManyToManyField(Benefits, blank=True, null=True)
     isProcurement = models.BooleanField(default=False)
     group = models.ForeignKey(Group)
     dateBirth = models.DateField()
@@ -116,8 +119,8 @@ class Student(User):
     class Meta:
         verbose_name = 'Student'
 
-    def __unicode__(self):
-        return self.first_name + ' ' +  self.last_login
+    def __str__(self):
+        return self.firstName + ' ' +  self.lastName
 
 
 class Parents(models.Model):
@@ -126,14 +129,14 @@ class Parents(models.Model):
     position = models.CharField(max_length=255)
     student = models.ForeignKey(Student)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.fullname
 
 class Subject(models.Model):
     title = models.CharField(max_length=255)
     type = models.CharField(max_length=50, choices=SUBJECT_TYPES)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
 class Additional(models.Model):
@@ -141,16 +144,14 @@ class Additional(models.Model):
     value = models.CharField(max_length=255)
     student = models.ForeignKey(Student)
 
-    def __unicode__(self):
-        return self.title
+    def __str__(self):
+        return self.title + ' ' + self.student.firstName + ' ' + self.student.lastName
 
-    def __unicode__(self):
-        return self.group
 
 class ClassRoom(models.Model):
     number = models.CharField(max_length=50)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.number
 
 class Class(models.Model):
@@ -161,13 +162,13 @@ class Class(models.Model):
     number_of_week = models.CharField(max_length=2, choices=(('1', 1), ('2', 2)))
     number = models.IntegerField()
 
-    def __unicode__(self):
-        return self.subject
+    def __str__(self):
+        return self.subject.title + ' ' + self.subject.type
 
 class Event(models.Model):
     title = models.CharField(max_length=255)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
 class StudentWork(models.Model):
@@ -175,7 +176,7 @@ class StudentWork(models.Model):
     year = models.CharField(max_length=10)
     group = models.ForeignKey(Group)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.text
 
 class PublicPlan(models.Model):
@@ -186,15 +187,15 @@ class PublicPlan(models.Model):
     amount_hours = models.FloatField()
     amount_present = models.IntegerField()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.description
 
 class Report(models.Model):
     date = models.DateField()
     event = models.ForeignKey(Event)
 
-    def __unicode__(self):
-        return self.event
+    def __str__(self):
+        return self.event.title
 
 class Pass(models.Model):
     student = models.ForeignKey(Student)
@@ -202,7 +203,7 @@ class Pass(models.Model):
     type = models.CharField(max_length=50, choices=PASS_TYPES)
     class_passed = models.ForeignKey(Class)
 
-    def __unicode__(self):
+    def __str__(self):
         return ' '.join([self.student.first_name, self.student.last_name, self.type, self.date])
 
 #models views
@@ -246,7 +247,7 @@ class ReportAdminView(admin.ModelAdmin):
     list_display = ('date',)
 
 class StudentAdminView(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name')
+    list_display = ('firstName', 'lastName')
 
 class StudentWorkAdminView(admin.ModelAdmin):
     list_display = ('text',)
@@ -255,7 +256,7 @@ class SubjectAdminView(admin.ModelAdmin):
     list_display = ('title',)
 
 class TeacherAdminView(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name')
+    list_display = ('firstName', 'lastName')
 
 #register
 try:

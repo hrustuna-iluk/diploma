@@ -6,11 +6,7 @@ from django.http import Http404
 from django.template.context import RequestContext
 from rest_framework import serializers, viewsets
 from django.shortcuts import get_object_or_404
-
-
-class EventSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Event
+from reporting.api.Views.Serializers.EventSerializer import EventSerializer
 
 
 class EventView(APIView):
@@ -26,16 +22,15 @@ class EventView(APIView):
 
         return Response(serializer.data)
 
-    def post(self, request, pk, format=None):
-        snippet = get_object_or_404(Event, pk=pk)
-        serializer = EventSerializer(snippet, data=request.data, context=RequestContext(request))
+    def post(self, request, format=None):
+        serializer = EventSerializer(data=request.data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def put(self, request, pk, format=None):
-        snippet = get_object_or_404(Event, pk=pk)
+    def put(self, request, format=None):
+        snippet = get_object_or_404(Event, pk=request.data["id"])
         serializer = EventSerializer(snippet, data=request.data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()

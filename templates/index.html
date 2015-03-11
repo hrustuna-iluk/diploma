@@ -2,12 +2,482 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
-</head>
-<body>
-hello
-</body>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <link rel="stylesheet" href="{% static 'frameworks/Metro-UI-CSS-master/docs/css/metro-bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'frameworks/Metro-UI-CSS-master/docs/css/iconFont.css' %}">
+        <link rel="stylesheet" href="{% static 'frameworks/Metro-UI-CSS-master/docs/css/metro-bootstrap-responsive.css' %}">
+        <link rel="stylesheet" href="{% static 'frameworks/Metro-UI-CSS-master/docs/css/docs.css' %}">
+        <link rel="stylesheet" href="{% static 'frameworks/bootstrap/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'frontend/styles/styles.css' %}">
+    </head>
+    <body class="metro">
+
+        <!--Templates-->
+        <!--Start page template-->
+        <script type="text/template" id="startPageTemplate">
+            <div class="grid">
+                <div class="row">
+                    <div class="span20" id="page-content">
+                        <span class="title-page">Система контролю відвідувань</span>
+                        <div class="row">
+                            <div class="span4" >
+                                <div class="add-department-form">
+                                    <form role="form" id="addDepartmentForm" onsubmit="return false;">
+                                        <div class="form-group">
+                                            <input type="text" placeholder="Назва кафедри" name="departmentName" id="departmentName" class="form-control">
+                                        </div>
+
+                                         <button  class="no-display button" name="changeDepartment" id="changeDepartment">Змінити</button>
+                                         <button  class="button" name="addDepartment" id="addDepartment">Додати</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="span2" >
+                                <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Динаміка відвідувань студентів факультету">
+                                    <div class="tile-content icon">
+                                        <i class="icon-stats-up"></i>
+                                    </div>
+                                </div>
+
+                                <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Зведення по факультету">
+                                    <div class="tile-content icon">
+                                        <i class="icon-file"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span11" id="departments" ></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <!--New department template-->
+        <script type="text/template" id="newDepartmentTemplate">
+            <div class="tile double bg-darkTransparent fg-active-darkTransparent text-center">
+                <div class="toolbar transparent place-right">
+                    <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-department"></i></button>
+                    <span class="divider"></span>
+                    <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white remove-department"></i></button>
+                </div>
+                <div class="content department-content">
+                    <a href="#teachers/<%=cid%>" class="department-links">Викладачі</a>
+                    <a href="#groups/<%=cid%>" class="department-links">Групи</a>
+                </div>
+                <div class="brand bg-dark opacity">
+                     <span class="text">
+                        <%=title%>
+                         <br/>
+                         Завідувач кафедри: <%=headOfDepartment%>
+                      </span>
+                </div>
+            </div>
+        </script>
+
+        <!--Teachers Template-->
+        <script type="text/template" id="teachersTemplate">
+            <div class="grid">
+                <div class="row">
+                    <div class="span20" id="page-content">
+                        <span class="title-page">Система контролю відвідувань</span>
+                        <div class="row">
+                            <div class="span4" >
+                                <div class="add-teacher-form">
+                                    <form role="form" id="addTeacherForm" onsubmit="return false;">
+                                        <div class="form-group">
+                                            <input type="text" placeholder="Прізвище" name="teacherSurname" id="teacherSurname" class="form-control">
+                                            <input type="text" placeholder="Ім'я" name="teacherName" id="teacherName" class="form-control">
+                                            <input type="text" placeholder="По батькові" name="teacherMiddleName" id="teacherMiddleName" class="form-control">
+                                            <select id="teacherPosition" class="form-control">
+                                                <option disabled>Посада</option>
+                                            </select>
+                                        </div>
+
+                                        <button  class="button no-display" name="changeTeacherData" id="changeTeacherData">Змінити</button>
+                                        <button  class="button" name="addTeacher" id="addTeacher">Додати</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="span18" id="teachers" >
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>№</th>
+                                            <th>Ім'я</th>
+                                            <th>Прізвище</th>
+                                            <th>По батькові</th>
+                                            <th>Посада</th>
+                                            <th>Кафедра</th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <!--Teacher Template-->
+        <script type="text/template" id="teacherTemplate">
+            <td></td>
+            <td><%=name%></td>
+            <td><%=surname%></td>
+            <td><%=middleName%></td>
+            <td><%=position.title%></td>
+            <td><%=department.title%></td>
+            <td colspan="2">
+                <div class="toolbar transparent place-right">
+                    <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-teacher-data"></i></button>
+                    <span class="divider"></span>
+                    <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white remove-teacher-data"></i></button>
+                </div>
+            </td>
+        </script>
+
+        <!--Group Template-->
+        <script type="text/template" id="groupTemplate">
+            <div class="tile double bg-darkTransparent fg-active-darkTransparent text-center">
+                <div class="toolbar transparent place-right">
+                    <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-group"></i></button>
+                    <span class="divider"></span>
+                    <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white remove-group"></i></button>
+                </div>
+                <div class="content group-content">
+                    <a href="#reduction/<%=cid%>" class="group-links">Зведення</a>
+                    <a href="#students/<%=cid%>" class="group-links">Студенти</a>
+                </div>
+                <div class="brand bg-dark opacity">
+                     <span class="text">
+                        Група№ <%=number%>
+                         <br/>
+                         Куратор: <%=curator.surname%>" "<%=curator.name=> " "<%=curator.middleName=>
+                      </span>
+                </div>
+            </div>
+        </script>
+
+        <!--Groups Template-->
+        <script type="text/template" id="groupsTemplate">
+            <div class="grid">
+                <div class="row">
+                    <div class="span20" id="page-content">
+                        <span class="title-page">Система контролю відвідувань</span>
+                        <div class="row">
+                            <div class="span4" >
+                                <div class="add-group-form">
+                                    <form role="form" id="addGroupForm" onsubmit="return false;">
+                                        <div class="form-group">
+                                            <input type="text" placeholder="Номер групи" name="groupNumber" id="groupNumber" class="form-control">
+                                            <input type="text" placeholder="Курс" name="groupYear" id="groupYear" class="form-control">
+
+                                            <select id="groupTuition" class="form-control">
+                                                <option disabled>Форма навчання</option>
+                                            </select>
+
+                                        </div>
+
+                                          <button  class="button no-display" name="changeGroup" id="changeGroup">Змінити</button>
+                                          <button  class="button" name="addGroup" id="addGroup">Додати</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="span2" >
+                                <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Динаміка відвідувань студентів кафедри">
+                                    <div class="tile-content icon">
+                                        <i class="icon-stats-up"></i>
+                                    </div>
+                                </div>
+
+                                <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Зведення по кафедрі">
+                                    <div class="tile-content icon">
+                                        <i class="icon-file"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span11" id="groups" ></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <!--Student Template-->
+        <script type="text/template" id="studentTemplate">
+            <td></td>
+            <td><%=name%></td>
+            <td><%=surname%></td>
+            <td><%=middleName%></td>
+            <td><%=group.number%></td>
+            <td><%=sex%></td>
+            <td><%=dateBirth%></td>
+            <td><%=address%></td>
+            <td><%=phone%></td>
+            <td><%=nationality%></td>
+            <td><%=maritalStatus%></td>
+            <td><%=language.title%></td>
+            <td><%=school%></td>
+            <td><%=benefits.type%></td>
+            <td><%=additional.value%></td>
+            <td><%=publicOrders.type%></td>
+            <td>
+                <div class="toolbar transparent place-right">
+                    <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-student-data"></i></button>
+                </div>
+            </td>
+            <td>
+                <div class="toolbar transparent place-right">
+                    <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white remove-student-data"></i></button>
+                </div>
+            </td>
+        </script>
+
+        <!--Students Template-->
+        <script type="text/template" id="studentsTemplate">
+            <div class="grid">
+                <div class="row">
+                    <div class="span20" id="page-content">
+                        <span class="title-page">Система контролю відвідувань</span>
+                        <div class="row">
+                            <div class="span4" >
+                                <div class="add-student-form">
+                                    <form role="form" id="addStudentForm" onsubmit="return false;">
+                                        <div class="form-group">
+                                            <input type="text" placeholder="Прізвище" name="studentSurname" id="studentSurname" class="form-control">
+                                            <input type="text" placeholder="Ім'я" name="studentName" id="studentName" class="form-control">
+                                            <input type="text" placeholder="По батькові" name="studentMiddleName" id="studentMiddleName" class="form-control">
+                                            <input type="date" placeholder="Дата народження" name="studentDateOfBirth" id="studentDateOfBirth" class="form-control">
+                                            <input type="text" placeholder="Адреса" name="studentAddress" id="studentAddress" class="form-control">
+                                            <input type="text" placeholder="Телефон" name="studentTelephone" id="studentTelephone" class="form-control">
+                                            <input type="text" placeholder="Національність" name="studentNationality" id="studentNationality" class="form-control">
+                                            <input type="text" placeholder="Школа" name="studentSchool" id="studentSchool" class="form-control">
+
+                                            <select id="sex" class="form-control">
+                                                <option disabled>Стать</option>
+                                            </select>
+
+                                            <select id="maritalStatus" class="form-control">
+                                                <option disabled>Сімейний статус</option>
+                                            </select>
+
+                                            <select id="learnLanguage" class="form-control">
+                                                <option disabled>Мова яку вивчає</option>
+                                            </select>
+
+                                            <select id="studentBenefits" multiple class="form-control">
+                                                <option disabled>Пільги</option>
+                                            </select>
+
+                                            <select id="publicOrders" class="form-control">
+                                                <option disabled>Громадські доручення</option>
+                                            </select>
+
+                                            <input type="checkbox" id="isProcurement" name="isProcurement" value="Платник">
+                                        </div>
+
+                                        <button  class="button no-display" name="changeStudentData" id="changeStudentData">Змінити</button>
+                                        <button  class="button" name="addStudent" id="addStudent">Додати</button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="span12" id="students" >
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>№</th>
+                                            <th>Ім'я</th>
+                                            <th>Прізвище</th>
+                                            <th>По батькові</th>
+                                            <th>Стать</th>
+                                            <th>Дата народження</th>
+                                            <th>Адреса</th>
+                                            <th>Телефон</th>
+                                            <th>Національність</th>
+                                            <th>Сімейний статус</th>
+                                            <th>Мова, яку вивчає</th>
+                                            <th>Школа</th>
+                                            <th>Пільги</th>
+                                            <th>Бали: ЗНО, Математика</th>
+                                            <th>Громадські доручення</th>
+                                            <th>&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <!--Schedule Template-->
+        <script type="text/template" id="scheduleTemplate">
+            <div class="grid">
+                <div class="row">
+                    <div class="span20" id="page-content">
+                        <span class="title-page">Система контролю відвідувань</span>
+
+                        <div class="row">
+                            <div class="span2" >
+                                 <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Динаміка відвідувань групи">
+                                    <div class="tile-content icon">
+                                        <i class="icon-box"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="span11" id="scheduleTable" >
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Понеділок</th>
+                                            <th>Вівторок</th>
+                                            <th>Середа</th>
+                                            <th>Четвер</th>
+                                            <th>П'ятниця</th>
+                                            <th>Субота</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+         <!--Reduction Template-->
+        <script type="text/template" id="reductionTemplate">
+            <div class="grid">
+                <div class="row">
+                    <div class="span20" id="page-content">
+                        <span class="title-page">Система контролю відвідувань</span>
+
+                        <div class="row">
+                            <div class="span2" >
+
+                                <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Розклад">
+                                    <a href="#scheduler/<%=group.cid%>">
+                                        <div class="tile-content icon">
+                                            <i class="icon-grid"></i>
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Динаміка відвідувань групи">
+                                    <div class="tile-content icon">
+                                        <i class="icon-stats-up"></i>
+                                    </div>
+                                </div>
+
+                                <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Журнал викладача">
+                                    <div class="tile-content icon">
+                                        <i class="icon-book"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="span11" id="attendanceTable" >
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <!--Attendance Template-->
+        <script type="text/template" id="attendanceTemplate">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Понеділок</th>
+                        <th>Вівторок</th>
+                        <th>Середа</th>
+                        <th>Четвер</th>
+                        <th>П'ятниця</th>
+                        <th>Субота</th>
+                    </tr>
+
+                    <tr>
+
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </script>
+
+        <!--Frameworks-->
+        <script src="{% static 'frameworks/bootstrap/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'frameworks/Metro-UI-CSS-master/docs/js/jquery/jquery.min.js' %}"></script>
+        <script src="{% static 'frameworks/Metro-UI-CSS-master/docs/js/jquery/jquery.widget.min.js' %}"></script>
+        <script src="{% static 'frameworks/Metro-UI-CSS-master/docs/js/metro/metro.min.js' %}"></script>
+        <script src="{% static 'frameworks/underscore/underscore.js' %}"></script>
+        <script src="{% static 'frameworks/backbone/backbone.js' %}"></script>
+
+        <!--Models-->
+        <script src="{% static 'frontend/js/Models/AdditionalModel.js' %}"></script>
+        <script src="{% static 'frontend/js/Models/BenefitsModel.js' %}"></script>
+        <script src="{% static 'frontend/js/Models/ClassroomModel.js' %}"></script>
+        <script src="{% static 'frontend/js/Models/EventModel.js' %}"></script>
+        <script src="{% static 'frontend/js/Models/LanguageModel.js' %}"></script>
+        <script src="{% static 'frontend/js/Models/PublicOrdersModel.js' %}"></script>
+        <script src="{% static 'frontend/js/Models/PublicPlanModel.js' %}"></script>
+        <script src="{% static 'frontend/js/Models/ReportModel.js' %}"></script>
+        <script src="{% static 'frontend/js/Models/PositionModel.js' %}"></script>
+        <script src="{% static 'frontend/js/Models/TeacherModel.js' %}"></script>
+        <script src="{% static 'frontend/js/Models/GroupModel.js' %}"></script>
+        <script src="{% static 'frontend/js/Models/StudentModel.js' %}"></script>
+        <script src="{% static 'frontend/js/Models/ParentsModel.js' %}"></script>
+        <script src="{% static 'frontend/js/Models/ScheduleModel.js' %}"></script>
+        <script src="{% static 'frontend/js/Models/WorkWithStudentModel.js' %}"></script>
+        <script src="{% static 'frontend/js/Models/FacultyModel.js' %}"></script>
+        <script src="{% static 'frontend/js/Models/DepartmentModel.js' %}"></script>
+        <script src="{% static 'frontend/js/Models/ClassModel.js' %}"></script>
+        <script src="{% static 'frontend/js/Models/PassModel.js' %}"></script>
+        <script src="{% static 'frontend/js/Models/AttendanceModel.js' %}"></script>
+
+
+        <!--Collections-->
+        <script src="{% static 'frontend/js/Collections/DepartmentsCollection.js' %}"></script>
+        <script src="{% static 'frontend/js/Collections/TeachersCollection.js' %}"></script>
+        <script src="{% static 'frontend/js/Collections/GroupsCollection.js' %}"></script>
+        <script src="{% static 'frontend/js/Collections/StudentsCollection.js' %}"></script>
+        <script src="{% static 'frontend/js/Collections/ClassesCollection.js' %}"></script>
+        <script src="{% static 'frontend/js/Collections/PassesCollection.js' %}"></script>
+        <script src="{% static 'frontend/js/Collections/AttendancesCollection.js' %}"></script>
+
+
+        <!--Views-->
+        <script src="{% static 'frontend/js/Views/BaseView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/StartPageView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/DepartmentView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/TeacherView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/TeachersView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/GroupView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/GroupsView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/StudentView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/StudentsView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/ClassView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/ClassesView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/SchedulerView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/PassView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/PassesView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/AttendanceView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/ReductionHeaderView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/ReductionView.js' %}"></script>
+
+        <!--Routes-->
+        <script src="{% static 'frontend/js/Routes/Route.js' %}"></script>
+    </body>
+
 </html>
