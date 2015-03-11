@@ -6,6 +6,7 @@ from django.http import Http404
 from django.template.context import RequestContext
 from rest_framework import serializers, viewsets
 from django.shortcuts import get_object_or_404
+from reporting.api.Views.Serializers.StudentWorkSerializer import StudentWorkSerializer
 
 
 class StudentWorkSerializer(serializers.HyperlinkedModelSerializer):
@@ -26,16 +27,15 @@ class StudentWorkView(APIView):
 
         return Response(serializer.data)
 
-    def post(self, request, pk, format=None):
-        snippet = get_object_or_404(StudentWork, pk=pk)
-        serializer = StudentWorkSerializer(snippet, data=request.data, context=RequestContext(request))
+    def post(self, request, format=None):
+        serializer = StudentWorkSerializer(data=request.data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def put(self, request, pk, format=None):
-        snippet = get_object_or_404(StudentWork, pk=pk)
+    def put(self, request, format=None):
+        snippet = get_object_or_404(StudentWork, pk=request.data["id"])
         serializer = StudentWorkSerializer(snippet, data=request.data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()

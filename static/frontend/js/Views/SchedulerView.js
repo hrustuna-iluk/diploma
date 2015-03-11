@@ -1,0 +1,3 @@
+var SchedulerView = BaseView.extend({
+
+});

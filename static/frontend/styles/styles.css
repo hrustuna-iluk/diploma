@@ -1,0 +1,292 @@
+body {
+    background-image: url("../images/background.jpg") ;
+    min-height: 100%;
+    min-width: 100%;
+}
+
+.no-display {
+    display: none;
+}
+
+#header {
+    height: 300px;
+    text-align: center;
+    padding: 20px;
+}
+
+.text-style {
+    font-family: freight-sans-pro, sans-serif;
+    font-weight: 900;
+    color: rgba(0, 15, 139, 0.30);
+    font-size: 35pt;
+    text-shadow:
+        0 1px #808d93,
+        -1px 0 #cdd2d5,
+        -1px 2px #808d93,
+        -2px 1px #cdd2d5,
+        -2px 3px #808d93,
+        -3px 2px #cdd2d5,
+        -3px 4px #808d93,
+        -4px 3px #cdd2d5,
+        -4px 5px #808d93,
+        -5px 4px #cdd2d5,
+        -5px 6px #808d93,
+        -5px 5px #cdd2d5,
+        -5px 7px #808d93,
+        -7px 6px #cdd2d5,
+        -7px 8px #808d93,
+        -8px 7px #cdd2d5;
+}
+
+#login-form {
+    background-color: rgba(139, 139, 139, 0.30);
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    margin: auto;
+    margin-top: -50px;
+    width: 350px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    -webkit-box-shadow:  0px 10px 20px 0px rgba(0, 0, 0, 0.3);
+    box-shadow:  0px 10px 20px 0px rgba(0, 0, 0, 0.3);
+
+}
+
+#login-form h1 {
+    background-color: rgba(53, 69, 134, 0.46);
+    border-radius: 5px 5px 0px 0px;
+    -moz-border-radius: 5px 5px 0px 0px;
+    -webkit-border-radius: 5px 5px 0px 0px;
+    color: #fff;
+    padding: 20px;
+    font-weight: bolder;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+}
+
+#login-form fieldset {
+    border: none;
+    padding: 20px;
+    position: relative;
+}
+
+
+#login-form fieldset form {
+    width: 310px;
+}
+
+#login-form fieldset form input {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    outline: none;
+    -webkit-appearance:none;
+    width: 310px;
+    margin-top: 1px;
+    text-align: center;
+}
+
+#login-form fieldset form input[type="email"] {
+    border: 1px solid #fffaff;
+    border-radius: 3px 3px 0px 0px;
+    -moz-border-radius: 3px 3px 0px 0px;
+    -webkit-border-radius: 3px 3px 0px 0px;
+    padding: 12px 10px;
+    width: 310px;
+    -webkit-appearance:none;
+}
+
+#login-form fieldset form input[type="password"] {
+    border: 1px solid #fff8ff;
+    border-top: none;
+    border-radius: 0px 0px 3px 3px;
+    -moz-border-radius: 0px 0px 3px 3px;
+    -webkit-border-radius: 0px 0px 3px 3px;
+    padding: 12px 10px;
+    width: 310px;
+    -webkit-appearance:none;
+}
+
+#login-form fieldset form input[type="submit"] {
+    background-color: #ebebeb;
+    border: none;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    color: #404040;
+    cursor: pointer;
+    float: none;
+    font-weight: bold;
+    margin-top: 20px;
+    padding: 12px 12px;
+    -webkit-appearance: none;
+}
+
+#login-form fieldset form input[type="submit"]:hover {
+    background-color: #e0e0e0;
+}
+
+#login-form fieldset form span:before {
+    background-color: #c9c9c9;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    content: "?";
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 10px;
+    text-align: center;
+    width: 20px;
+}
+
+#login-form fieldset form span {
+    font-size: 12px;
+    margin-top: 40px;
+}
+
+#login-form fieldset form span a{
+    color: #eb6d1a;
+    text-decoration: none;
+}
+
+#login-form fieldset form span a:hover {
+    color: #eb6d1a;
+}
+
+.navigation-bar{
+    opacity: 0.7;
+}
+
+.icons {
+    margin: 10px;
+}
+
+.icons span {
+    margin: 3px;
+}
+
+main{
+    margin-top: 50px;
+    margin-left: 150px;
+
+}
+
+header div {
+    font-size: 32pt;
+    color: #ffffff;
+    height: 50px;
+    width: 800px;
+    margin-left: 150px;
+    margin-top: 100px;
+
+}
+
+.button-content {
+    border: solid black 2px;
+}
+
+#page-content .title-page {
+    font-size: 38pt;
+    font-style: italic;
+    color: #ffffff;
+}
+
+.metro .grid .row [class*="span"] {
+    margin-left: 10px !important;
+}
+
+#page-content {
+    margin-top: 40px;
+    margin-left: 50px !important;
+}
+
+#departments, #groups {
+    width: 785px !important;
+}
+/*
+.content .input-block {
+    margin-top: 60px;
+}
+
+.content .add-teacher {
+    margin-top: 20px;
+}
+
+.add-teacher input,
+.add-teacher select {
+    margin-top: 10px;
+}
+
+.content .input-block input,
+.content .input-block select {
+    width: 90%;
+    margin-left: 15px;
+}
+.content .input-block button {
+    float: right;
+    margin: 15px 13px 0 0;
+}
+*/
+.department-content, .group-content {
+    margin-top: 40px;
+    word-spacing: 20px;
+}
+a.department-links, a.group-links  {
+    text-decoration: underline;
+    color: #ffffff;
+}
+a.department-links:hover, a.group-links:hover{
+    color: rgba(25, 161, 226, 1);
+}
+
+.bg-darkTransparent {
+    background-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.fg-active-darkTransparent:hover {
+    background-color: rgba(0, 0, 0, 0.9) !important;
+}
+
+.add-department-form, .add-teacher-form, .add-group-form {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 71px 20px 71px 20px;
+}
+
+.add-student-form {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 50px 20px 50px 20px;
+}
+
+#teachers table {
+    background: rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+    margin: 0px 1px 0px 1px;
+    min-width: 800px;
+    max-width: 1000px;
+    float: right;
+}
+
+#students {
+    max-height: 500px;
+    overflow: auto;
+}
+
+#students .table {
+    background: rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+    min-width: 300px;
+}
+
+.row .span4 form button.button {
+    padding: 10px 16px;
+    width: 100px;
+    font-size: 14px;
+    line-height: 1.33;
+    border-radius: 6px;
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
