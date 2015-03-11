@@ -42,7 +42,7 @@ DAYS = (
 PASS_TYPES = (
     ('pass', "Без поважної причини"),
     ('sickness', "По хворобі"),
-    ('statement', "За'ява"),
+    ('statement', "Заява"),
     ('watch', "Чергування"),
 )
 
