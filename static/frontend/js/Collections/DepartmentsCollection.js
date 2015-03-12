@@ -1,5 +1,7 @@
 var DepartmentsCollection = Backbone.Collection.extend ({
 
-    url: '/departments',
+    url: '/api/departments',
+
     model: DepartmentModel
+
 });
