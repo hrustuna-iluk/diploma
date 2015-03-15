@@ -1,4 +1,4 @@
-var ParentsModel = Backbone.Model.extend ({
+var FatherModel = Backbone.Model.extend ({
 
     urlRoot: '/api/parents',
 
@@ -6,8 +6,7 @@ var ParentsModel = Backbone.Model.extend ({
        return{
            fullName: "",
            phone: "",
-           position: "",
-           student: StudentModel
+           position: ""
        }
 
 

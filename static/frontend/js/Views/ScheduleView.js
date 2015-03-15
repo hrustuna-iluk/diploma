@@ -1,13 +1,11 @@
-var SchedulerView = BaseView.extend({
+var ScheduleView = BaseView.extend({
 
     template:  _.template($("#scheduleTemplate").html()),
 
     initialize: function(options) {
         this.collection = options.collection;
         this.teacherCollection = options.teacherCollection;
-        this.model = new ScheduleModel ({
-            group: options.group
-        });
+        this.group = options.group;
     },
 
     _attachEvents: function() {
@@ -23,7 +21,7 @@ var SchedulerView = BaseView.extend({
                 new ClassesView({
                     numberOfClass: numberOfClass,
                     numberOfWeek: this.$('select').val(),
-                    scheduleModel: this.model,
+                    group: this.group,
                     collection: this.collection,
                     teacherCollection: this.teacherCollection
                 }).render().$el

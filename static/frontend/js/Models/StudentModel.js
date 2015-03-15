@@ -9,6 +9,9 @@ var StudentModel = Backbone.Model.extend ({
             middleName: "",
             group: GroupModel,
             address: "",
+            currentAddress: "",
+            father: FatherModel,
+            mother: MotherModel,
             phone: "",
             language: LanguageModel,
             benefits: BenefitsModel,
@@ -149,5 +152,9 @@ var StudentModel = Backbone.Model.extend ({
 
     getPublicOrders: function() {
         return this.get('publicOrders');
+    },
+
+    getCurrentAddress: function() {
+        return this.get('currentAddress');
     }
 });

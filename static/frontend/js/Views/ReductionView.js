@@ -3,9 +3,7 @@ var ReductionView = BaseView.extend ({
     template:  _.template($("#reductionTemplate").html()),
 
     initialize: function(options) {
-        this.model = new AttendanceModel ({
-           group: options.group
-        });
+        this.model = options.model;
     },
 
     _attachEvents: function() {

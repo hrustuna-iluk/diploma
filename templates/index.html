@@ -251,17 +251,22 @@
                                             <input type="text" placeholder="Ім'я" name="studentName" id="studentName" class="form-control">
                                             <input type="text" placeholder="По батькові" name="studentMiddleName" id="studentMiddleName" class="form-control">
                                             <input type="date" placeholder="Дата народження" name="studentDateOfBirth" id="studentDateOfBirth" class="form-control">
-                                            <input type="text" placeholder="Адреса" name="studentAddress" id="studentAddress" class="form-control">
+                                            <input type="text" placeholder="Постійна адреса" name="studentAddress" id="studentAddress" class="form-control">
+                                            <input type="text" placeholder="Поточна адреса" name="currentAddress" id="currentAddress" class="form-control">
                                             <input type="text" placeholder="Телефон" name="studentTelephone" id="studentTelephone" class="form-control">
                                             <input type="text" placeholder="Національність" name="studentNationality" id="studentNationality" class="form-control">
                                             <input type="text" placeholder="Школа" name="studentSchool" id="studentSchool" class="form-control">
 
                                             <select id="sex" class="form-control">
                                                 <option disabled>Стать</option>
+                                                <option value="female">Ж</option>
+                                                <option value="male">Ч</option>
                                             </select>
 
                                             <select id="maritalStatus" class="form-control">
                                                 <option disabled>Сімейний статус</option>
+                                                <option value="single">Неодружений</option>
+                                                <option value="married">Одружений</option>
                                             </select>
 
                                             <select id="learnLanguage" class="form-control">
@@ -276,7 +281,8 @@
                                                 <option disabled>Громадські доручення</option>
                                             </select>
 
-                                            <input type="checkbox" id="isProcurement" name="isProcurement" value="Платник">
+                                            <label for="isProcurement" style="color: white;">Державник</label>
+                                            <input type="checkbox" id="isProcurement" name="isProcurement" >
                                         </div>
 
                                         <button  class="button no-display" name="changeStudentData" id="changeStudentData">Змінити</button>
@@ -315,6 +321,27 @@
                     </div>
                 </div>
             </div>
+        </script>
+
+        <!--Select option template for language-->
+        <script type="text/template" id="optionLanguageTemplate">
+            <option value="<%=id%>">
+                <%=title%>
+            </option>
+        </script>
+
+        <!--Select option template for benefits-->
+        <script type="text/template" id="optionBenefitsTemplate">
+            <option value="<%=id%>">
+                <%=type%>
+            </option>
+        </script>
+
+        <!--Select option template for public orders-->
+        <script type="text/template" id="optionPublicOrdersTemplate">
+            <option value="<%=id%>">
+                <%=type%>
+            </option>
         </script>
 
         <!--Schedule Template-->
@@ -431,13 +458,15 @@
                             <h4 class="modal-title">Додати пару</h4>
                         </div>
                         <div class="modal-body">
-                            <input type="text" name="subjectTitle" class="subjectTitle form-control" placeholder="Назва предмету">
+                            <input type="text" name="subjectTitle" class="subjectTitle form-control"
+                                   placeholder="Назва предмету" value="<% if (subject) { %> <%=subject%> <% } %>">
                             <select class="typeClass form-control">
                                 <option selected value="1">Лекційне заняття</option>
                                 <option value="2">Практичне заняття</option>
                             </select>
                             <select class="classTeacher form-control"></select>
-                            <input type="text" name="classNumber" class="classNumber form-control" placeholder="Номер аудиторії"></select>
+                            <input type="text" name="classNumber" class="classNumber form-control"
+                                   placeholder="Номер аудиторії" value="<% if (subject) { %> <%=classroom%> <% } %>">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default closeModal" data-dismiss="modal">Закрити</button>
@@ -462,6 +491,173 @@
             <div class="scheduleClassTeacher">Викладач: -</div>
         </script>
 
+        <!---->
+        <script type="text/template">
+            <div class="grid">
+                <div class="row">
+                    <div class="span20" id="page-content">
+                        <span class="title-page">Система контролю відвідувань</span>
+                        <div class="row">
+                            <div class="span4" id="formForTab">
+                            </div>
+                            <div class="span11" id="journalTable" >
+                                <div role="tabpanel">
+                                    <!-- Nav tabs -->
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active"><a href="#wrapTab"
+                                                                                  aria-controls="wrapTab" role="tab"
+                                                                                  data-toggle="tab">Обгортка</a></li>
+                                        <li role="presentation"><a href="#publicOrdersTab"
+                                                                   aria-controls="publicOrdersTab" role="tab"
+                                                                   data-toggle="tab">Розподіл громад. доручень</a></li>
+                                        <li role="presentation"><a href="#dataTab"
+                                                                   aria-controls="dataTab" role="tab" data-toggle="tab">Відомості</a></li>
+                                        <li role="presentation"><a href="#allInformationTab"
+                                                                   aria-controls="allInformationTab" role="tab"
+                                                                   data-toggle="tab">Інформація для мене</a></li>
+                                        <li role="presentation"><a href="#publicPlanTab" aria-controls="publicPlanTab" role="tab"
+                                                                   data-toggle="tab">План громадсько-вих. роботи</a></li>
+                                        <li role="presentation"><a href="#attendanceTab" aria-controls="attendanceTab" role="tab"
+                                                                   data-toggle="tab">Облік відвідувань</a></li>
+                                        <li role="presentation"><a href="#educationalEventsTab"
+                                                                   aria-controls="educationalEventsTab" role="tab"
+                                                                   data-toggle="tab">Громадсько-вих. заходи</a></li>
+                                        <li role="presentation"><a href="#individualWorkTab" aria-controls="individualWorkTab" role="tab"
+                                                                   data-toggle="tab">Індивід. робота зі студ.</a></li>
+                                        <li role="presentation"><a href="#reportTab" aria-controls="reportTab" role="tab"
+                                                                   data-toggle="tab">Звіт про громад.-вих. роботу</a></li>
+                                    </ul>
+
+                                      <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane active" id="wrapTab"></div>
+                                        <div role="tabpanel" class="tab-pane" id="publicOrdersTab"></div>
+                                        <div role="tabpanel" class="tab-pane" id="dataTab"></div>
+                                        <div role="tabpanel" class="tab-pane" id="allInformationTab"></div>
+                                        <div role="tabpanel" class="tab-pane" id="publicPlanTab"></div>
+                                        <div role="tabpanel" class="tab-pane" id="attendanceTab"></div>
+                                        <div role="tabpanel" class="tab-pane" id="educationalEventsTab"></div>
+                                        <div role="tabpanel" class="tab-pane" id="individualWorkTab"></div>
+                                        <div role="tabpanel" class="tab-pane" id="reportTab"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <!--Wrap tab template-->
+        <script type="text/template" id="wrapTabTemplate">
+            <table class="table">
+                <tr><td>Чернівецький національний університет</td></tr>
+                <tr><td>імені Юрія Федьковича</td></tr>
+                <tr><td>ЖУРНАЛ</td></tr>
+                <tr><td>планування та обліку</td></tr>
+                <tr><td>громадсько-виховної роботи</td></tr>
+                <tr><td>Факультет: </td></tr>
+                <tr><td>Куратор: </td></tr>
+                <tr><td>Староста: </td></tr>
+                <tr><td>Чернівці</td></tr>
+            </table>
+        </script>
+
+        <!--Public orders Tab Template-->
+        <script type="text/template" id="publicOrdersTabTemplate">
+            <h3>РОЗПОДІЛ ГРОМАДСЬКИХ ДОРУЧЕНЬ У ГРУПІ</h3>
+            <table class="table">
+                <tr><td>1.Курс</td><td><%=yearStudy%></td></tr>
+                <tr><td>2.Група</td><td><%=number%></td></tr>
+                <tr><td>3.Староста</td><td><%=groupLeader.surname%><%=groupLeader.name%></td></tr>
+                <tr><td>4.Заступник старости</td><td><%=deputyHeadman.surname%><%=deputyHeadman.name%></td></tr>
+                <tr><td>5.Профгрупорг</td><td><%=organizer.surname%><%=organizer.name%></td></tr>
+                <tr><td>6.Культурно-дозвіллєва робота</td><td><%=culturalWork.surname%><%=culturalWork.name%></td></tr>
+                <tr><td>7.Спортивно-оздоровча робота</td><td><%=healthWork.surname%><%=healthWork.name%></td></tr>
+                <tr><td>8.Редколегія</td><td>
+                    <% editorialBoard.each(function(item) { %>
+                        <div>
+                            <%=item.surname%><%=item.name%>
+                        </div>
+                    <% }) %>
+                </td></tr>
+                <tr><td>9.Інші доручення</td><td>
+                    <% otherTasks.each(function(item) { %>
+                        <div>
+                            <%=item.surname%><%=item.name%>
+                        </div>
+                    <% }) %>
+                </td></tr>
+            </table>
+        </script>
+
+         <!--Data Tab Template-->
+        <script type="text/template" id="dataTabTemplate">
+            <h3>ЗАГАЛЬНІ ВІДОМОСТІ ПРО СТУДЕНТІВ АКАДЕМІЧНОЇ ГРУПИ</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Прізвище, ім'я, по батькові</th>
+                        <th>Дата народження</th>
+                        <th>Національність</th>
+                        <th>Сімейний стан</th>
+                        <th>Громадське доручення</th>
+                        <th>Адреса, де проживає під час навчання</th>
+                        <th>Місце праці та посада батьків</th>
+                    </tr>
+                    <tr>
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+                        <th>6</th>
+                        <th>7</th>
+                        <th>8</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </script>
+
+        <!--Data Tab Element Template-->
+        <script type="text/template" id="dataTabElementTemplate">
+            <tr>
+                <td></td>
+                <td><%=surname%> <%=name%> <%=middleName%></td>
+                <td><%=dateBirth%></td>
+                <td><%=nationality%></td>
+                <td><%=maritalStatus%></td>
+                <td><%=publicOrders.type%></td>
+                <td><%=currentAddress%></td>
+                <td>
+                    <span><%=father.fullName%></span>
+                    <span><%=father.position%></span>
+                    <span><%=mother.fullName%></span>
+                    <span><%=mother.position%></span>
+                </td>
+            </tr>
+        </script>
+
+         <!--All Information Tab Template-->
+        <script type="text/template" id="allInformationTabTemplate"></script>
+
+         <!--Public Plan Tab-->
+        <script type="text/template" id="publicPlanTabTemplate"></script>
+
+         <!---->
+        <script type="text/template"></script>
+
+         <!---->
+        <script type="text/template"></script>
+
+         <!---->
+        <script type="text/template"></script>
+
+         <!---->
+        <script type="text/template"></script>
 
         <!--Frameworks-->
         <script src="{% static 'frameworks/Metro-UI-CSS-master/docs/js/jquery/jquery.min.js' %}"></script>
@@ -482,9 +678,9 @@
         <script src="{% static 'frontend/js/Models/PositionModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/TeacherModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/GroupModel.js' %}"></script>
+        <script src="{% static 'frontend/js/Models/FatherModel.js' %}"></script>
+        <script src="{% static 'frontend/js/Models/MotherModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/StudentModel.js' %}"></script>
-        <script src="{% static 'frontend/js/Models/ParentsModel.js' %}"></script>
-        <script src="{% static 'frontend/js/Models/ScheduleModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/WorkWithStudentModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/FacultyModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/DepartmentModel.js' %}"></script>
@@ -501,6 +697,10 @@
         <script src="{% static 'frontend/js/Collections/ClassesCollection.js' %}"></script>
         <script src="{% static 'frontend/js/Collections/PassesCollection.js' %}"></script>
         <script src="{% static 'frontend/js/Collections/AttendancesCollection.js' %}"></script>
+        <script src="{% static 'frontend/js/Collections/BenefitsCollection.js' %}"></script>
+        <script src="{% static 'frontend/js/Collections/PublicOrdersCollection.js' %}"></script>
+        <script src="{% static 'frontend/js/Collections/LanguagesCollection.js' %}"></script>
+        <script src="{% static 'frontend/js/Collections/AttendanceCollection.js' %}"></script>
 
 
         <!--Views-->
@@ -516,7 +716,7 @@
         <script src="{% static 'frontend/js/Views/ClassModalView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/ClassView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/ClassesView.js' %}"></script>
-        <script src="{% static 'frontend/js/Views/SchedulerView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/ScheduleView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/PassView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/PassesView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/AttendanceView.js' %}"></script>

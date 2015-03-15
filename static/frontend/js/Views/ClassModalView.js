@@ -15,9 +15,9 @@ var ClassModalView = BaseView.extend({
 
     _addClass: function() {
         this.model.set ({
-            subject: this.$('subjectTitle').val(),
-            type: this.$('classType').val(),
-            teacher: this.$('classTeacher').val(),
+            subject: this.$('.subjectTitle').val(),
+            type: this.$('.classType').val(),
+            teacher: this.$('.classTeacher').val(),
             classroom: this.$('.classNumber').val()
         });
         //this.model.save();
@@ -37,7 +37,7 @@ var ClassModalView = BaseView.extend({
     },
 
     render: function() {
-        this.$el = $(this.template());
+        this.$el = $(this.template(this.model.toJSON()));
         this.$el.modal('show');
         //this._fillTeachersList();
         this._attachEvents();

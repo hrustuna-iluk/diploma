@@ -19,6 +19,9 @@ var Route = Backbone.Router.extend({
         this.studentsCollection = new StudentsCollection();
         this.passesCollection = new PassesCollection();
         this.classesCollection = new ClassesCollection();
+        this.languagesCollection = new LanguagesCollection();
+        this.benefitsCollection = new BenefitsCollection();
+        this.publicOrdersCollection = new PublicOrdersCollection();
         this._initializeEvents();
 
     },
@@ -53,7 +56,10 @@ var Route = Backbone.Router.extend({
         var group = this.groupsCollection.findWhere({cid: groupId});
         var studentsView = new StudentsView({
             group: group,
-            collection: this.studentsCollection
+            collection: this.studentsCollection,
+            benefitsCollection: this.benefitsCollection,
+            publicOrdersCollection: this.publicOrdersCollection,
+            languagesCollection: this.languagesCollection
         });
         this.routeChanged(studentsView);
     },
@@ -69,7 +75,14 @@ var Route = Backbone.Router.extend({
 
     reduction: function(groupId) {
         var group = this.groupsCollection.findWhere({cid: groupId});
+        var reduction = this.scheduleCollection.find({group:groupId});
+        if(!reduction) {
+            reduction = new AttendanceModel({
+                group: group
+            })
+        }
         var reductionView = new ReductionView({
+            model: reduction,
             group: group,
             collection: this.passesCollection
         });
@@ -79,7 +92,7 @@ var Route = Backbone.Router.extend({
     scheduler: function(groupId) {
         //this.classesCollection.fetch();
         var group = this.groupsCollection.findWhere({cid: groupId});
-        var schedulerView = new SchedulerView({
+        var schedulerView = new ScheduleView({
             group: group,
             collection: this.classesCollection,
             teacherCollection: this.teacherCollection

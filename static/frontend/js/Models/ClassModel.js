@@ -11,7 +11,7 @@ var ClassModel = Backbone.Model.extend ({
             day: "",
             numberOfWeek: 0,
             number: 0,
-            schedule: ScheduleModel
+            group: GroupModel
         }
     },
 
@@ -43,10 +43,6 @@ var ClassModel = Backbone.Model.extend ({
         this.set('number', value);
     },
 
-    setSchedule: function(value) {
-        this.set('schedule', value);
-    },
-
     getSubject: function() {
         return this.get('subject');
     },
@@ -73,10 +69,6 @@ var ClassModel = Backbone.Model.extend ({
 
     getNumber: function() {
         return this.get('number');
-    },
-
-    getSchedule: function() {
-        return this.get('schedule');
     }
 
 });
