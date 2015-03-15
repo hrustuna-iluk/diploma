@@ -7,6 +7,7 @@ from django.template.context import RequestContext
 from rest_framework import serializers, viewsets
 from django.shortcuts import get_object_or_404
 from reporting.api.Views.Serializers.PublicPlanSerializer import PublicPlanSerializer
+from django.core.serializers import serialize
 
 
 class PublicPlanView(APIView):
@@ -15,12 +16,10 @@ class PublicPlanView(APIView):
     def get(self, request, pk=None,  format=None):
         if pk:
             snippet = get_object_or_404(PublicPlan, pk=pk)
-            serializer = PublicPlanSerializer(snippet, context=RequestContext(request))
         else:
             snippet = PublicPlan.objects.all()
-            serializer = PublicPlanSerializer(snippet, many=True, context=RequestContext(request))
 
-        return Response(serializer.data)
+        return Response(serialize('json', snippet))
 
     def post(self, request, format=None):
         serializer = PublicPlanSerializer(data=request.data, context=RequestContext(request))

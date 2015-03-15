@@ -7,6 +7,7 @@ from django.template.context import RequestContext
 from rest_framework import serializers, viewsets
 from django.shortcuts import get_object_or_404
 from reporting.api.Views.Serializers.GroupSerializer import GroupSerializer
+from django.core.serializers import serialize
 
 
 class GroupView(APIView):
@@ -15,12 +16,10 @@ class GroupView(APIView):
     def get(self, request, pk=None,  format=None):
         if pk:
             snippet = get_object_or_404(Group, pk=pk)
-            serializer = GroupSerializer(snippet, context=RequestContext(request))
         else:
             snippet = Group.objects.all()
-            serializer = GroupSerializer(snippet, many=True, context=RequestContext(request))
 
-        return Response(serializer.data)
+        return Response(serialize('json', snippet))
 
     def post(self, request, format=None):
         serializer = GroupSerializer(data=request.data, context=RequestContext(request))

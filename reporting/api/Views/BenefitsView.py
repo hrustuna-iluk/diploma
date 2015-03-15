@@ -7,6 +7,7 @@ from django.template.context import RequestContext
 from rest_framework import serializers, viewsets
 from django.shortcuts import get_object_or_404
 from reporting.api.Views.Serializers.BenefitsSerializer import BenefitsSerializer
+from django.core.serializers import serialize
 
 
 class BenefitsView(APIView):
@@ -15,12 +16,10 @@ class BenefitsView(APIView):
     def get(self, request, pk=None,  format=None):
         if pk:
             snippet = get_object_or_404(Benefits, pk=pk)
-            serializer = BenefitsSerializer(snippet, context=RequestContext(request))
         else:
             snippet = Benefits.objects.all()
-            serializer = BenefitsSerializer(snippet, many=True, context=RequestContext(request))
 
-        return Response(serializer.data)
+        return Response(serialize('json', snippet))
 
     def post(self, request, format=None):
         serializer = BenefitsSerializer(data=request.data, context=RequestContext(request))

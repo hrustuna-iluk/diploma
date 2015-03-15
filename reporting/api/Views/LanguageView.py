@@ -7,6 +7,7 @@ from django.template.context import RequestContext
 from rest_framework import serializers, viewsets
 from django.shortcuts import get_object_or_404
 from reporting.api.Views.Serializers.LanguageSerializer import LanguageSerializer
+from django.core.serializers import serialize
 
 
 class LanguageView(APIView):
@@ -15,12 +16,10 @@ class LanguageView(APIView):
     def get(self, request, pk=None,  format=None):
         if pk:
             snippet = get_object_or_404(Language, pk=pk)
-            serializer = LanguageSerializer(snippet, context=RequestContext(request))
         else:
             snippet = Language.objects.all()
-            serializer = LanguageSerializer(snippet, many=True, context=RequestContext(request))
 
-        return Response(serializer.data)
+        return Response(serialize('json', snippet))
 
     def post(self, request, format=None):
         serializer = LanguageSerializer(data=request.data, context=RequestContext(request))

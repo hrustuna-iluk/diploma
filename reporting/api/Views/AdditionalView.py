@@ -7,6 +7,7 @@ from django.template.context import RequestContext
 from rest_framework import serializers, viewsets
 from django.shortcuts import get_object_or_404
 from reporting.api.Views.Serializers.AdditionalSerializer import AdditionalSerializer
+from django.core.serializers import serialize
 
 
 class AdditionalView(APIView):
@@ -15,12 +16,10 @@ class AdditionalView(APIView):
     def get(self, request, pk=None,  format=None):
         if pk:
             snippet = get_object_or_404(Additional, pk=pk)
-            serializer = AdditionalSerializer(snippet, context=RequestContext(request))
         else:
             snippet = Additional.objects.all()
-            serializer = AdditionalSerializer(snippet, many=True, context=RequestContext(request))
 
-        return Response(serializer.data)
+        return Response(serialize('json', snippet))
 
     def post(self, request, format=None):
         serializer = AdditionalSerializer(data=request.data, context=RequestContext(request))

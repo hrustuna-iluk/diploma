@@ -8,7 +8,5 @@ var FatherModel = Backbone.Model.extend ({
            phone: "",
            position: ""
        }
-
-
     }
 });

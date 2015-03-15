@@ -7,6 +7,7 @@ from django.template.context import RequestContext
 from rest_framework import serializers, viewsets
 from django.shortcuts import get_object_or_404
 from reporting.api.Views.Serializers.StudentWorkSerializer import StudentWorkSerializer
+from django.core.serializers import serialize
 
 
 class StudentWorkSerializer(serializers.HyperlinkedModelSerializer):
@@ -20,12 +21,10 @@ class StudentWorkView(APIView):
     def get(self, request, pk=None,  format=None):
         if pk:
             snippet = get_object_or_404(StudentWork, pk=pk)
-            serializer = StudentWorkSerializer(snippet, context=RequestContext(request))
         else:
             snippet = StudentWork.objects.all()
-            serializer = StudentWorkSerializer(snippet, many=True, context=RequestContext(request))
 
-        return Response(serializer.data)
+        return Response(serialize('json', snippet))
 
     def post(self, request, format=None):
         serializer = StudentWorkSerializer(data=request.data, context=RequestContext(request))

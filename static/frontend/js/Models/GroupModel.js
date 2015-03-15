@@ -12,8 +12,8 @@ var GroupModel = Backbone.Model.extend ({
             organizer: null,
             culturalWork: null,
             healthWork: null,
-            editorialBoard: null,
-            otherTasks: null,
+            editorialBoard: [],
+            otherTasks: [],
             yearStudy: 0,
             tuition: "",
             curator: TeacherModel

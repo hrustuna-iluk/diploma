@@ -7,6 +7,7 @@ from django.template.context import RequestContext
 from rest_framework import serializers, viewsets
 from django.shortcuts import get_object_or_404
 from reporting.api.Views.Serializers.EventSerializer import EventSerializer
+from django.core.serializers import serialize
 
 
 class EventView(APIView):
@@ -15,12 +16,10 @@ class EventView(APIView):
     def get(self, request, pk=None,  format=None):
         if pk:
             snippet = get_object_or_404(Event, pk=pk)
-            serializer = EventSerializer(snippet, context=RequestContext(request))
         else:
             snippet = Event.objects.all()
-            serializer = EventSerializer(snippet, many=True, context=RequestContext(request))
 
-        return Response(serializer.data)
+        return Response(serialize('json', snippet))
 
     def post(self, request, format=None):
         serializer = EventSerializer(data=request.data, context=RequestContext(request))

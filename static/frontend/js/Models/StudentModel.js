@@ -14,7 +14,7 @@ var StudentModel = Backbone.Model.extend ({
             mother: MotherModel,
             phone: "",
             language: LanguageModel,
-            benefits: BenefitsModel,
+            benefits: BenefitsCollection,
             isProcurement: false,
             dateBirth: 0,
             nationality: "",

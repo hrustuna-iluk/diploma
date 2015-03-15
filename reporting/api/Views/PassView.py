@@ -7,6 +7,7 @@ from django.template.context import RequestContext
 from rest_framework import serializers, viewsets
 from django.shortcuts import get_object_or_404
 from reporting.api.Views.Serializers.PassSerializer import PassSerializer
+from django.core.serializers import serialize
 
 
 class PassView(APIView):
@@ -15,12 +16,10 @@ class PassView(APIView):
     def get(self, request, pk=None,  format=None):
         if pk:
             snippet = get_object_or_404(Pass, pk=pk)
-            serializer = PassSerializer(snippet, context=RequestContext(request))
         else:
             snippet = Pass.objects.all()
-            serializer = PassSerializer(snippet, many=True, context=RequestContext(request))
 
-        return Response(serializer.data)
+        return Response(serialize('json', snippet))
 
     def post(self, request, format=None):
         serializer = PassSerializer(data=request.data, context=RequestContext(request))

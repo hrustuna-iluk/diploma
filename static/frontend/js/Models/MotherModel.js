@@ -8,7 +8,5 @@ var MotherModel = Backbone.Model.extend ({
            phone: "",
            position: ""
        }
-
-
     }
 });
