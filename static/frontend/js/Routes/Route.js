@@ -6,8 +6,8 @@ var Route = Backbone.Router.extend({
         'groups/:departmentId' : 'groups',
         'students/:groupId' : 'students',
         'reduction/:groupId': 'reduction',
-        'scheduler/:groupId': 'scheduler'//,
-        //'teacherJournal/:groupId': 'journal'
+        'scheduler/:groupId': 'scheduler',
+        'journal/:groupId': 'journal'
     },
 
     currentView: null,
@@ -22,6 +22,7 @@ var Route = Backbone.Router.extend({
         this.languagesCollection = new LanguagesCollection();
         this.benefitsCollection = new BenefitsCollection();
         this.publicOrdersCollection = new PublicOrdersCollection();
+        this.attendanceCollection = new AttendanceCollection();
         this._initializeEvents();
 
     },
@@ -33,6 +34,7 @@ var Route = Backbone.Router.extend({
         this.on('route:students:', this.students);
         this.on('route:reduction:', this.reduction);
         this.on('route:scheduler:', this.scheduler);
+        this.on('route:journal:', this.journal);
 
     },
 
@@ -75,7 +77,7 @@ var Route = Backbone.Router.extend({
 
     reduction: function(groupId) {
         var group = this.groupsCollection.findWhere({cid: groupId});
-        var reduction = this.scheduleCollection.find({group:groupId});
+        var reduction = this.attendanceCollection.find({group:groupId});
         if(!reduction) {
             reduction = new AttendanceModel({
                 group: group
@@ -98,6 +100,15 @@ var Route = Backbone.Router.extend({
             teacherCollection: this.teacherCollection
         });
         this.routeChanged(schedulerView);
+    },
+
+    journal: function(groupId) {
+        var group = this.groupsCollection.findWhere({cid: groupId});
+        var tabView = new TabView({
+            group: group,
+            collection: this.studentsCollection
+        });
+        this.routeChanged(tabView);
     },
 
     routeChanged: function(view) {
