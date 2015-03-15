@@ -1,10 +1,9 @@
 var DepartmentModel = Backbone.Model.extend ({
 
-    urlRoot: '/api/department',
+    urlRoot: '/api/department/',
 
     defaults: function() {
         return {
-            cid: this.cid,
             title: "",
             headOfDepartment: null
 

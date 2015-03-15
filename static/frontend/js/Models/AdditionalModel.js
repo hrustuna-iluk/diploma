@@ -1,6 +1,6 @@
 var AdditionalModel = Backbone.Model.extend ({
 
-    urlRoot: '/api/additional',
+    urlRoot: '/api/additional/',
 
     defaults: function() {
         return {

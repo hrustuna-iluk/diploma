@@ -1,6 +1,6 @@
 var PublicPlanModel = Backbone.Model.extend ({
 
-    urlRoot: '/api/publicplan',
+    urlRoot: '/api/publicplan/',
 
     defaults: function() {
         return {

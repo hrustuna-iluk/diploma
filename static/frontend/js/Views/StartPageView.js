@@ -18,6 +18,7 @@ var StartPageView = BaseView.extend ({
         this.collection = options.collection;
         this.collection.on("add", $.proxy(this._renderDepartment, this));
         this.publisher.on('change department', $.proxy(this._onDepartmentChange, this));
+        this.collection.reset().fetch();
     },
 
     _attachEvents: function() {
@@ -45,6 +46,7 @@ var StartPageView = BaseView.extend ({
         var departmentTitle = this.$(this.selectors.departmentTitle).val();
         this.$(this.selectors.departmentTitle).val("");
         departmentModel.setTitle(departmentTitle);
+        departmentModel.save();
         this.collection.add(departmentModel);
         return false;
     },

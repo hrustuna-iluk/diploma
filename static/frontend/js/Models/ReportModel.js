@@ -1,6 +1,6 @@
 var ReportModel = Backbone.Model.extend ({
 
-    urlRoot: '/api/report',
+    urlRoot: '/api/report/',
 
     defaults: function() {
         return {

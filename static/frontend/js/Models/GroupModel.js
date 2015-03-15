@@ -1,13 +1,13 @@
 var GroupModel = Backbone.Model.extend ({
 
-    urlRoot: '/api/group',
+    urlRoot: '/api/group/',
 
     defaults: function() {
         return {
             cid: this.cid,
             number: 0,
             department: DepartmentModel,
-            groupLeader: null,
+            leader: null,
             deputyHeadman: null,
             organizer: null,
             culturalWork: null,

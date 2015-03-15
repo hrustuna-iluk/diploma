@@ -1,6 +1,6 @@
 var PassModel = Backbone.Model.extend({
 
-    urlRoot: '/api/pass',
+    urlRoot: '/api/pass/',
 
     defaults: function() {
         return {

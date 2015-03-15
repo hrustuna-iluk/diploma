@@ -1,6 +1,6 @@
 var FatherModel = Backbone.Model.extend ({
 
-    urlRoot: '/api/parents',
+    urlRoot: '/api/parents/',
 
     defaults: function() {
        return{

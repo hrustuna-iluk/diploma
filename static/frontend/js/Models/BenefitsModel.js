@@ -1,6 +1,6 @@
 var BenefitsModel = Backbone.Model.extend ({
 
-    urlRoot: '/api/benefits',
+    urlRoot: '/api/benefits/',
 
     defaults: function() {
         return {

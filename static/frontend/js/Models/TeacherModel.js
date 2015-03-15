@@ -1,6 +1,6 @@
 var TeacherModel = Backbone.Model.extend ({
 
-    urlRoot: '/api/teacher',
+    urlRoot: '/api/teacher/',
 
     defaults: function() {
         return {

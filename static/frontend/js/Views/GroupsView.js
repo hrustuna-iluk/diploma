@@ -46,6 +46,7 @@ var GroupsView = BaseView.extend({
     _addGroup: function() {
         var groupModel = new GroupModel();
         this._groupData(groupModel);
+        groupModel.save();
         this.collection.add(groupModel);
     },
 

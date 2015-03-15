@@ -1,6 +1,6 @@
 var ClassModel = Backbone.Model.extend ({
 
-    urlRoot: '/api/class',
+    urlRoot: '/api/class/',
 
     defaults: function() {
         return {

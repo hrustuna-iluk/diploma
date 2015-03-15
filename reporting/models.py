@@ -55,6 +55,7 @@ class Faculty(models.Model):
 
 class Department(models.Model):
     title = models.CharField(max_length=255)
+    headOfDepartment = models.ForeignKey('Teacher', null=True, related_name='head')
 
     def __str__(self):
         return self.title
@@ -63,7 +64,13 @@ class Department(models.Model):
 class Group(models.Model):
     number = models.CharField(max_length=25)
     department = models.ForeignKey(Department)
-    leader = models.CharField(max_length=255)
+    leader = models.ForeignKey('Student', null=True, related_name='leader')
+    deputyHeadman = models.ForeignKey('Student', null=True, related_name='deputy')
+    organizer = models.ForeignKey('Student', null=True, related_name='organiser')
+    culturalWork = models.ForeignKey('Student', null=True, related_name='cultural')
+    healthWork = models.ForeignKey('Student', null=True, related_name='health')
+    editorialBoard = models.ManyToManyField('Student', null=True, related_name='editorial')
+    otherTasks = models.ManyToManyField('Student', null=True, related_name='other')
     yearStudy = models.IntegerField()
     tuition = models.CharField(max_length=50, choices=TUITION_TYPES)
     curator = models.ForeignKey('Teacher', blank=True, null=True)

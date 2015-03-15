@@ -63,8 +63,8 @@
                     <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white remove-department"></i></button>
                 </div>
                 <div class="content department-content">
-                    <a href="#teachers/<%=cid%>" class="department-links">Викладачі</a>
-                    <a href="#groups/<%=cid%>" class="department-links">Групи</a>
+                    <a href="#teachers/<%=id%>" class="department-links">Викладачі</a>
+                    <a href="#groups/<%=id%>" class="department-links">Групи</a>
                 </div>
                 <div class="brand bg-dark opacity">
                      <span class="text">
@@ -177,6 +177,8 @@
 
                                             <select id="groupTuition" class="form-control">
                                                 <option disabled>Форма навчання</option>
+                                                <option value="stationary">Стаціонарна форма</option>
+                                                <option value="extramural">Заочна форма</option>
                                             </select>
 
                                         </div>
@@ -570,7 +572,7 @@
             <table class="table">
                 <tr><td>1.Курс</td><td><%=yearStudy%></td></tr>
                 <tr><td>2.Група</td><td><%=number%></td></tr>
-                <tr><td>3.Староста</td><td><%=groupLeader.surname%><%=groupLeader.name%></td></tr>
+                <tr><td>3.Староста</td><td><%=leader.surname%><%=leader.name%></td></tr>
                 <tr><td>4.Заступник старости</td><td><%=deputyHeadman.surname%><%=deputyHeadman.name%></td></tr>
                 <tr><td>5.Профгрупорг</td><td><%=organizer.surname%><%=organizer.name%></td></tr>
                 <tr><td>6.Культурно-дозвіллєва робота</td><td><%=culturalWork.surname%><%=culturalWork.name%></td></tr>

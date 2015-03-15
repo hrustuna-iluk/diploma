@@ -1,6 +1,6 @@
 var EventModel = Backbone.Model.extend({
 
-    urlRoot: '/api/event',
+    urlRoot: '/api/event/',
 
     defaults: function() {
         return {

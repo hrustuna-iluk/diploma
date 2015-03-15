@@ -1,6 +1,6 @@
 var StudentModel = Backbone.Model.extend ({
 
-    urlRoot: '/api/student',
+    urlRoot: '/api/student/',
 
     defaults: function() {
         return {

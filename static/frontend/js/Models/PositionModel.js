@@ -1,6 +1,6 @@
 var PositionModel = Backbone.Model.extend({
 
-    urlRoot: '/api/position',
+    urlRoot: '/api/position/',
 
     defaults: function() {
         return {

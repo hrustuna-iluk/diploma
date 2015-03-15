@@ -1,6 +1,6 @@
 var PublicOrdersModel = Backbone.Model.extend ({
 
-    urlRoot: '/api/publicorders',
+    urlRoot: '/api/publicorders/',
 
     defaults: function() {
         return {

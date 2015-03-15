@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Additional',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
                 ('title', models.CharField(max_length=255)),
                 ('value', models.CharField(max_length=255)),
             ],
@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Benefits',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
                 ('type', models.CharField(max_length=255)),
             ],
             options={
@@ -34,8 +34,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Class',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
-                ('day', models.CharField(choices=[('monday', 'Понеділок'), ('tuesday', 'Вівторок'), ('wednesday', 'Середа'), ('Thursday', 'Четвер'), ('Friday', "П'ятниця"), ('Saturday', 'Субота'), ('Sunday', 'Неділя')], max_length=20)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('subject', models.CharField(max_length=25)),
+                ('classRoom', models.CharField(max_length=25)),
+                ('day', models.CharField(choices=[('Monday', 'Понеділок'), ('Tuesday', 'Вівторок'), ('Wednesday', 'Середа'), ('Thursday', 'Четвер'), ('Friday', "П'ятниця"), ('Saturday', 'Субота'), ('Sunday', 'Неділя')], max_length=20)),
                 ('number_of_week', models.CharField(choices=[('1', 1), ('2', 2)], max_length=2)),
                 ('number', models.IntegerField()),
             ],
@@ -44,19 +46,9 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='ClassRoom',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
-                ('number', models.CharField(max_length=50)),
-            ],
-            options={
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
             name='Department',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
                 ('title', models.CharField(max_length=255)),
             ],
             options={
@@ -66,7 +58,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Event',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
                 ('title', models.CharField(max_length=255)),
             ],
             options={
@@ -76,7 +68,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Faculty',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
                 ('title', models.CharField(max_length=255)),
             ],
             options={
@@ -86,9 +78,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Group',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
                 ('number', models.CharField(max_length=25)),
-                ('leader', models.CharField(max_length=255)),
                 ('yearStudy', models.IntegerField()),
                 ('tuition', models.CharField(choices=[('stationary', 'Стаціонар'), ('extramural', 'Заочна форма')], max_length=50)),
             ],
@@ -99,7 +90,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Language',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
                 ('title', models.CharField(max_length=255)),
             ],
             options={
@@ -109,7 +100,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Parents',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
                 ('fullname', models.CharField(max_length=255)),
                 ('phone', models.CharField(max_length=30)),
                 ('position', models.CharField(max_length=255)),
@@ -121,9 +112,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Pass',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
                 ('date', models.DateField()),
-                ('type', models.CharField(choices=[('pass', 'Без поважної причини'), ('sickness', 'По хворобі'), ('statement', "За'ява"), ('watch', 'Чергування')], max_length=50)),
+                ('type', models.CharField(choices=[('pass', 'Без поважної причини'), ('sickness', 'По хворобі'), ('statement', 'Заява'), ('watch', 'Чергування')], max_length=50)),
                 ('class_passed', models.ForeignKey(to='reporting.Class')),
             ],
             options={
@@ -133,9 +124,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='PublicPlan',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
                 ('date', models.DateTimeField()),
-                ('description', models.CharField(blank=True, max_length=255)),
+                ('description', models.CharField(max_length=255, blank=True)),
                 ('amount_hours', models.FloatField()),
                 ('amount_present', models.IntegerField()),
                 ('event', models.ForeignKey(to='reporting.Event')),
@@ -147,7 +138,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Report',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
                 ('date', models.DateField()),
                 ('event', models.ForeignKey(to='reporting.Event')),
             ],
@@ -158,10 +149,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Student',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
-                ('firstName', models.CharField(blank=True, max_length=255)),
-                ('lastName', models.CharField(blank=True, max_length=255)),
-                ('middleName', models.CharField(blank=True, max_length=255)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('firstName', models.CharField(max_length=255, blank=True)),
+                ('lastName', models.CharField(max_length=255, blank=True)),
+                ('middleName', models.CharField(max_length=255, blank=True)),
                 ('address', models.CharField(max_length=255)),
                 ('phone', models.CharField(max_length=30)),
                 ('isProcurement', models.BooleanField(default=False)),
@@ -170,7 +161,7 @@ class Migration(migrations.Migration):
                 ('maritalStatus', models.CharField(choices=[('single', 'Не одружений'), ('married', 'Одружений')], max_length=50)),
                 ('sex', models.CharField(choices=[('male', 'Чоловіча'), ('female', 'Жіноча')], max_length=50)),
                 ('school', models.CharField(max_length=255)),
-                ('benefits', models.ManyToManyField(to='reporting.Benefits', null=True, blank=True)),
+                ('benefits', models.ManyToManyField(null=True, blank=True, to='reporting.Benefits')),
                 ('group', models.ForeignKey(to='reporting.Group')),
                 ('language', models.ForeignKey(to='reporting.Language')),
             ],
@@ -182,7 +173,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='StudentWork',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
                 ('text', models.TextField()),
                 ('year', models.CharField(max_length=10)),
                 ('group', models.ForeignKey(to='reporting.Group')),
@@ -192,23 +183,12 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='Subject',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
-                ('title', models.CharField(max_length=255)),
-                ('type', models.CharField(choices=[('lection', 'Лекція'), ('practic', 'Практика'), ('lab', 'Лабораторний практикум')], max_length=50)),
-            ],
-            options={
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
             name='Teacher',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
-                ('firstName', models.CharField(blank=True, max_length=255)),
-                ('lastName', models.CharField(blank=True, max_length=255)),
-                ('middleName', models.CharField(blank=True, max_length=255)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('firstName', models.CharField(max_length=255, blank=True)),
+                ('lastName', models.CharField(max_length=255, blank=True)),
+                ('middleName', models.CharField(max_length=255, blank=True)),
                 ('position', models.CharField(choices=[('dean', 'Декан'), ('Head of Department', 'Завідувач кафедри'), ('teacher', 'Викладач')], max_length=255)),
                 ('department', models.ForeignKey(to='reporting.Department')),
             ],
@@ -237,8 +217,14 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='group',
+            name='culturalWork',
+            field=models.ForeignKey(null=True, to='reporting.Student', related_name='cultural'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='group',
             name='curator',
-            field=models.ForeignKey(to='reporting.Teacher', null=True, blank=True),
+            field=models.ForeignKey(null=True, blank=True, to='reporting.Teacher'),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -248,15 +234,51 @@ class Migration(migrations.Migration):
             preserve_default=True,
         ),
         migrations.AddField(
-            model_name='class',
-            name='classRoom',
-            field=models.ForeignKey(to='reporting.ClassRoom'),
+            model_name='group',
+            name='deputyHeadman',
+            field=models.ForeignKey(null=True, to='reporting.Student', related_name='deputy'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='group',
+            name='editorialBoard',
+            field=models.ManyToManyField(null=True, to='reporting.Student', related_name='editorial'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='group',
+            name='healthWork',
+            field=models.ForeignKey(null=True, to='reporting.Student', related_name='health'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='group',
+            name='leader',
+            field=models.ForeignKey(null=True, to='reporting.Student', related_name='leader'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='group',
+            name='organizer',
+            field=models.ForeignKey(null=True, to='reporting.Student', related_name='organiser'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='group',
+            name='otherTasks',
+            field=models.ManyToManyField(null=True, to='reporting.Student', related_name='other'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='department',
+            name='headOfDepartment',
+            field=models.ForeignKey(null=True, to='reporting.Teacher', related_name='head'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='class',
-            name='subject',
-            field=models.ForeignKey(to='reporting.Subject'),
+            name='group',
+            field=models.ForeignKey(to='reporting.Group', null=True),
             preserve_default=True,
         ),
         migrations.AddField(
