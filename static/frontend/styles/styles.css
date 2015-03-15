@@ -290,3 +290,24 @@ a.department-links:hover, a.group-links:hover{
     background-color: #337ab7;
     border-color: #2e6da4;
 }
+
+#scheduleTable .scheduler {
+    background: rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+    min-width: 900px;
+    min-height: 600px;
+}
+
+#numberOfWeek {
+    max-width: 120px;
+    padding: 1px;
+    margin: 0 0 5px 0;
+}
+
+th {
+    text-align: center;
+}
+
+.form-control {
+    margin: 3px;
+}

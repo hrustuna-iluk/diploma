@@ -77,10 +77,12 @@ var Route = Backbone.Router.extend({
     },
 
     scheduler: function(groupId) {
+        //this.classesCollection.fetch();
         var group = this.groupsCollection.findWhere({cid: groupId});
         var schedulerView = new SchedulerView({
             group: group,
-            collection: this.classesCollection
+            collection: this.classesCollection,
+            teacherCollection: this.teacherCollection
         });
         this.routeChanged(schedulerView);
     },

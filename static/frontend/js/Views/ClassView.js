@@ -2,36 +2,30 @@ var ClassView = BaseView.extend ({
 
     tagName: 'td',
 
-    className: 'classTitle',
+    template:  _.template($("#classInformation").html()),
 
     initialize: function() {
-        this.listenTo(this.model, 'change', this.render);
     },
 
     _attachEvents: function() {
-        this.$el.on('dblclick ', $.proxy(this._changeClass, this));
-        this.$('.edit').on('keypress', $.proxy(this._updateOnEnter, this));
+        this.$el.on('click', $.proxy(this._showModal, this));
+        this.model.on('change', $.proxy(this._changeClass, this));
     },
 
-    _changeClass: function() {},
-
-     _close: function() {
-      var value = this.input.val();
-      if (!value) {
-        this.clear();
-      } else {
-        this.model.save({subject: value});
-        this.$el.removeClass("editing");
-      }
+    _changeClass: function() {
+        var self = this;
+        self.$el.html(this.template(this.model.toJSON()));
     },
 
-    _updateOnEnter: function(e) {
-      if (e.keyCode == 13) this.close();
+    _showModal: function() {
+        new ClassModalView ({
+            model: this.model
+        }).render().el
     },
 
     render: function() {
-        this.$el.text(this.model.get('subject'));
-        this.input = this.$('.edit');
+        //this.$el.html(this.model.toJSON());
+        this._attachEvents();
         return this;
     }
 });

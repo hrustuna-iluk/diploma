@@ -326,7 +326,13 @@
 
                         <div class="row">
                             <div class="span2" >
-                                 <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Динаміка відвідувань групи">
+
+                                <select id="numberOfWeek" class="form-control">
+                                    <option value="1" selected>I</option>
+                                    <option value="2">II</option>
+                                </select>
+
+                                 <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center deleteSchedule" title="Очистити розклад">
                                     <div class="tile-content icon">
                                         <i class="icon-box"></i>
                                     </div>
@@ -334,7 +340,7 @@
                             </div>
 
                             <div class="span11" id="scheduleTable" >
-                                <table>
+                                <table class="table-bordered scheduler">
                                     <thead>
                                         <tr>
                                             <th>Понеділок</th>
@@ -416,9 +422,50 @@
             </table>
         </script>
 
+        <!--Class Modal Template-->
+        <script type="text/template" id="classModalTemplate">
+            <div class="modal fade ">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Додати пару</h4>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" name="subjectTitle" class="subjectTitle form-control" placeholder="Назва предмету">
+                            <select class="typeClass form-control">
+                                <option selected value="1">Лекційне заняття</option>
+                                <option value="2">Практичне заняття</option>
+                            </select>
+                            <select class="classTeacher form-control"></select>
+                            <input type="text" name="classNumber" class="classNumber form-control" placeholder="Номер аудиторії"></select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default closeModal" data-dismiss="modal">Закрити</button>
+                            <button type="button" class="btn btn-primary addClass">Додати</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <!--Select option template for teachers-->
+        <script type="text/template" id="optionTeacherTemplate">
+            <option value="<%=cid%>">
+                <%=name%> <%=surname%>
+            </option>
+        </script>
+
+        <!--Select option template for teachers-->
+        <script type="text/template" id="classInformation">
+            <div class="scheduleClassTitle"><%=subject%></div>
+            <div class="scheduleClassNumber">Аудиторія: <%=classroom%></div>
+            <div class="scheduleClassTeacher">Викладач: -</div>
+        </script>
+
+
         <!--Frameworks-->
-        <script src="{% static 'frameworks/bootstrap/js/bootstrap.min.js' %}"></script>
         <script src="{% static 'frameworks/Metro-UI-CSS-master/docs/js/jquery/jquery.min.js' %}"></script>
+        <script src="{% static 'frameworks/bootstrap/js/bootstrap.min.js' %}"></script>
         <script src="{% static 'frameworks/Metro-UI-CSS-master/docs/js/jquery/jquery.widget.min.js' %}"></script>
         <script src="{% static 'frameworks/Metro-UI-CSS-master/docs/js/metro/metro.min.js' %}"></script>
         <script src="{% static 'frameworks/underscore/underscore.js' %}"></script>
@@ -427,7 +474,6 @@
         <!--Models-->
         <script src="{% static 'frontend/js/Models/AdditionalModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/BenefitsModel.js' %}"></script>
-        <script src="{% static 'frontend/js/Models/ClassroomModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/EventModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/LanguageModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/PublicOrdersModel.js' %}"></script>
@@ -467,6 +513,7 @@
         <script src="{% static 'frontend/js/Views/GroupsView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/StudentView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/StudentsView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/ClassModalView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/ClassView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/ClassesView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/SchedulerView.js' %}"></script>
@@ -475,6 +522,7 @@
         <script src="{% static 'frontend/js/Views/AttendanceView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/ReductionHeaderView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/ReductionView.js' %}"></script>
+
 
         <!--Routes-->
         <script src="{% static 'frontend/js/Routes/Route.js' %}"></script>
