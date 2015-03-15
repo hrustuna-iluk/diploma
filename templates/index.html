@@ -415,9 +415,11 @@
                                 </div>
 
                                 <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Журнал викладача">
-                                    <div class="tile-content icon">
-                                        <i class="icon-book"></i>
-                                    </div>
+                                    <a href="#journal/<%=group.cid%>">
+                                        <div class="tile-content icon">
+                                            <i class="icon-book"></i>
+                                        </div>
+                                    </a>
                                 </div>
                             </div>
 
@@ -490,11 +492,11 @@
         <script type="text/template" id="classInformation">
             <div class="scheduleClassTitle"><%=subject%></div>
             <div class="scheduleClassNumber">Аудиторія: <%=classroom%></div>
-            <div class="scheduleClassTeacher">Викладач: -</div>
+            <div class="scheduleClassTeacher">Викладач: <%=teacher.name%> <%=teacher.surname%></div>
         </script>
 
-        <!---->
-        <script type="text/template">
+        <!--Tab Template-->
+        <script type="text/template" id="tabTemplate">
             <div class="grid">
                 <div class="row">
                     <div class="span20" id="page-content">
@@ -698,7 +700,6 @@
         <script src="{% static 'frontend/js/Collections/StudentsCollection.js' %}"></script>
         <script src="{% static 'frontend/js/Collections/ClassesCollection.js' %}"></script>
         <script src="{% static 'frontend/js/Collections/PassesCollection.js' %}"></script>
-        <script src="{% static 'frontend/js/Collections/AttendancesCollection.js' %}"></script>
         <script src="{% static 'frontend/js/Collections/BenefitsCollection.js' %}"></script>
         <script src="{% static 'frontend/js/Collections/PublicOrdersCollection.js' %}"></script>
         <script src="{% static 'frontend/js/Collections/LanguagesCollection.js' %}"></script>
@@ -724,7 +725,11 @@
         <script src="{% static 'frontend/js/Views/AttendanceView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/ReductionHeaderView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/ReductionView.js' %}"></script>
-
+        <script src="{% static 'frontend/js/Views/WrapTabView.js.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/PublicOrdersTabView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/DataTabElementView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/DataTabView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/TabView.js' %}"></script>
 
         <!--Routes-->
         <script src="{% static 'frontend/js/Routes/Route.js' %}"></script>
