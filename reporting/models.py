@@ -55,7 +55,7 @@ class Faculty(models.Model):
 
 class Department(models.Model):
     title = models.CharField(max_length=255)
-    headOfDepartment = models.ForeignKey('Teacher', null=True, related_name='head')
+    headOfDepartment = models.ForeignKey('Teacher', null=True, related_name='head', blank=True)
 
     def __str__(self):
         return self.title
@@ -63,14 +63,14 @@ class Department(models.Model):
 
 class Group(models.Model):
     number = models.CharField(max_length=25)
-    department = models.ForeignKey(Department)
-    leader = models.ForeignKey('Student', null=True, related_name='leader')
-    deputyHeadman = models.ForeignKey('Student', null=True, related_name='deputy')
-    organizer = models.ForeignKey('Student', null=True, related_name='organiser')
-    culturalWork = models.ForeignKey('Student', null=True, related_name='cultural')
-    healthWork = models.ForeignKey('Student', null=True, related_name='health')
-    editorialBoard = models.ManyToManyField('Student', null=True, related_name='editorial')
-    otherTasks = models.ManyToManyField('Student', null=True, related_name='other')
+    department = models.ForeignKey(Department, null=True, blank=True)
+    leader = models.ForeignKey('Student', null=True, related_name='leader', blank=True)
+    deputyHeadman = models.ForeignKey('Student', null=True, related_name='deputy', blank=True)
+    organizer = models.ForeignKey('Student', null=True, related_name='organiser', blank=True)
+    culturalWork = models.ForeignKey('Student', null=True, related_name='cultural', blank=True)
+    healthWork = models.ForeignKey('Student', null=True, related_name='health', blank=True)
+    editorialBoard = models.ManyToManyField('Student', null=True, related_name='editorial', blank=True)
+    otherTasks = models.ManyToManyField('Student', null=True, related_name='other', blank=True)
     yearStudy = models.IntegerField()
     tuition = models.CharField(max_length=50, choices=TUITION_TYPES)
     curator = models.ForeignKey('Teacher', blank=True, null=True)
@@ -91,13 +91,13 @@ class Teacher(models.Model):
     lastName = models.CharField(max_length=255, blank=True)
     middleName = models.CharField(max_length=255, blank=True)
     position = models.CharField(max_length=255, choices=POSITIONS)
-    department = models.ForeignKey(Department)
+    department = models.ForeignKey(Department, null=True, blank=True)
 
     class Meta:
         verbose_name = 'Teacher'
 
     def __str__(self):
-        return self.firstName + ' ' +  self.lastName
+        return self.firstName + ' ' + self.lastName
 
 
 class Benefits(models.Model):
@@ -112,11 +112,11 @@ class Student(models.Model):
     lastName = models.CharField(max_length=255, blank=True)
     middleName = models.CharField(max_length=255, blank=True)
     address = models.CharField(max_length=255)
-    language = models.ForeignKey(Language)
+    language = models.ForeignKey(Language, null=True)
     phone = models.CharField(max_length=30)
     benefits = models.ManyToManyField(Benefits, blank=True, null=True)
     isProcurement = models.BooleanField(default=False)
-    group = models.ForeignKey(Group)
+    group = models.ForeignKey(Group, null=True, blank=True)
     dateBirth = models.DateField()
     nationality = models.CharField(max_length=50)
     maritalStatus = models.CharField(max_length=50, choices=MARITAL_STATUSES)
@@ -127,14 +127,14 @@ class Student(models.Model):
         verbose_name = 'Student'
 
     def __str__(self):
-        return self.firstName + ' ' +  self.lastName
+        return self.firstName + ' ' + self.lastName
 
 
 class Parents(models.Model):
     fullname = models.CharField(max_length=255)
     phone = models.CharField(max_length=30)
     position = models.CharField(max_length=255)
-    student = models.ForeignKey(Student)
+    student = models.ForeignKey(Student, null=True, blank=True)
 
     def __str__(self):
         return self.fullname
@@ -143,7 +143,7 @@ class Parents(models.Model):
 class Additional(models.Model):
     title = models.CharField(max_length=255)
     value = models.CharField(max_length=255)
-    student = models.ForeignKey(Student)
+    student = models.ForeignKey(Student, null=True, blank=True)
 
     def __str__(self):
         return self.title + ' ' + self.student.firstName + ' ' + self.student.lastName
@@ -151,12 +151,12 @@ class Additional(models.Model):
 
 class Class(models.Model):
     subject = models.CharField(max_length=25)
-    teacher = models.ForeignKey(Teacher)
+    teacher = models.ForeignKey(Teacher, null=True, blank=True)
     classRoom = models.CharField(max_length=25)
     day = models.CharField(max_length=20, choices=DAYS)
     number_of_week = models.CharField(max_length=2, choices=(('1', 1), ('2', 2)))
     number = models.IntegerField()
-    group = models.ForeignKey('Group', null=True)
+    group = models.ForeignKey('Group', null=True, blank=True)
 
     def __str__(self):
         return self.subject + ' ' + self.classRoom
@@ -172,16 +172,16 @@ class Event(models.Model):
 class StudentWork(models.Model):
     text = models.TextField()
     year = models.CharField(max_length=10)
-    group = models.ForeignKey(Group)
+    group = models.ForeignKey(Group, null=True, blank=True)
 
     def __str__(self):
         return self.text
 
 
 class PublicPlan(models.Model):
-    event = models.ForeignKey(Event)
+    event = models.ForeignKey(Event, null=True, blank=True)
     date = models.DateTimeField()
-    responsive = models.ForeignKey(Teacher)
+    responsive = models.ForeignKey(Teacher, null=True, blank=True)
     description = models.CharField(max_length=255, blank=True)
     amount_hours = models.FloatField()
     amount_present = models.IntegerField()
@@ -192,21 +192,20 @@ class PublicPlan(models.Model):
 
 class Report(models.Model):
     date = models.DateField()
-    event = models.ForeignKey(Event)
+    event = models.ForeignKey(Event, null=True, blank=True)
 
     def __str__(self):
         return self.event.title
 
 
 class Pass(models.Model):
-    student = models.ForeignKey(Student)
+    student = models.ForeignKey(Student, null=True, blank=True)
     date = models.DateField()
     type = models.CharField(max_length=50, choices=PASS_TYPES)
-    class_passed = models.ForeignKey(Class)
+    class_passed = models.ForeignKey(Class, null=True, blank=True)
 
     def __str__(self):
         return ' '.join([self.student.first_name, self.student.last_name, self.type, self.date])
-
 
     def __str(self):
         return str(self.id) + ' ' + str(self.group.number)

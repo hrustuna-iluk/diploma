@@ -6,7 +6,7 @@ from django.http import Http404
 from django.template.context import RequestContext
 from rest_framework import serializers, viewsets
 from django.shortcuts import get_object_or_404
-from reporting.api.Views.Serializers.StudentSerializer import GroupSerializer
+from reporting.api.Views.Serializers.GroupSerializer import GroupSerializer
 
 
 class GroupView(APIView):
