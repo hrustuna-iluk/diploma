@@ -6,6 +6,7 @@ from reporting.api.Views.Serializers.BenefitsSerializer import BenefitsSerialize
 
 
 class StudentSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
     language = LanguageSerializer()
     group = GroupSerializer()
     benefits = BenefitsSerializer(many=True)
@@ -14,13 +15,13 @@ class StudentSerializer(serializers.ModelSerializer):
         model = Student
 
     def create(self, validated_data):
-        language = validated_data.pop("language")
-        group = validated_data.pop("group")
-        benefits = [benefit["type"] for benefit in validated_data.pop("benefits")]
+        language = validated_data.pop("language").get('id')
+        group = validated_data.pop("group").get('id')
+        benefits = [benefit["id"] for benefit in validated_data.pop("benefits")]
 
-        language = Language.objects.get(**language)
-        group = Group.objects.get(**group)
-        benefits = Benefits.objects.filter(type__in=benefits)
+        language = Language.objects.get(pk=language)
+        group = Group.objects.get(pk=group)
+        benefits = Benefits.objects.filter(pk__in=benefits)
 
         student = Student.objects.create(group=group, language=language, **validated_data)
         for benefit in benefits:
@@ -29,13 +30,13 @@ class StudentSerializer(serializers.ModelSerializer):
         return student
 
     def update(self, student, validated_data):
-        language = validated_data.get("language")
-        group = validated_data.get("group")
-        benefits = [benefit["type"] for benefit in validated_data.get("benefits")]
+        language = validated_data.get("language").get('id')
+        group = validated_data.get("group").get('id')
+        benefits = [benefit["id"] for benefit in validated_data.get("benefits")]
 
-        language = Language.objects.get(**language)
-        group = Group.objects.get(**group)
-        benefits = Benefits.objects.filter(type__in=benefits)
+        language = Language.objects.get(pk=language)
+        group = Group.objects.get(pk=group)
+        benefits = Benefits.objects.filter(pk__in=benefits)
 
         student.firstName = validated_data.get("firstName")
         student.lastName = validated_data.get("lastName")

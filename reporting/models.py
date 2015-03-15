@@ -19,9 +19,8 @@ SEX = (
 )
 
 SUBJECT_TYPES = (
-    ('lection', 'Лекція'),
-    ('practic', 'Практика'),
-    ('lab', 'Лабораторний практикум')
+    ('1', 'Лекція'),
+    ('2', 'Практика')
 )
 
 TUITION_TYPES = (
@@ -30,9 +29,9 @@ TUITION_TYPES = (
 )
 
 DAYS = (
-    ('monday', 'Понеділок'),
-    ('tuesday', 'Вівторок'),
-    ('wednesday', 'Середа'),
+    ('Monday', 'Понеділок'),
+    ('Tuesday', 'Вівторок'),
+    ('Wednesday', 'Середа'),
     ('Thursday', 'Четвер'),
     ('Friday', "П'ятниця"),
     ('Saturday', 'Субота'),
@@ -45,6 +44,7 @@ PASS_TYPES = (
     ('statement', "Заява"),
     ('watch', "Чергування"),
 )
+
 
 class Faculty(models.Model):
     title = models.CharField(max_length=255)
@@ -132,12 +132,6 @@ class Parents(models.Model):
     def __str__(self):
         return self.fullname
 
-class Subject(models.Model):
-    title = models.CharField(max_length=255)
-    type = models.CharField(max_length=50, choices=SUBJECT_TYPES)
-
-    def __str__(self):
-        return self.title
 
 class Additional(models.Model):
     title = models.CharField(max_length=255)
@@ -148,28 +142,25 @@ class Additional(models.Model):
         return self.title + ' ' + self.student.firstName + ' ' + self.student.lastName
 
 
-class ClassRoom(models.Model):
-    number = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.number
-
 class Class(models.Model):
-    subject = models.ForeignKey(Subject)
+    subject = models.CharField(max_length=25)
     teacher = models.ForeignKey(Teacher)
-    classRoom = models.ForeignKey(ClassRoom)
+    classRoom = models.CharField(max_length=25)
     day = models.CharField(max_length=20, choices=DAYS)
     number_of_week = models.CharField(max_length=2, choices=(('1', 1), ('2', 2)))
     number = models.IntegerField()
+    group = models.ForeignKey('Group', null=True)
 
     def __str__(self):
-        return self.subject.title + ' ' + self.subject.type
+        return self.subject + ' ' + self.classRoom
+
 
 class Event(models.Model):
     title = models.CharField(max_length=255)
 
     def __str__(self):
         return self.title
+
 
 class StudentWork(models.Model):
     text = models.TextField()
@@ -178,6 +169,7 @@ class StudentWork(models.Model):
 
     def __str__(self):
         return self.text
+
 
 class PublicPlan(models.Model):
     event = models.ForeignKey(Event)
@@ -190,12 +182,14 @@ class PublicPlan(models.Model):
     def __str__(self):
         return self.description
 
+
 class Report(models.Model):
     date = models.DateField()
     event = models.ForeignKey(Event)
 
     def __str__(self):
         return self.event.title
+
 
 class Pass(models.Model):
     student = models.ForeignKey(Student)
@@ -206,21 +200,27 @@ class Pass(models.Model):
     def __str__(self):
         return ' '.join([self.student.first_name, self.student.last_name, self.type, self.date])
 
+
+    def __str(self):
+        return str(self.id) + ' ' + str(self.group.number)
+
+
 #models views
 class PassView(admin.ModelAdmin):
     list_display = ('student', 'date', 'type', 'class_passed')
 
+
 class AdditionalAdminView(admin.ModelAdmin):
     list_display = ('title',)
+
 
 class BenefitsAdminView(admin.ModelAdmin):
     list_display = ('type',)
 
-class ClassRoomAdminView(admin.ModelAdmin):
-    list_display = ('number',)
 
 class ClassAdminView(admin.ModelAdmin):
     list_display = ('subject',)
+
 
 class DepartmentAdminView(admin.ModelAdmin):
     list_display = ('title',)
@@ -228,32 +228,38 @@ class DepartmentAdminView(admin.ModelAdmin):
 class EventAdminView(admin.ModelAdmin):
     list_display = ('title',)
 
+
 class FacultyAdminView(admin.ModelAdmin):
     list_display = ('title',)
+
 
 class GroupAdminView(admin.ModelAdmin):
     list_display = ('number',)
 
+
 class LanguageAdminView(admin.ModelAdmin):
     list_display = ('title',)
+
 
 class ParentsAdminView(admin.ModelAdmin):
     list_display = ('fullname',)
 
+
 class PublicPlanAdminView(admin.ModelAdmin):
     list_display = ('description',)
+
 
 class ReportAdminView(admin.ModelAdmin):
     list_display = ('date',)
 
+
 class StudentAdminView(admin.ModelAdmin):
     list_display = ('firstName', 'lastName')
+
 
 class StudentWorkAdminView(admin.ModelAdmin):
     list_display = ('text',)
 
-class SubjectAdminView(admin.ModelAdmin):
-    list_display = ('title',)
 
 class TeacherAdminView(admin.ModelAdmin):
     list_display = ('firstName', 'lastName')
@@ -262,7 +268,6 @@ class TeacherAdminView(admin.ModelAdmin):
 try:
     admin.site.register(Additional, AdditionalAdminView)
     admin.site.register(Benefits, BenefitsAdminView)
-    admin.site.register(ClassRoom, ClassRoomAdminView)
     admin.site.register(Class, ClassAdminView)
     admin.site.register(Department, DepartmentAdminView)
     admin.site.register(Event, EventAdminView)
@@ -274,7 +279,6 @@ try:
     admin.site.register(Report, ReportAdminView)
     admin.site.register(Student, StudentAdminView)
     admin.site.register(StudentWork, StudentWorkAdminView)
-    admin.site.register(Subject, SubjectAdminView)
     admin.site.register(Teacher, TeacherAdminView)
 except Exception:
     pass

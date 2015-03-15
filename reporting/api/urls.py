@@ -2,7 +2,6 @@ from django.conf.urls import patterns, include, url
 #views
 from reporting.api.Views.AdditionalView import AdditionalView
 from reporting.api.Views.BenefitsView import BenefitsView
-from reporting.api.Views.ClassRoomView import ClassRoomView
 from reporting.api.Views.ClassView import ClassView
 from reporting.api.Views.DepartmentView import DepartmentView
 from reporting.api.Views.EventView import EventView
@@ -14,10 +13,8 @@ from reporting.api.Views.PublicPlanView import PublicPlanView
 from reporting.api.Views.ReportView import ReportView
 from reporting.api.Views.StudentView import StudentView
 from reporting.api.Views.StudentWorkView import StudentWorkView
-from reporting.api.Views.SubjectView import SubjectView
 from reporting.api.Views.TeacherView import TeacherView
 from reporting.api.Views.PassView import PassView
-
 
 
 urlpatterns = patterns('',
@@ -30,10 +27,6 @@ urlpatterns = patterns('',
     url(r'benefit/', BenefitsView.as_view()),
     url(r'benefit/(?P<pk>\d+)', BenefitsView.as_view()),
     url(r'benefits/', BenefitsView.as_view()),
-
-    url(r'classroom/', ClassRoomView.as_view()),
-    url(r'classroom/(?P<pk>\d+)', ClassRoomView.as_view()),
-    url(r'classrooms/', ClassRoomView.as_view()),
 
     url(r'class/', ClassView.as_view()),
     url(r'class/(?P<pk>\d+)', ClassView.as_view()),
@@ -78,10 +71,6 @@ urlpatterns = patterns('',
     url(r'studentwork/', StudentWorkView.as_view()),
     url(r'studentwork/(?P<pk>\d+)', StudentWorkView.as_view()),
     url(r'studentworks/', StudentWorkView.as_view()),
-
-    url(r'subject/', SubjectView.as_view()),
-    url(r'subject/(?P<pk>\d+)', SubjectView.as_view()),
-    url(r'subjects/', SubjectView.as_view()),
 
     url(r'teacher/', TeacherView.as_view()),
     url(r'teacher/(?P<pk>\d+)', TeacherView.as_view()),
