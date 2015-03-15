@@ -5,21 +5,22 @@ from reporting.api.Views.Serializers.DepartmentSerializer import DepartmentSeria
 
 
 class GroupSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
     curator = TeacherSerializer()
     department = DepartmentSerializer()
 
     def create(self, validated_data):
-        curator = validated_data.pop('curator')
-        department = validated_data.pop('department')
-        curator = Teacher.objects.get(**curator)
-        department = Department.objects.get(**department)
+        curator = validated_data.pop('curator').get('id')
+        department = validated_data.pop('department').get('id')
+        curator = Teacher.objects.get(pk=curator)
+        department = Department.objects.get(pk=department)
         group = Group.objects.create(curator=curator, department=department, **validated_data)
         group.save()
         return group
 
     def update(self, group, validated_data):
-        curator = Teacher.objects.get(**validated_data.get('curator'))
-        department = Department.objects.get(**validated_data.get('department'))
+        curator = Teacher.objects.get(pk=validated_data.get('curator').get('id'))
+        department = Department.objects.get(pk=validated_data.get('department').get('id'))
         group.curator = curator
         group.department = department
         group.number = validated_data.get('number')

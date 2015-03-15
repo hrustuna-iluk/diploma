@@ -4,18 +4,19 @@ from reporting.api.Views.Serializers.GroupSerializer import GroupSerializer
 
 
 class StudentWorkSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
     group = GroupSerializer()
 
     def create(self, validated_data):
-        group = validated_data.pop('group')
-        group = Group.objects.get(**group)
+        group = validated_data.pop('group').get('id')
+        group = Group.objects.get(pk=group)
         student_work = StudentWork.objects.create(group=group, **validated_data)
         student_work.save()
         return student_work
 
     def update(self, student_work, validated_data):
-        group = validated_data.get('group')
-        group = Group.objects.get(**group)
+        group = validated_data.get('group').get('id')
+        group = Group.objects.get(pk=group)
         student_work.group = group
         student_work.text = validated_data.get('text')
         student_work.year = validated_data.get('year')

@@ -149,7 +149,7 @@ class Class(models.Model):
     day = models.CharField(max_length=20, choices=DAYS)
     number_of_week = models.CharField(max_length=2, choices=(('1', 1), ('2', 2)))
     number = models.IntegerField()
-    schedule = models.ForeignKey('Schedule', null=True)
+    group = models.ForeignKey('Group', null=True)
 
     def __str__(self):
         return self.subject + ' ' + self.classRoom
@@ -200,9 +200,6 @@ class Pass(models.Model):
     def __str__(self):
         return ' '.join([self.student.first_name, self.student.last_name, self.type, self.date])
 
-
-class Schedule(models.Model):
-    group = models.ForeignKey(Group)
 
     def __str(self):
         return str(self.id) + ' ' + str(self.group.number)
@@ -267,9 +264,6 @@ class StudentWorkAdminView(admin.ModelAdmin):
 class TeacherAdminView(admin.ModelAdmin):
     list_display = ('firstName', 'lastName')
 
-class ScheduleAdminView(admin.ModelAdmin):
-    list_display = ('id',)
-
 #register
 try:
     admin.site.register(Additional, AdditionalAdminView)
@@ -286,6 +280,5 @@ try:
     admin.site.register(Student, StudentAdminView)
     admin.site.register(StudentWork, StudentWorkAdminView)
     admin.site.register(Teacher, TeacherAdminView)
-    admin.site.register(Schedule, ScheduleAdminView)
 except Exception:
     pass
