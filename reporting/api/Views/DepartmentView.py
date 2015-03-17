@@ -8,6 +8,7 @@ from rest_framework import serializers, viewsets
 from django.shortcuts import get_object_or_404
 from reporting.api.Views.Serializers.DepartmentSerializer import DepartmentSerializer
 from django.core.serializers import serialize
+from django.http import HttpResponse
 
 
 class DepartmentView(APIView):
@@ -19,7 +20,7 @@ class DepartmentView(APIView):
         else:
             snippet = Department.objects.all()
 
-        return Response(serialize('json', snippet, relations=('headOfDepartment', )))
+        return HttpResponse(serialize('json', snippet, relations=('headOfDepartment', )), content_type="application/json")
 
     def post(self, request, format=None):
         serializer = DepartmentSerializer(data=request.data, context=RequestContext(request))

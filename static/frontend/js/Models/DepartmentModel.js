@@ -10,6 +10,7 @@ var DepartmentModel = Backbone.Model.extend ({
         }
     },
 
+
     setTitle: function(value) {
         this.set('title', value);
     },

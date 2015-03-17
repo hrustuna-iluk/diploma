@@ -46,8 +46,9 @@ var StartPageView = BaseView.extend ({
         var departmentTitle = this.$(this.selectors.departmentTitle).val();
         this.$(this.selectors.departmentTitle).val("");
         departmentModel.setTitle(departmentTitle);
-        departmentModel.save();
-        this.collection.add(departmentModel);
+        departmentModel.save({wait: true}, {success: $.proxy(function() {
+                    this.collection.add(departmentModel);
+                }, this)});
         return false;
     },
 

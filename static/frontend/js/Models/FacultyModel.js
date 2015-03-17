@@ -10,4 +10,5 @@ var FacultyModel = Backbone.Model.extend ({
 
         }
     }
+
 });

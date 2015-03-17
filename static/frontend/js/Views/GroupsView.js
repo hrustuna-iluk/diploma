@@ -14,6 +14,7 @@ var GroupsView = BaseView.extend({
         this.collection = options.collection;
         this.collection.on("add", $.proxy(this._renderGroup, this));
         this.publisher.on('change group', $.proxy(this._onGroupChange, this));
+        this.collection.reset().fetch();
     },
 
     _attachEvents: function() {
@@ -46,8 +47,9 @@ var GroupsView = BaseView.extend({
     _addGroup: function() {
         var groupModel = new GroupModel();
         this._groupData(groupModel);
-        groupModel.save();
-        this.collection.add(groupModel);
+        groupModel.save({wait: true}, {success: $.proxy(function() {
+                    this.collection.add(groupModel);
+                }, this)});
     },
 
     _changeGroup: function() {
