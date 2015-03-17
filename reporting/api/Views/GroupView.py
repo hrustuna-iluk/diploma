@@ -19,7 +19,10 @@ class GroupView(APIView):
         else:
             snippet = Group.objects.all()
 
-        return Response(serialize('json', snippet))
+        return Response(serialize('json', snippet, relations=(
+            'department', 'leader', 'deputyHeadman', 'organizer',
+            'culturalWork', 'healthWork', 'editorialBoard', 'otherTasks', 'curator'
+        )))
 
     def post(self, request, format=None):
         serializer = GroupSerializer(data=request.data, context=RequestContext(request))

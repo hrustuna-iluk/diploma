@@ -19,7 +19,7 @@ class TeacherView(APIView):
         else:
             snippet = Teacher.objects.all()
 
-        return Response(serialize('json', snippet))
+        return Response(serialize('json', snippet, relations=('department', )))
 
     def post(self, request, format=None):
         serializer = TeacherSerializer(data=request.data, context=RequestContext(request))

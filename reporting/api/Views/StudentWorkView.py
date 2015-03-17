@@ -24,7 +24,7 @@ class StudentWorkView(APIView):
         else:
             snippet = StudentWork.objects.all()
 
-        return Response(serialize('json', snippet))
+        return Response(serialize('json', snippet, relations='group'))
 
     def post(self, request, format=None):
         serializer = StudentWorkSerializer(data=request.data, context=RequestContext(request))

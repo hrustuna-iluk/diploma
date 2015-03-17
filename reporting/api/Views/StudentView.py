@@ -18,7 +18,22 @@ class StudentView(APIView):
             snippet = get_object_or_404(Student, pk=pk)
         else:
             snippet = Student.objects.all()
-        return Response(serialize('json', snippet))
+        return Response(serialize('json', snippet, relations={
+            'language': {},
+            'benefits': {},
+            'group': {
+                'relations': ('department',
+                              'editorialBoard',
+                              'headOfDepartment',
+                              'culturalWork',
+                              'deputyHeadman',
+                              'otherTasks',
+                              'organizer',
+                              'curator',
+                              'leader'
+                )
+            }
+        }))
 
     def post(self, request, format=None):
         serializer = StudentSerializer(data=request.data, context=RequestContext(request))

@@ -19,7 +19,7 @@ class PublicPlanView(APIView):
         else:
             snippet = PublicPlan.objects.all()
 
-        return Response(serialize('json', snippet))
+        return Response(serialize('json', snippet, relations=('event', 'responsive')))
 
     def post(self, request, format=None):
         serializer = PublicPlanSerializer(data=request.data, context=RequestContext(request))

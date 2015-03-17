@@ -19,7 +19,7 @@ class ParentsView(APIView):
         else:
             snippet = Parents.objects.all()
 
-        return Response(serialize('json', snippet))
+        return Response(serialize('json', snippet, relations=('student', )))
 
     def post(self, request, format=None):
         serializer = ParentsSerializer(data=request.data, context=RequestContext(request))

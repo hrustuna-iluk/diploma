@@ -19,7 +19,7 @@ class DepartmentView(APIView):
         else:
             snippet = Department.objects.all()
 
-        return Response(serialize('json', snippet))
+        return Response(serialize('json', snippet, relations=('headOfDepartment', )))
 
     def post(self, request, format=None):
         serializer = DepartmentSerializer(data=request.data, context=RequestContext(request))

@@ -19,7 +19,7 @@ class ClassView(APIView):
         else:
             snippet = Class.objects.all()
 
-        return Response(serialize('json', snippet))
+        return Response(serialize('json', snippet, relations=('teacher', 'group')))
 
     def post(self, request, format=None):
         serializer = ClassSerializer(data=request.data, context=RequestContext(request))

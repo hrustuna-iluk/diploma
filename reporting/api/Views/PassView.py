@@ -19,7 +19,7 @@ class PassView(APIView):
         else:
             snippet = Pass.objects.all()
 
-        return Response(serialize('json', snippet))
+        return Response(serialize('json', snippet, relations=('student', 'class_passed')))
 
     def post(self, request, format=None):
         serializer = PassSerializer(data=request.data, context=RequestContext(request))
