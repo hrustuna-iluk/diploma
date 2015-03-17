@@ -2,7 +2,7 @@ from reporting.models import Teacher
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication, permissions, status
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.template.context import RequestContext
 from rest_framework import serializers, viewsets
 from django.shortcuts import get_object_or_404
@@ -19,7 +19,7 @@ class TeacherView(APIView):
         else:
             snippet = Teacher.objects.all()
 
-        return Response(serialize('json', snippet, relations=('department', )))
+        return HttpResponse(serialize('json', snippet, relations=('department', )), content_type='application/json')
 
     def post(self, request, format=None):
         serializer = TeacherSerializer(data=request.data, context=RequestContext(request))

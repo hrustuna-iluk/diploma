@@ -111,6 +111,9 @@ class Student(models.Model):
     firstName = models.CharField(max_length=255, blank=True)
     lastName = models.CharField(max_length=255, blank=True)
     middleName = models.CharField(max_length=255, blank=True)
+    email = models.EmailField(max_length=255)
+    father = models.ForeignKey('Parents', null=True, blank=True, related_name='father')
+    mother = models.ForeignKey('Parents', null=True, blank=True, related_name='mother')
     address = models.CharField(max_length=255)
     language = models.ForeignKey(Language, null=True)
     phone = models.CharField(max_length=30)
@@ -134,7 +137,6 @@ class Parents(models.Model):
     fullname = models.CharField(max_length=255)
     phone = models.CharField(max_length=30)
     position = models.CharField(max_length=255)
-    student = models.ForeignKey(Student, null=True, blank=True)
 
     def __str__(self):
         return self.fullname
@@ -162,13 +164,6 @@ class Class(models.Model):
         return self.subject + ' ' + self.classRoom
 
 
-class Event(models.Model):
-    title = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.title
-
-
 class StudentWork(models.Model):
     text = models.TextField()
     year = models.CharField(max_length=10)
@@ -179,7 +174,7 @@ class StudentWork(models.Model):
 
 
 class PublicPlan(models.Model):
-    event = models.ForeignKey(Event, null=True, blank=True)
+    event = models.CharField(max_length=255)
     date = models.DateTimeField()
     responsive = models.ForeignKey(Teacher, null=True, blank=True)
     description = models.CharField(max_length=255, blank=True)
@@ -192,7 +187,7 @@ class PublicPlan(models.Model):
 
 class Report(models.Model):
     date = models.DateField()
-    event = models.ForeignKey(Event, null=True, blank=True)
+    event = models.CharField(max_length=255)
 
     def __str__(self):
         return self.event.title
@@ -229,9 +224,6 @@ class ClassAdminView(admin.ModelAdmin):
 
 
 class DepartmentAdminView(admin.ModelAdmin):
-    list_display = ('title',)
-
-class EventAdminView(admin.ModelAdmin):
     list_display = ('title',)
 
 
@@ -276,7 +268,6 @@ try:
     admin.site.register(Benefits, BenefitsAdminView)
     admin.site.register(Class, ClassAdminView)
     admin.site.register(Department, DepartmentAdminView)
-    admin.site.register(Event, EventAdminView)
     admin.site.register(Faculty, FacultyAdminView)
     admin.site.register(Group, GroupAdminView)
     admin.site.register(Language, LanguageAdminView)

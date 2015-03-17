@@ -2,7 +2,7 @@ from reporting.models import Student
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication, permissions, status
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.template.context import RequestContext
 from rest_framework import serializers, viewsets
 from django.shortcuts import get_object_or_404
@@ -18,7 +18,7 @@ class StudentView(APIView):
             snippet = get_object_or_404(Student, pk=pk)
         else:
             snippet = Student.objects.all()
-        return Response(serialize('json', snippet, relations={
+        return HttpResponse(serialize('json', snippet, relations={
             'language': {},
             'benefits': {},
             'group': {
@@ -33,7 +33,7 @@ class StudentView(APIView):
                               'leader'
                 )
             }
-        }))
+        }), content_type='application/json')
 
     def post(self, request, format=None):
         serializer = StudentSerializer(data=request.data, context=RequestContext(request))

@@ -2,7 +2,7 @@ from reporting.models import Pass
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication, permissions, status
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.template.context import RequestContext
 from rest_framework import serializers, viewsets
 from django.shortcuts import get_object_or_404
@@ -19,7 +19,7 @@ class PassView(APIView):
         else:
             snippet = Pass.objects.all()
 
-        return Response(serialize('json', snippet, relations=('student', 'class_passed')))
+        return HttpResponse(serialize('json', snippet, relations=('student', 'class_passed')), content_type='application/json')
 
     def post(self, request, format=None):
         serializer = PassSerializer(data=request.data, context=RequestContext(request))

@@ -2,17 +2,12 @@ from reporting.models import StudentWork
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication, permissions, status
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.template.context import RequestContext
 from rest_framework import serializers, viewsets
 from django.shortcuts import get_object_or_404
 from reporting.api.Views.Serializers.StudentWorkSerializer import StudentWorkSerializer
 from django.core.serializers import serialize
-
-
-class StudentWorkSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = StudentWork
 
 
 class StudentWorkView(APIView):
@@ -24,7 +19,7 @@ class StudentWorkView(APIView):
         else:
             snippet = StudentWork.objects.all()
 
-        return Response(serialize('json', snippet, relations='group'))
+        return HttpResponse(serialize('json', snippet, relations='group'), content_type='application/json')
 
     def post(self, request, format=None):
         serializer = StudentWorkSerializer(data=request.data, context=RequestContext(request))

@@ -1,4 +1,4 @@
-from reporting.models import PublicPlan, Teacher, Event
+from reporting.models import PublicPlan, Teacher
 from rest_framework import serializers
 
 

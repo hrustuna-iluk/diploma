@@ -4,7 +4,6 @@ from reporting.api.Views.AdditionalView import AdditionalView
 from reporting.api.Views.BenefitsView import BenefitsView
 from reporting.api.Views.ClassView import ClassView
 from reporting.api.Views.DepartmentView import DepartmentView
-from reporting.api.Views.EventView import EventView
 from reporting.api.Views.FacultyView import FacultyView
 from reporting.api.Views.GroupView import GroupView
 from reporting.api.Views.LanguageView import LanguageView
@@ -35,10 +34,6 @@ urlpatterns = patterns('',
     url(r'department/', DepartmentView.as_view()),
     url(r'department/(?P<pk>\d+)', DepartmentView.as_view()),
     url(r'departments/', DepartmentView.as_view()),
-
-    url(r'event/', EventView.as_view()),
-    url(r'event/(?P<pk>\d+)', EventView.as_view()),
-    url(r'events/', EventView.as_view()),
 
     url(r'faculty/', FacultyView.as_view()),
     url(r'faculty/(?P<pk>\d+)', FacultyView.as_view()),

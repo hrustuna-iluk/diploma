@@ -2,7 +2,7 @@ from reporting.models import Benefits
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication, permissions, status
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.template.context import RequestContext
 from rest_framework import serializers, viewsets
 from django.shortcuts import get_object_or_404
@@ -19,7 +19,7 @@ class BenefitsView(APIView):
         else:
             snippet = Benefits.objects.all()
 
-        return Response(serialize('json', snippet))
+        return HttpResponse(serialize('json', snippet), content_type='application/json')
 
     def post(self, request, format=None):
         serializer = BenefitsSerializer(data=request.data, context=RequestContext(request))

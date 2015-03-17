@@ -2,7 +2,7 @@ from reporting.models import Group
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication, permissions, status
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.template.context import RequestContext
 from rest_framework import serializers, viewsets
 from django.shortcuts import get_object_or_404
@@ -19,10 +19,10 @@ class GroupView(APIView):
         else:
             snippet = Group.objects.all()
 
-        return Response(serialize('json', snippet, relations=(
+        return HttpResponse(serialize('json', snippet, relations=(
             'department', 'leader', 'deputyHeadman', 'organizer',
             'culturalWork', 'healthWork', 'editorialBoard', 'otherTasks', 'curator'
-        )))
+        )), content_type='application/json')
 
     def post(self, request, format=None):
         serializer = GroupSerializer(data=request.data, context=RequestContext(request))
