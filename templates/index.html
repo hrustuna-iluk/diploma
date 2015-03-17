@@ -149,13 +149,14 @@
                 </div>
                 <div class="content group-content">
                     <a href="#reduction/<%=cid%>" class="group-links">Зведення</a>
-                    <a href="#students/<%=cid%>" class="group-links">Студенти</a>
+                    <a href="#students/<%=id%>" class="group-links">Студенти</a>
                 </div>
                 <div class="brand bg-dark opacity">
                      <span class="text">
                         Група№ <%=number%>
                          <br/>
-                         Куратор: <%=curator.surname%>" "<%=curator.name=> " "<%=curator.middleName=>
+                         Куратор: <%if(curator){ %>
+                         <%=curator.surname%><%=curator.name%><%=curator.middleName%><%}%>
                       </span>
                 </div>
             </div>
@@ -218,6 +219,7 @@
             <td><%=sex%></td>
             <td><%=dateBirth%></td>
             <td><%=address%></td>
+            <td><%=email%></td>
             <td><%=phone%></td>
             <td><%=nationality%></td>
             <td><%=maritalStatus%></td>
@@ -256,6 +258,7 @@
                                             <input type="text" placeholder="Постійна адреса" name="studentAddress" id="studentAddress" class="form-control">
                                             <input type="text" placeholder="Поточна адреса" name="currentAddress" id="currentAddress" class="form-control">
                                             <input type="text" placeholder="Телефон" name="studentTelephone" id="studentTelephone" class="form-control">
+                                            <input type="email" placeholder="E-mail" name="studentEmail" id="studentEmail" class="form-control">
                                             <input type="text" placeholder="Національність" name="studentNationality" id="studentNationality" class="form-control">
                                             <input type="text" placeholder="Школа" name="studentSchool" id="studentSchool" class="form-control">
 
@@ -285,6 +288,9 @@
 
                                             <label for="isProcurement" style="color: white;">Державник</label>
                                             <input type="checkbox" id="isProcurement" name="isProcurement" >
+
+                                            <button  class="button" name="studentParents" id="studentParents">Батьки</button>
+                                            <button  class="button" name="additionalStudentData" id="additionalStudentData">Додатково</button>
                                         </div>
 
                                         <button  class="button no-display" name="changeStudentData" id="changeStudentData">Змінити</button>
@@ -305,6 +311,7 @@
                                             <th>Дата народження</th>
                                             <th>Адреса</th>
                                             <th>Телефон</th>
+                                            <th>E-mail</th>
                                             <th>Національність</th>
                                             <th>Сімейний статус</th>
                                             <th>Мова, яку вивчає</th>
@@ -319,6 +326,36 @@
                                 </table>
 
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+             <!--Student Parents Modal Template-->
+        <script type="text/template" id="studentParentsModalTemplate">
+            <div class="modal fade ">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Додати інформацію про батьків</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <h5>Інформація про батька</h5>
+                            <input type="text" placeholder="Прізвище,Ім'я, По батькові" name="fatherFullName" id="fatherFullName" class="form-control">
+                            <input type="text" placeholder="Місце роботи, посада" name="fatherPosition" id="fatherPosition" class="form-control">
+                            <input type="text" placeholder="Телефон" name="fatherPhone" id="fatherPhone" class="form-control">
+
+                            <h5>Інформація про матір</h5>
+                            <input type="text" placeholder="Прізвище,Ім'я, По батькові" name="motherFullName" id="motherFullName" class="form-control">
+                            <input type="text" placeholder="Місце роботи, посада" name="motherPosition" id="motherPosition" class="form-control">
+                            <input type="text" placeholder="Телефон" name="motherPhone" id="motherPhone" class="form-control">
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default closeModal" data-dismiss="modal">Закрити</button>
+                            <button type="button" class="btn btn-primary addParents">Додати</button>
                         </div>
                     </div>
                 </div>
@@ -646,10 +683,104 @@
         </script>
 
          <!--All Information Tab Template-->
-        <script type="text/template" id="allInformationTabTemplate"></script>
+        <script type="text/template" id="allInformationTabTemplate">
+            <h3>ВІДОМОСТІ ПРО СТУДЕНТІВ АКАДЕМІЧНОЇ ГРУПИ</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Прізвище, ім'я, по батькові</th>
+                        <th>Сума балів</th>
+                        <th>Бали з математики</th>
+                        <th>Телефон</th>
+                        <th>e-mail</th>
+                        <th>Адреса</th>
+                        <th>Телефони батьків</th>
+                        <th>Адреса батьків</th>
+                        <th>Школа яку закінчив</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </script>
+
+        <!--All Information Tab Element Template-->
+        <script type="text/template" id="allInformationTabElementTemplate">
+            <tr>
+                <td></td>
+                <td><%=surname%> <%=name%> <%=middleName%></td>
+                <td><%%></td>
+                <td><%=%></td>
+                <td><%=telephone%></td>
+                <td><%=email%></td>
+                <td><%=currentAddress%></td>
+                <td>
+                    <span><% if(father.phone){ %> <%=father.phone%> <% }else{ - }%></span>
+                    <span><% if(mother.phone){ %> <%=mother.phone%> <% }else{ - }%></span>
+                </td>
+                <td><%=address%></td>
+                <td><%=school%></td>
+            </tr>
+        </script>
 
          <!--Public Plan Tab-->
-        <script type="text/template" id="publicPlanTabTemplate"></script>
+        <script type="text/template" id="publicPlanTabTemplate">
+            <h3>План громадсько-виховної роботи</h3>
+            <table class="table">
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </table>
+        </script>
+
+         <!--Public Plan Tab Element-->
+        <script type="text/template" id="publicPlanTabElementTemplate">
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <div class="toolbar transparent place-right">
+                        <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-publicPlan"></i></button>
+                    </div>
+                </td>
+                <td>
+                    <div class="toolbar transparent place-right">
+                        <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white remove-publicPlan"></i></button>
+                    </div>
+                </td>
+            </tr>
+        </script>
+
+        <!--Public Plan Tab Form-->
+        <script type="text/template" id="publicPlanTabFormTemplate">
+            <div class="add-publicPlan-form">
+                <form role="form" id="addPublicPlanForm" onsubmit="return false;">
+                    <div class="form-group">
+                        <input type="text" placeholder="Захід" name="PublicPlanEvent" id="PublicPlanEvent" class="form-control">
+                        <input type="text" placeholder="Дата" name="PublicPlanDate" id="PublicPlanDate" class="form-control">
+                        <input type="text" placeholder="Відповідальний" name="PublicPlanResponsive" id="PublicPlanResponsive" class="form-control">
+                        <input type="text" placeholder="Примітка" name="PublicPlanDescription" id="PublicPlanDescription" class="form-control">
+                    </div>
+
+                     <button  class="no-display button" name="changePublicPlan" id="changePublicPlan">Змінити</button>
+                     <button  class="button" name="addPublicPlan" id="addPublicPlan">Додати</button>
+                </form>
+            </div>
+        </script>
 
          <!---->
         <script type="text/template"></script>
@@ -674,7 +805,6 @@
         <!--Models-->
         <script src="{% static 'frontend/js/Models/AdditionalModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/BenefitsModel.js' %}"></script>
-        <script src="{% static 'frontend/js/Models/EventModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/LanguageModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/PublicOrdersModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/PublicPlanModel.js' %}"></script>
@@ -725,11 +855,12 @@
         <script src="{% static 'frontend/js/Views/AttendanceView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/ReductionHeaderView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/ReductionView.js' %}"></script>
-        <script src="{% static 'frontend/js/Views/WrapTabView.js.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/WrapTabView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/PublicOrdersTabView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/DataTabElementView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/DataTabView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/TabView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/StudentParentsModalView.js' %}"></script>
 
         <!--Routes-->
         <script src="{% static 'frontend/js/Routes/Route.js' %}"></script>

@@ -25,12 +25,14 @@ var StudentsView = BaseView.extend({
         studentBenefitsSelect: '#studentBenefits',
         studentPublicOrdersSelect: '#publicOrders',
         isProcurement: '#isProcurement',
-        studentCurrentAddress: '#currentAddress'
+        studentCurrentAddress: '#currentAddress',
+        studentEmail: "#studentEmail"
         //studentAdditionals
 
     },
 
     initialize: function(options) {
+        this.model = new StudentModel();
         this.collection = options.collection;
         this.benefitsCollection = options.benefitsCollection;
         this.languagesCollection = options.languagesCollection;
@@ -43,6 +45,16 @@ var StudentsView = BaseView.extend({
     _attachEvents: function() {
         this.$(this.selectors.createStudent).on('click', $.proxy(this._addStudent, this));
         this.$(this.selectors.changeStudentData).on('click', $.proxy(this._changeStudentData, this));
+        this.$('#studentParents').on('click', $.proxy(this._addDataParents, this));
+        this.$('#additionalStudentData').on('click', $.proxy(this._addAdditionalStudentData, this));
+    },
+
+    _addAdditionalStudentData: function() {},
+
+    _addDataParents: function() {
+        new StudentParentsModalView({
+            studentModel: this.model
+        }).render().el;
     },
 
     _onStudentChange: function(model) {
@@ -61,6 +73,8 @@ var StudentsView = BaseView.extend({
         $(this.selectors.studentBenefitsSelect).val(model.getBenefits());
         $(this.selectors.studentPublicOrdersSelect).val(model.getPublicOrders());
         $(this.selectors.isProcurement).val(model.getIsProcurement());
+        $(this.selectors.studentEmail).val(model.getEmail);
+
 
         this.$(this.selectors.changeStudentData).data('model', model);
         this.$(this.selectors.createStudent).addClass('no-display');
@@ -83,7 +97,8 @@ var StudentsView = BaseView.extend({
             publicOrders: this.$(this.selectors.studentPublicOrdersSelect).val(),
             benefits: this.$(this.selectors.studentBenefitsSelect).val(),
             isProcurement: this.$(this.selectors.isProcurement).val(),
-            language: this.$(this.selectors.studentStudyLanguageSelect).val()
+            language: this.$(this.selectors.studentStudyLanguageSelect).val(),
+            email: this.$(this.selectors.studentEmail).val()
         });
         this.$(this.selectors.studentSurnameInput).val("");
         this.$(this.selectors.studentNameInput).val("");
@@ -93,15 +108,16 @@ var StudentsView = BaseView.extend({
         this.$(this.selectors.studentPhoneInput).val("");
         this.$(this.selectors.studentNationalityInput).val("");
         this.$(this.selectors.studentSchoolInput).val("");
+        this.$(this.selectors.studentEmail).val("");
 
     },
 
     _addStudent: function() {
-        var studentModel = new StudentModel({
+        this.model.set({
             group: this.group
         });
-        this._studentData(studentModel);
-        this.collection.add(studentModel);
+        this._studentData(this.model);
+        this.collection.add(this.model);
     },
 
     _changeStudentData: function() {

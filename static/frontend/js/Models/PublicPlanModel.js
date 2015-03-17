@@ -4,7 +4,7 @@ var PublicPlanModel = Backbone.Model.extend ({
 
     defaults: function() {
         return {
-            event: EventModel,
+            event: "",
             date: 0,
             responsive: "",
             description: "",

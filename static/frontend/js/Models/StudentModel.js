@@ -21,6 +21,7 @@ var StudentModel = Backbone.Model.extend ({
             maritalStatus: "",
             sex: "",
             school: "",
+            email: "",
             additional: AdditionalModel,
             publicOrders: PublicOrdersModel
         }
@@ -156,5 +157,9 @@ var StudentModel = Backbone.Model.extend ({
 
     getCurrentAddress: function() {
         return this.get('currentAddress');
+    },
+
+    getEmail: function() {
+        return this.get('email');
     }
 });
