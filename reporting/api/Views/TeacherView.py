@@ -22,15 +22,19 @@ class TeacherView(APIView):
         return HttpResponse(serialize('json', snippet, relations=('department', )), content_type='application/json')
 
     def post(self, request, format=None):
-        serializer = TeacherSerializer(data=request.data, context=RequestContext(request))
+        data = request.data
+        data['department'] = data['department']['id']
+        serializer = TeacherSerializer(data=data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, format=None):
+        data = request.data
+        data['department'] = data['department']['id']
         snippet = get_object_or_404(Teacher, pk=request.data["id"])
-        serializer = TeacherSerializer(snippet, data=request.data, context=RequestContext(request))
+        serializer = TeacherSerializer(snippet, data=data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
