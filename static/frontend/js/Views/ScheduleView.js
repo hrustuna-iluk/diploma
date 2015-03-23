@@ -4,7 +4,7 @@ var ScheduleView = BaseView.extend({
 
     initialize: function(options) {
         this.collection = options.collection;
-        this.teacherCollection = options.teacherCollection;
+        this.teachersCollection = options.teachersCollection;
         this.group = options.group;
     },
 
@@ -23,7 +23,7 @@ var ScheduleView = BaseView.extend({
                     numberOfWeek: this.$('select').val(),
                     group: this.group,
                     collection: this.collection,
-                    teacherCollection: this.teacherCollection
+                    teachersCollection: this.teachersCollection
                 }).render().$el
             );
             numberOfClass++;

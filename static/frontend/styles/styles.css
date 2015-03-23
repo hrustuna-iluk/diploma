@@ -347,3 +347,13 @@ th {
 #journalTable ul li.active a{
     background-color: rgba(0, 0, 0, 0.9);
 }
+
+.groupCurator {
+    width: 212px;
+    display: inline-block;
+}
+
+#addCurator {
+    height: 35px;
+    border-radius: 4px;
+}

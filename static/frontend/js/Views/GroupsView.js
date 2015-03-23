@@ -2,24 +2,37 @@ var GroupsView = BaseView.extend({
 
     template: _.template($("#groupsTemplate").html()),
 
+    optionCuratorTemplate: _.template($("#optionCuratorTemplate").html()),
+
     selectors: {
         createGroup: "#addGroup",
         changeGroup: "#changeGroup",
         groupNumber: "#groupNumber",
         groupYear: "#groupYear",
-        groupTuition: "#groupTuition"
+        groupTuition: "#groupTuition",
+        addCurator: "#addCurator"
     },
 
     initialize: function(options) {
         this.collection = options.collection;
+        this.department = options.department;
+        this.teachersCollection = options.teachersCollection;
         this.collection.on("add", $.proxy(this._renderGroup, this));
         this.publisher.on('change group', $.proxy(this._onGroupChange, this));
+        this.teachersCollection.reset().fetch();
         this.collection.reset().fetch();
     },
 
     _attachEvents: function() {
         this.$(this.selectors.createGroup).on('click', $.proxy(this._addGroup, this));
         this.$(this.selectors.changeGroup).on('click', $.proxy(this._changeGroup, this));
+        this.$(this.selectors.addCurator).on('click', $.proxy(this._addCurator, this));
+    },
+
+    _addCurator: function(){
+        new AddCuratorModalView({
+            department: this.department
+        }).render().$el;
     },
 
     _onGroupChange: function(model) {
@@ -67,6 +80,11 @@ var GroupsView = BaseView.extend({
         );
     },
 
+    _fillCuratorList: function() {
+        this.teachersCollection.each(function(model) {
+            this.$('#groupCurator').append(this.optionCuratorTemplate(model.toJSON()));
+        }, this);
+    },
 
     render: function() {
         this.$el.html(this.template);

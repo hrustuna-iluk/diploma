@@ -9,7 +9,7 @@ var ClassesView = BaseView.extend ({
         this.collection = options.collection;
         this.numberOfWeek = options.numberOfWeek;
         this.scheduleModel = options.scheduleModel;
-        this.teacherCollection = options.teacherCollection;
+        this.teachersCollection = options.teachersCollection;
     },
 
     _buildRow: function() {
@@ -24,7 +24,7 @@ var ClassesView = BaseView.extend ({
                this.$el.append(
                    new ClassView({
                        model: model,
-                       teacherCollection: this.teacherCollection
+                       teachersCollection: this.teachersCollection
                    }).render().$el
                );
             }, this));

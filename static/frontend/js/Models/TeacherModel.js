@@ -7,7 +7,7 @@ var TeacherModel = Backbone.Model.extend ({
             name: "",
             surname: "",
             middleName: "",
-            position: PositionModel,
+            position: "",
             department: DepartmentModel
         }
     },
@@ -34,6 +34,10 @@ var TeacherModel = Backbone.Model.extend ({
 
     getMiddleName: function() {
         return this.get("middleName");
+    },
+
+    setPosition: function(value) {
+        this.set("position", value);
     }
 
 });

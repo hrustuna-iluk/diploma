@@ -49,7 +49,11 @@ var StudentsView = BaseView.extend({
         this.$('#additionalStudentData').on('click', $.proxy(this._addAdditionalStudentData, this));
     },
 
-    _addAdditionalStudentData: function() {},
+    _addAdditionalStudentData: function() {
+          new StudentAdditionalModalView({
+            studentModel: this.model
+        }).render().el;
+    },
 
     _addDataParents: function() {
         new StudentParentsModalView({

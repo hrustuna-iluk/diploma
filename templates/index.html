@@ -92,6 +92,9 @@
                                             <input type="text" placeholder="По батькові" name="teacherMiddleName" id="teacherMiddleName" class="form-control">
                                             <select id="teacherPosition" class="form-control">
                                                 <option disabled>Посада</option>
+                                                <option value="dean">Декан</option>
+                                                <option value="Head of Department">Завідувач кафедри</option>
+                                                <option value="teacher">Викладач</option>
                                             </select>
                                         </div>
 
@@ -128,7 +131,7 @@
             <td><%=name%></td>
             <td><%=surname%></td>
             <td><%=middleName%></td>
-            <td><%=position.title%></td>
+            <td><%=position%></td>
             <td><%=department.title%></td>
             <td colspan="2">
                 <div class="toolbar transparent place-right">
@@ -148,7 +151,7 @@
                     <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white remove-group"></i></button>
                 </div>
                 <div class="content group-content">
-                    <a href="#reduction/<%=cid%>" class="group-links">Зведення</a>
+                    <a href="#reduction/<%=id%>" class="group-links">Зведення</a>
                     <a href="#students/<%=id%>" class="group-links">Студенти</a>
                 </div>
                 <div class="brand bg-dark opacity">
@@ -182,6 +185,13 @@
                                                 <option value="extramural">Заочна форма</option>
                                             </select>
 
+                                            <div>
+                                                <select id="groupCurator" class="form-control groupCurator">
+                                                    <option disabled>Куратор</option>
+                                                </select>
+                                                <button id="addCurator">+</button>
+                                            </div>
+
                                         </div>
 
                                           <button  class="button no-display" name="changeGroup" id="changeGroup">Змінити</button>
@@ -203,6 +213,37 @@
                                 </div>
                             </div>
                             <div class="span11" id="groups" ></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <!--Select option template for curator-->
+        <script type="text/template" id="optionCuratorTemplate">
+            <option value="<%=id%>">
+                <%=name%> <%=surname%>
+            </option>
+        </script>
+
+        <!--Add Curator Modal Template-->
+        <script type="text/template" id="addTeacherModalTemplate">
+            <div class="modal fade ">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Додати викладача</h4>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" name="teacherName" id="teacherName" placeholder="Ім'я" class="form-control">
+                            <input type="text" name="teacherSurname" id="teacherSurname" placeholder="Прізвище" class="form-control">
+                            <input type="text" name="teacherMiddleName" id="teacherMiddleName" placeholder="По батькові" class="form-control">
+                            <input type="text" name="teacherPosition" id="teacherPosition" placeholder="Посада" class="form-control">
+                            <input type="text" name="teacherDepartment" id="teacherDepartment" placeholder="Кафедра" class="form-control">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default closeModal" data-dismiss="modal">Закрити</button>
+                            <button type="button" class="btn btn-primary addTeacher">Додати</button>
                         </div>
                     </div>
                 </div>
@@ -286,11 +327,13 @@
                                                 <option disabled>Громадські доручення</option>
                                             </select>
 
-                                            <label for="isProcurement" style="color: white;">Державник</label>
-                                            <input type="checkbox" id="isProcurement" name="isProcurement" >
+                                            <button  class="btn btn-default" name="studentParents" id="studentParents">+ Батьки</button>
+                                            <button  class="btn btn-default" name="additionalStudentData" id="additionalStudentData">+ Додатково</button>
 
-                                            <button  class="button" name="studentParents" id="studentParents">Батьки</button>
-                                            <button  class="button" name="additionalStudentData" id="additionalStudentData">Додатково</button>
+                                            <div>
+                                                <input type="checkbox" id="isProcurement" name="isProcurement" >
+                                                <label for="isProcurement" style="color: white; display: inline-block;">Державник</label>
+                                            </div>
                                         </div>
 
                                         <button  class="button no-display" name="changeStudentData" id="changeStudentData">Змінити</button>
@@ -332,7 +375,30 @@
             </div>
         </script>
 
-             <!--Student Parents Modal Template-->
+        <!--Student Additional Modal Template-->
+        <script type="text/template" id="studentAdditionalModalTemplate">
+               <div class="modal fade ">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Додаткова інформація про студента</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <input type="text" placeholder="Назва" name="title" id="title" class="form-control">
+                            <input type="text" placeholder="Значення" name="vaue" id="vaue" class="form-control">
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default closeModal" data-dismiss="modal">Закрити</button>
+                            <button type="button" class="btn btn-primary addAdditionalData">Додати</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+         <!--Student Parents Modal Template-->
         <script type="text/template" id="studentParentsModalTemplate">
             <div class="modal fade ">
                 <div class="modal-dialog">
@@ -438,7 +504,7 @@
                             <div class="span2" >
 
                                 <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Розклад">
-                                    <a href="#scheduler/<%=group.cid%>">
+                                    <a href="#scheduler/<%=group.id%>">
                                         <div class="tile-content icon">
                                             <i class="icon-grid"></i>
                                         </div>
@@ -452,9 +518,17 @@
                                 </div>
 
                                 <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Журнал викладача">
-                                    <a href="#journal/<%=group.cid%>">
+                                    <a href="#journal/<%=group.id%>">
                                         <div class="tile-content icon">
                                             <i class="icon-book"></i>
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Громадські доручення">
+                                    <a href="#publicOrders/<%=group.id%>">
+                                        <div class="tile-content icon">
+                                            <i class="icon-user-3"></i>
                                         </div>
                                     </a>
                                 </div>
@@ -520,7 +594,7 @@
 
         <!--Select option template for teachers-->
         <script type="text/template" id="optionTeacherTemplate">
-            <option value="<%=cid%>">
+            <option value="<%=id%>">
                 <%=name%> <%=surname%>
             </option>
         </script>
@@ -545,27 +619,27 @@
                                 <div role="tabpanel">
                                     <!-- Nav tabs -->
                                     <ul class="nav nav-tabs" role="tablist">
-                                        <li role="presentation" class="active"><a href="#wrapTab"
+                                        <li role="presentation" class="wrapTab active"><a href="#wrapTab"
                                                                                   aria-controls="wrapTab" role="tab"
                                                                                   data-toggle="tab">Обгортка</a></li>
-                                        <li role="presentation"><a href="#publicOrdersTab"
+                                        <li role="presentation" class="publicOrdersTab"><a href="#publicOrdersTab"
                                                                    aria-controls="publicOrdersTab" role="tab"
                                                                    data-toggle="tab">Розподіл громад. доручень</a></li>
-                                        <li role="presentation"><a href="#dataTab"
+                                        <li role="presentation" class="dataTab"><a href="#dataTab"
                                                                    aria-controls="dataTab" role="tab" data-toggle="tab">Відомості</a></li>
-                                        <li role="presentation"><a href="#allInformationTab"
+                                        <li role="presentation" class="allInformationTab"><a href="#allInformationTab"
                                                                    aria-controls="allInformationTab" role="tab"
                                                                    data-toggle="tab">Інформація для мене</a></li>
-                                        <li role="presentation"><a href="#publicPlanTab" aria-controls="publicPlanTab" role="tab"
+                                        <li role="presentation" class="publicPlanTab"><a href="#publicPlanTab" aria-controls="publicPlanTab" role="tab"
                                                                    data-toggle="tab">План громадсько-вих. роботи</a></li>
-                                        <li role="presentation"><a href="#attendanceTab" aria-controls="attendanceTab" role="tab"
+                                        <li role="presentation" class="attendanceTab"><a href="#attendanceTab" aria-controls="attendanceTab" role="tab"
                                                                    data-toggle="tab">Облік відвідувань</a></li>
-                                        <li role="presentation"><a href="#educationalEventsTab"
+                                        <li role="presentation" class="educationalEventsTab"><a href="#educationalEventsTab"
                                                                    aria-controls="educationalEventsTab" role="tab"
                                                                    data-toggle="tab">Громадсько-вих. заходи</a></li>
-                                        <li role="presentation"><a href="#individualWorkTab" aria-controls="individualWorkTab" role="tab"
+                                        <li role="presentation" class="individualWorkTab"><a href="#individualWorkTab" aria-controls="individualWorkTab" role="tab"
                                                                    data-toggle="tab">Індивід. робота зі студ.</a></li>
-                                        <li role="presentation"><a href="#reportTab" aria-controls="reportTab" role="tab"
+                                        <li role="presentation" class="reportTab"><a href="#reportTab" aria-controls="reportTab" role="tab"
                                                                    data-toggle="tab">Звіт про громад.-вих. роботу</a></li>
                                     </ul>
 
@@ -809,7 +883,6 @@
         <script src="{% static 'frontend/js/Models/PublicOrdersModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/PublicPlanModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/ReportModel.js' %}"></script>
-        <script src="{% static 'frontend/js/Models/PositionModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/TeacherModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/GroupModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/FatherModel.js' %}"></script>
@@ -834,7 +907,7 @@
         <script src="{% static 'frontend/js/Collections/PublicOrdersCollection.js' %}"></script>
         <script src="{% static 'frontend/js/Collections/LanguagesCollection.js' %}"></script>
         <script src="{% static 'frontend/js/Collections/AttendanceCollection.js' %}"></script>
-
+        <script src="{% static 'frontend/js/Collections/AdditionalCollection.js' %}"></script>
 
         <!--Views-->
         <script src="{% static 'frontend/js/Views/BaseView.js' %}"></script>
@@ -859,8 +932,10 @@
         <script src="{% static 'frontend/js/Views/PublicOrdersTabView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/DataTabElementView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/DataTabView.js' %}"></script>
-        <script src="{% static 'frontend/js/Views/TabView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/TeacherJournalView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/StudentParentsModalView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/StudentAdditionalModalView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/AddTeacherModalView.js' %}"></script>
 
         <!--Routes-->
         <script src="{% static 'frontend/js/Routes/Route.js' %}"></script>

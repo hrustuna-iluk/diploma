@@ -23,6 +23,7 @@ var Route = Backbone.Router.extend({
         this.benefitsCollection = new BenefitsCollection();
         this.publicOrdersCollection = new PublicOrdersCollection();
         this.attendanceCollection = new AttendanceCollection();
+        this.departmentsCollection.fetch();
         this._initializeEvents();
 
     },
@@ -46,12 +47,16 @@ var Route = Backbone.Router.extend({
     },
 
     teachers: function(departmentId) {
-        var department = this.departmentsCollection.findWhere({cid: departmentId});
-        var teachersView = new TeachersView({
-            department: department,
-            collection: this.teachersCollection
+        this.departmentsCollection.fetch({
+            success: $.proxy(function () {
+                var department = this.departmentsCollection.findWhere({id: +departmentId});
+                var teachersView = new TeachersView({
+                    department: department,
+                    collection: this.teachersCollection
+                });
+                this.routeChanged(teachersView);
+            }, this)
         });
-        this.routeChanged(teachersView);
     },
 
     students: function(groupId) {
@@ -67,48 +72,64 @@ var Route = Backbone.Router.extend({
     },
 
     groups: function(departmentId) {
-        var department = this.departmentsCollection.findWhere({cid: departmentId});
-        var groupsView = new GroupsView({
-            department: department,
-            collection: this.groupsCollection
+         this.departmentsCollection.fetch({
+            success: $.proxy(function () {
+                var department = this.departmentsCollection.findWhere({id: +departmentId});
+                var groupsView = new GroupsView({
+                    department: department,
+                    collection: this.groupsCollection,
+                    teachersCollection: this.teachersCollection
+                });
+                this.routeChanged(groupsView);
+            }, this)
         });
-        this.routeChanged(groupsView);
     },
 
     reduction: function(groupId) {
-        var group = this.groupsCollection.findWhere({cid: groupId});
-        var reduction = this.attendanceCollection.find({group:groupId});
-        if(!reduction) {
-            reduction = new AttendanceModel({
-                group: group
-            })
-        }
-        var reductionView = new ReductionView({
-            model: reduction,
-            group: group,
-            collection: this.passesCollection
+        this.groupsCollection.fetch({
+            success: $.proxy(function () {
+                var group = this.groupsCollection.findWhere({id: +groupId});
+                var reduction = this.attendanceCollection.find({group: +groupId});
+                if(!reduction) {
+                    reduction = new AttendanceModel({
+                        group: group
+                    })
+                }
+                var reductionView = new ReductionView({
+                    model: reduction,
+                    group: group,
+                    collection: this.passesCollection
+                });
+                this.routeChanged(reductionView);
+            }, this)
         });
-        this.routeChanged(reductionView);
     },
 
     scheduler: function(groupId) {
-        //this.classesCollection.fetch();
-        var group = this.groupsCollection.findWhere({cid: groupId});
-        var schedulerView = new ScheduleView({
-            group: group,
-            collection: this.classesCollection,
-            teacherCollection: this.teacherCollection
+        this.groupsCollection.fetch({
+            success: $.proxy(function () {
+                var group = this.groupsCollection.findWhere({id: +groupId});
+                var schedulerView = new ScheduleView({
+                    group: group,
+                    collection: this.classesCollection,
+                    teachersCollection: this.teachersCollection
+                });
+                this.routeChanged(schedulerView);
+            }, this)
         });
-        this.routeChanged(schedulerView);
     },
 
     journal: function(groupId) {
-        var group = this.groupsCollection.findWhere({cid: groupId});
-        var tabView = new TabView({
-            group: group,
-            collection: this.studentsCollection
+        this.groupsCollection.fetch({
+            success: $.proxy(function () {
+                var group = this.groupsCollection.findWhere({id: +groupId});
+                var teacherJournalView = new TeacherJournalView({
+                    group: group,
+                    studentsCollection: this.studentsCollection
+                });
+                this.routeChanged(teacherJournalView);
+             }, this)
         });
-        this.routeChanged(tabView);
     },
 
     routeChanged: function(view) {
