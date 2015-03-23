@@ -25,15 +25,35 @@ class GroupView(APIView):
         )), content_type='application/json')
 
     def post(self, request, format=None):
-        serializer = GroupSerializer(data=request.data, context=RequestContext(request))
+        data = request.data
+        data['department'] = data['department']['id']
+        data['leader'] = data['leader']['id']
+        data['deputyHeadman'] = data['deputyHeadman']['id']
+        data['organizer'] = data['organizer']['id']
+        data['culturalWork'] = data['culturalWork']['id']
+        data['healthWork'] = data['healthWork']['id']
+        data['editorialBoard'] = [item['id'] for item in data['editorialBoard']]
+        data['otherTasks'] = [item['id'] for item in data['otherTasks']]
+        data['curator'] = data['curator']['id']
+        serializer = GroupSerializer(data=data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, format=None):
+        data = request.data
+        data['department'] = data['department']['id']
+        data['leader'] = data['leader']['id']
+        data['deputyHeadman'] = data['deputyHeadman']['id']
+        data['organizer'] = data['organizer']['id']
+        data['culturalWork'] = data['culturalWork']['id']
+        data['healthWork'] = data['healthWork']['id']
+        data['editorialBoard'] = [item['id'] for item in data['editorialBoard']]
+        data['otherTasks'] = [item['id'] for item in data['otherTasks']]
+        data['curator'] = data['curator']['id']
         snippet = get_object_or_404(Group, pk=request.data["id"])
-        serializer = GroupSerializer(snippet, data=request.data, context=RequestContext(request))
+        serializer = GroupSerializer(snippet, data=data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
