@@ -125,6 +125,7 @@ class Student(models.Model):
     maritalStatus = models.CharField(max_length=50, choices=MARITAL_STATUSES)
     sex = models.CharField(max_length=50, choices=SEX)
     school = models.CharField(max_length=255)
+    additional = models.ManyToManyField('Additional', null=True, blank=True)
 
     class Meta:
         verbose_name = 'Student'
@@ -145,7 +146,6 @@ class Parents(models.Model):
 class Additional(models.Model):
     title = models.CharField(max_length=255)
     value = models.CharField(max_length=255)
-    student = models.ForeignKey(Student, null=True, blank=True)
 
     def __str__(self):
         return self.title + ' ' + self.student.firstName + ' ' + self.student.lastName
@@ -175,11 +175,12 @@ class StudentWork(models.Model):
 
 class PublicPlan(models.Model):
     event = models.CharField(max_length=255)
-    date = models.DateTimeField()
+    date = models.CharField(max_length=100)
     responsive = models.ForeignKey(Teacher, null=True, blank=True)
     description = models.CharField(max_length=255, blank=True)
     amount_hours = models.FloatField()
     amount_present = models.IntegerField()
+    semester = models.IntegerField()
 
     def __str__(self):
         return self.description
