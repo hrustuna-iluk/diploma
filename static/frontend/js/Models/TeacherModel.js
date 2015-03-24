@@ -4,8 +4,8 @@ var TeacherModel = Backbone.Model.extend ({
 
     defaults: function() {
         return {
-            name: "",
-            surname: "",
+            firstName: "",
+            lastName: "",
             middleName: "",
             position: "",
             department: DepartmentModel
@@ -13,19 +13,19 @@ var TeacherModel = Backbone.Model.extend ({
     },
 
     setSurname: function(value) {
-        this.set("surname", value);
+        this.set("lastName", value);
     },
 
     getSurname: function() {
-        return this.get("surname");
+        return this.get("lastName");
     },
 
     setName: function(value) {
-        this.set("name", value);
+        this.set("firstName", value);
     },
 
     getName: function() {
-        return this.get("name");
+        return this.get("firstName");
     },
 
     setMiddleName: function(value) {

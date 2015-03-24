@@ -335,11 +335,11 @@ th {
     font-size: 8pt;
 }
 
-#journalTable ul li a{
+#journalTable ul li a, h3.tabTableHeader{
     color: white;
 }
 
-#journalTable ul li a:hover{
+#journalTable ul li a:hover, table.tabTable {
     color: white;
     background-color: rgba(0, 0, 0, 0.7);
 }
@@ -356,4 +356,19 @@ th {
 #addCurator {
     height: 35px;
     border-radius: 4px;
+}
+
+.buttons, form .btn {
+    margin: 5px;
+}
+
+#addPublicPlanForm, #addPublicEventForm {
+    margin-top: 130px;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 50px 20px 50px 20px;
+}
+
+.firstTable, .secondTable {
+    height: 100px;
+    overflow-y: auto;
 }

@@ -4,10 +4,13 @@ var StartPageView = BaseView.extend ({
 
     template: _.template($("#startPageTemplate").html()),
 
+    optionHeadOfDepartmentTemplate: _.template($("#optionHeadOfDepartmentTemplate").html()),
+
     selectors: {
         createDepartment: "#addDepartment",
         changeDepartment: "#changeDepartment",
-        departmentTitle: "#departmentName"
+        departmentTitle: "#departmentName",
+        headOfDepartment: "#headOfDepartment"
     },
 
     constants: {
@@ -16,6 +19,7 @@ var StartPageView = BaseView.extend ({
 
     initialize: function(options) {
         this.collection = options.collection;
+        this.teachersCollection = options.teachersCollection;
         this.collection.on("add", $.proxy(this._renderDepartment, this));
         this.publisher.on('change department', $.proxy(this._onDepartmentChange, this));
         this.collection.reset().fetch();
@@ -53,10 +57,13 @@ var StartPageView = BaseView.extend ({
     },
 
     _changeDepartment: function() {
-        var departmentModel = this.$(this.selectors.changeDepartment).data('model');
-        var departmentTitle = this.$(this.selectors.departmentTitle).val();
+        var departmentModel = this.$(this.selectors.changeDepartment).data('model'),
+            headOfDepartment = this.$(this.selectors.headOfDepartment).val();
+
+        departmentModel.setHeadOfDepartment( +headOfDepartment );
+        departmentModel.setTitle(this.$(this.selectors.departmentTitle).val());
+        departmentModel.save();
         this.$(this.selectors.departmentTitle).val("");
-        departmentModel.setTitle(departmentTitle);
         this.$(this.selectors.changeDepartment).addClass('no-display');
         this.$(this.selectors.createDepartment).removeClass('no-display');
     },
@@ -69,10 +76,20 @@ var StartPageView = BaseView.extend ({
         );
     },
 
+     _fillHeadOfDepartmentList: function() {
+        this.teachersCollection.reset().fetch({
+            success: $.proxy(function () {
+                this.teachersCollection.each(function(model) {
+                    this.$('#headOfDepartment').append(this.optionHeadOfDepartmentTemplate(model.toJSON()));
+                }, this);
+            }, this)
+        });
+    },
 
     render: function() {
         this.$el.html(this.template);
         this._attachEvents();
+        this._fillHeadOfDepartmentList();
         return this;
     }
 

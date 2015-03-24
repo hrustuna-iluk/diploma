@@ -21,8 +21,8 @@ var Route = Backbone.Router.extend({
         this.classesCollection = new ClassesCollection();
         this.languagesCollection = new LanguagesCollection();
         this.benefitsCollection = new BenefitsCollection();
-        this.publicOrdersCollection = new PublicOrdersCollection();
         this.attendanceCollection = new AttendanceCollection();
+        this.publicPlanCollection = new PublicPlanCollection();
         this.departmentsCollection.fetch();
         this._initializeEvents();
 
@@ -41,7 +41,8 @@ var Route = Backbone.Router.extend({
 
     startPage: function() {
         var startPageView = new StartPageView({
-            collection: this.departmentsCollection
+            collection: this.departmentsCollection,
+            teachersCollection: this.teachersCollection
         });
         this.routeChanged(startPageView);
     },
@@ -65,7 +66,6 @@ var Route = Backbone.Router.extend({
             group: group,
             collection: this.studentsCollection,
             benefitsCollection: this.benefitsCollection,
-            publicOrdersCollection: this.publicOrdersCollection,
             languagesCollection: this.languagesCollection
         });
         this.routeChanged(studentsView);
@@ -125,7 +125,8 @@ var Route = Backbone.Router.extend({
                 var group = this.groupsCollection.findWhere({id: +groupId});
                 var teacherJournalView = new TeacherJournalView({
                     group: group,
-                    studentsCollection: this.studentsCollection
+                    studentsCollection: this.studentsCollection,
+                    publicPlanCollection: this.publicPlanCollection
                 });
                 this.routeChanged(teacherJournalView);
              }, this)

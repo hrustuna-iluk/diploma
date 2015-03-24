@@ -22,8 +22,7 @@ var StudentModel = Backbone.Model.extend ({
             sex: "",
             school: "",
             email: "",
-            additional: AdditionalModel,
-            publicOrders: PublicOrdersModel
+            additional: []
         }
     },
 

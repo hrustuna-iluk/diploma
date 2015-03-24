@@ -1,9 +1,10 @@
-var DataTabView = BaseView.extend({
+var AllInformationTabView = BaseView.extend({
 
-    template: _.template($("#dataTabTemplate").html()),
+    template: _.template($("#allInformationTabTemplate").html()),
 
     initialize: function(options) {
         this.collection = options.collection;
+        this.group = options.group;
     },
 
     _buildTable: function() {
@@ -11,7 +12,7 @@ var DataTabView = BaseView.extend({
             success: $.proxy(function () {
                 this.collection.each($.proxy (function(item, index, array) {
                     this.$('tbody').append(
-                        new DataTabElementView ({
+                        new AllInformationTabElementView ({
                             model: item
                         }).render().el
                     )

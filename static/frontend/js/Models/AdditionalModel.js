@@ -5,8 +5,7 @@ var AdditionalModel = Backbone.Model.extend ({
     defaults: function() {
         return {
             title: "",
-            value: "",
-            student: null
+            value: ""
         }
     }
 

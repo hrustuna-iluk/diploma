@@ -4,9 +4,12 @@ var TeacherJournalView = BaseView.extend({
 
     currentTab: null,
 
+    currentForm: null,
+
     initialize: function(options) {
         this.group = options.group;
         this.studentsCollection = options.studentsCollection;
+        this.publicPlanCollection = options.publicPlanCollection;
     },
 
     _attachEvents: function() {
@@ -23,28 +26,48 @@ var TeacherJournalView = BaseView.extend({
 
     _wrapTab: function(){
         var wrapTabView = new WrapTabView({
-            model: this.group
+            group: this.group
         });
         this._tabChanged('wrapTab', wrapTabView);
+        this._formChanged();
     },
 
     _publicOrdersTab: function(){
         var publicOrdersTabView = new PublicOrdersTabView({
-            model: this.group
+            group: this.group
         });
         this._tabChanged('publicOrdersTab', publicOrdersTabView);
+        this._formChanged();
     },
 
     _dataTab: function(){
-        this._tabChanged();
+        var dataTabView = new DataTabView({
+            group: this.group,
+            collection: this.studentsCollection
+        });
+        this._tabChanged('dataTab',dataTabView);
+        this._formChanged();
     },
 
     _allInformationTab: function(){
-        this._tabChanged();
+        var allInformationTabView = new AllInformationTabView({
+            group: this.group,
+            collection: this.studentsCollection
+        });
+        this._tabChanged('allInformationTab', allInformationTabView);
+        this._formChanged();
     },
 
     _publicPlanTab: function(){
-        this._tabChanged();
+        var publicPlanTabView = new PublicPlanTabView({
+            group: this.group,
+            publicPlanCollection: this.publicPlanCollection
+        });
+        var publicPlanTabForm = new PublicPlanTabFormView({
+            publicPlanCollection: this.publicPlanCollection
+        });
+        this._tabChanged('publicPlanTab', publicPlanTabView);
+        this._formChanged(publicPlanTabForm);
     },
 
     _attendanceTab: function(){
@@ -52,7 +75,15 @@ var TeacherJournalView = BaseView.extend({
     },
 
     _educationalEventsTab: function(){
-        this._tabChanged();
+        var publicEventsTabView = new PublicEventsTabView({
+            group: this.group,
+            publicPlanCollection: this.publicPlanCollection
+        });
+        var publicEventsTabForm = new PublicEventsTabFormView({
+            publicPlanCollection: this.publicPlanCollection
+        });
+        this._tabChanged('educationalEventsTab', publicEventsTabView);
+        this._formChanged(publicEventsTabForm);
     },
 
     _individualWorkTab: function(){
@@ -61,6 +92,16 @@ var TeacherJournalView = BaseView.extend({
 
     _reportTab: function(){
         this._tabChanged();
+    },
+
+    _formChanged: function(form) {
+        if (this.currentForm) {
+            this.currentForm.remove();
+        }
+        if(form) {
+            $('#formForTab .forms').html(form.render().el);
+            this.currentForm = form;
+        }
     },
 
     _tabChanged: function(div_id,tab) {

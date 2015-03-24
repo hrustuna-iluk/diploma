@@ -6,7 +6,6 @@ var ClassModalView = BaseView.extend({
 
     initialize: function(options) {
         this.teachersCollection = options.teachersCollection;
-        this.teachersCollection.reset().fetch();
     },
 
     _attachEvents: function() {
@@ -18,10 +17,10 @@ var ClassModalView = BaseView.extend({
         this.model.set ({
             subject: this.$('.subjectTitle').val(),
             type: this.$('.classType').val(),
-            teacher: this.$('.classTeacher').val(),
+            teacher: +this.$('.classTeacher').val(),
             classroom: this.$('.classNumber').val()
         });
-        //this.model.save();
+        this.model.save();
         this._cancelModalWindow();
     },
 
@@ -32,9 +31,13 @@ var ClassModalView = BaseView.extend({
     },
 
     _fillTeachersList: function() {
-        this.teachersCollection.each(function(model) {
-            this.$('.classTeacher').append(this.optionSelectTemplateForTeacher(model.toJSON()));
-        }, this);
+         this.teachersCollection.reset().fetch({
+            success: $.proxy(function () {
+                this.teachersCollection.each(function(model) {
+                    this.$('.classTeacher').append(this.optionSelectTemplateForTeacher(model.toJSON()));
+                }, this);
+            }, this)
+        });
     },
 
     render: function() {

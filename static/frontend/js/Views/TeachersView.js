@@ -12,7 +12,6 @@ var TeachersView = BaseView.extend({
     },
 
     initialize: function(options) {
-        this.model = new TeacherModel();
         this.collection = options.collection;
         this.department = options.department;
         this.collection.on("add", $.proxy(this._renderTeacher, this));
@@ -42,7 +41,7 @@ var TeachersView = BaseView.extend({
         this.$(this.selectors.teacherSurnameInput).val("");
         this.$(this.selectors.teacherNameInput).val("");
         this.$(this.selectors.teacherMiddleNameInput).val("");
-        this.$(this.selectors.teacherPositionSelect).val("");
+        this.$(this.selectors.teacherPositionSelect).find('option:first').attr('selected', true);
         teacherModel.setSurname(teacherSurname);
         teacherModel.setName(teacherName);
         teacherModel.setMiddleName(teacherMiddleName);
@@ -51,10 +50,11 @@ var TeachersView = BaseView.extend({
     },
 
     _addTeacher: function() {
-        this._teacherData(this.model);
-        this.model.save({wait: true}, {success: $.proxy(function() {
-                    this.collection.add(this.model);
-                }, this)});
+        var model = new TeacherModel();
+        this._teacherData(model);
+        model.save({wait: true}, {success: $.proxy(function() {
+            this.collection.add(model);
+        }, this)});
     },
 
     _changeTeacherData: function() {

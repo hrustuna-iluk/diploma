@@ -27,7 +27,6 @@ var StudentsView = BaseView.extend({
         isProcurement: '#isProcurement',
         studentCurrentAddress: '#currentAddress',
         studentEmail: "#studentEmail"
-        //studentAdditionals
 
     },
 
@@ -36,7 +35,6 @@ var StudentsView = BaseView.extend({
         this.collection = options.collection;
         this.benefitsCollection = options.benefitsCollection;
         this.languagesCollection = options.languagesCollection;
-        this.publicOrdersCollection = options.publicOrdersCollection;
         this.group = options.group;
         this.collection.on("add", $.proxy(this._renderStudent, this));
         this.publisher.on('change student data', $.proxy(this._onStudentChange, this));
@@ -75,7 +73,6 @@ var StudentsView = BaseView.extend({
         $(this.selectors.studentStudyLanguageSelect).val(model.getLanguage());
         $(this.selectors.studentSchoolInput).val(model.getSchool());
         $(this.selectors.studentBenefitsSelect).val(model.getBenefits());
-        $(this.selectors.studentPublicOrdersSelect).val(model.getPublicOrders());
         $(this.selectors.isProcurement).val(model.getIsProcurement());
         $(this.selectors.studentEmail).val(model.getEmail);
 
@@ -98,7 +95,6 @@ var StudentsView = BaseView.extend({
             sex: this.$(this.selectors.studentSexInput).val(),
             dateBirth: this.$(this.selectors.studentDateBirthInput).val(),
             maritalStatus: this.$(this.selectors.studentMaritalStatusSelect).val(),
-            publicOrders: this.$(this.selectors.studentPublicOrdersSelect).val(),
             benefits: this.$(this.selectors.studentBenefitsSelect).val(),
             isProcurement: this.$(this.selectors.isProcurement).val(),
             language: this.$(this.selectors.studentStudyLanguageSelect).val(),
@@ -117,16 +113,21 @@ var StudentsView = BaseView.extend({
     },
 
     _addStudent: function() {
+        this.model = new StudentModel();
         this.model.set({
             group: this.group
         });
         this._studentData(this.model);
-        this.collection.add(this.model);
+        this.model.save({wait: true}, {success: $.proxy(function() {
+                    this.collection.add(this.model);
+                    this.model = new StudentModel();
+                }, this)});
     },
 
     _changeStudentData: function() {
         var studentModel = this.$(this.selectors.changeStudentData).data('model');
         this._studentData(studentModel);
+        studentModel.save();
         this.$(this.selectors.changeStudentData).addClass('no-display');
         this.$(this.selectors.createStudent).removeClass('no-display');
     },
@@ -140,28 +141,30 @@ var StudentsView = BaseView.extend({
     },
 
      _fillBenefitsList: function() {
-        this.benefitsCollection.each(function(model) {
-            this.$('#studentBenefits').append(this.optionBenefitTemplate(model.toJSON()));
-        }, this);
+         this.benefitsCollection.reset().fetch({
+            success: $.proxy(function () {
+                this.benefitsCollection.each(function(model) {
+                    this.$('#studentBenefits').append(this.optionBenefitTemplate(model.toJSON()));
+                }, this);
+        }, this)
+        });
     },
 
     _fillLanguageList: function() {
-        this.languagesCollection.each(function(model) {
-            this.$('#learnLanguage').append(this.optionLanguageTemplate(model.toJSON()));
-        }, this);
+        this.languagesCollection.reset().fetch({
+            success: $.proxy(function () {
+                this.languagesCollection.each(function(model) {
+                    this.$('#learnLanguage').append(this.optionLanguageTemplate(model.toJSON()));
+                }, this);
+        }, this)
+        });
     },
 
-    _fillPublicOrdersList: function() {
-        this.publicOrdersCollection.each(function(model) {
-            this.$('#publicOrders').append(this.optionPublicOrderTemplate(model.toJSON()));
-        }, this);
-    },
 
     render: function() {
         this.$el.html(this.template);
-        //this._fillBenefitsList();
-        //this._fillLanguageList();
-        //this._fillPublicOrdersList();
+        this._fillBenefitsList();
+        this._fillLanguageList();
         this._attachEvents();
         return this;
     }

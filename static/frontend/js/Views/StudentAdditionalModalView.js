@@ -14,10 +14,9 @@ var StudentAdditionalModalView = BaseView.extend({
     _addAdditionalData: function() {
         var additional = new AdditionalModel({
            title: this.$("#title").val(),
-           value: this.$("#value").val(),
-           student: this.StudentModel
+           value: this.$("#value").val()
         });
-        //additional.save();
+        this.studentModel.setAdditional(additional);
         this._cancelModalWindow();
     },
 

@@ -12,19 +12,19 @@ var StudentParentsModalView = BaseView.extend({
     },
 
     _addParents: function() {
-        var mother = new MotherModel({
+        var studentMother = new MotherModel({
                 fullName: this.$("#motherFullName").val(),
                 position: this.$("#motherPosition").val(),
                 phone: this.$("#motherPhone").val()
             }),
-            father = new FatherModel({
+            studentFather = new FatherModel({
                 fullName: this.$("#fatherFullName").val(),
                 position: this.$("#fatherPosition").val(),
                 phone: this.$("#fatherPhone").val()
             })
         this.studentModel.set({
-           mother: mother,
-           father: father
+           mother: studentMother,
+           father: studentFather
         });
         this._cancelModalWindow();
     },

@@ -6,6 +6,7 @@ var ClassesView = BaseView.extend ({
 
     initialize: function(options) {
         this.numberOfClass = options.numberOfClass;
+        this.group = options.group;
         this.collection = options.collection;
         this.numberOfWeek = options.numberOfWeek;
         this.scheduleModel = options.scheduleModel;
@@ -14,9 +15,10 @@ var ClassesView = BaseView.extend ({
 
     _buildRow: function() {
         if(!this.collection.length) {
-            this.days.forEach($.proxy(function (day, index, array) {
+            this.days.forEach($.proxy(function (weekDay, index, array) {
                var model = new ClassModel({
-                   day: index + 1,
+                   group: this.group.get('id'),
+                   day: weekDay,
                    number: this.numberOfClass,
                    numberOfWeek: this.numberOfWeek,
                    schedule: this.scheduleModel

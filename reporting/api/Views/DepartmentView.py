@@ -24,7 +24,8 @@ class DepartmentView(APIView):
 
     def post(self, request, format=None):
         data = request.data
-        data['headOfDepartment'] = data['headOfDepartment']['id']
+        if data['headOfDepartment']:
+            data['headOfDepartment'] = data['headOfDepartment']['id']
         serializer = DepartmentSerializer(data=data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
@@ -33,7 +34,6 @@ class DepartmentView(APIView):
 
     def put(self, request, format=None):
         data = request.data
-        data['headOfDepartment'] = data['headOfDepartment']['id']
         snippet = get_object_or_404(Department, pk=request.data["id"])
         serializer = DepartmentSerializer(snippet, data=data, context=RequestContext(request))
         if serializer.is_valid():

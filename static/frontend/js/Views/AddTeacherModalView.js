@@ -4,6 +4,7 @@ var AddTeacherModalView = BaseView.extend({
 
     initialize: function(options) {
         this.department = options.department;
+        this.collection = options.collection;
     },
 
     _attachEvents: function() {
@@ -18,8 +19,10 @@ var AddTeacherModalView = BaseView.extend({
                         middleName: this.$("#teacherMiddleName").val(),
                         position: this.$("#teacherPosition").val(),
                         department: this.department
-                        })
-            //teacher.save();
+                        });
+        teacher.save({wait: true}, {success: $.proxy(function() {
+                    this.collection.add(teacher);
+                }, this)});
         this._cancelModalWindow();
     },
 

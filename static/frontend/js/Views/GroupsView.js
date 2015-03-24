@@ -10,6 +10,7 @@ var GroupsView = BaseView.extend({
         groupNumber: "#groupNumber",
         groupYear: "#groupYear",
         groupTuition: "#groupTuition",
+        groupCurator: "#groupCurator",
         addCurator: "#addCurator"
     },
 
@@ -18,8 +19,8 @@ var GroupsView = BaseView.extend({
         this.department = options.department;
         this.teachersCollection = options.teachersCollection;
         this.collection.on("add", $.proxy(this._renderGroup, this));
+        //this.teachersCollection.on("add", $.proxy(this._fillCuratorList, this));
         this.publisher.on('change group', $.proxy(this._onGroupChange, this));
-        this.teachersCollection.reset().fetch();
         this.collection.reset().fetch();
     },
 
@@ -30,8 +31,9 @@ var GroupsView = BaseView.extend({
     },
 
     _addCurator: function(){
-        new AddCuratorModalView({
-            department: this.department
+        new AddTeacherModalView({
+            department: this.department,
+            collection: this.teachersCollection
         }).render().$el;
     },
 
@@ -48,12 +50,15 @@ var GroupsView = BaseView.extend({
         var groupNumber = this.$(this.selectors.groupNumber).val(),
             groupTuition = this.$(this.selectors.groupTuition).val(),
             groupYear = this.$(this.selectors.groupYear).val();
-        this.$(this.selectors.groupNumber).val("");
-        this.$(this.selectors.groupTuition).val("");
-        this.$(this.selectors.groupYear).val("");
         groupModel.setNumber(groupNumber);
         groupModel.setTuition(groupTuition);
         groupModel.setYearStudy(groupYear);
+        groupModel.set('department', this.department.get('id'));
+        groupModel.set('curator', +this.$(this.selectors.groupCurator).val());
+        this.$(this.selectors.groupNumber).val("");
+        this.$(this.selectors.groupTuition).val("");
+        this.$(this.selectors.groupYear).val("");
+        this.$(this.selectors.groupCurator).find('option:first').attr('selected', true);
 
     },
 
@@ -68,6 +73,7 @@ var GroupsView = BaseView.extend({
     _changeGroup: function() {
         var groupModel = this.$(this.selectors.changeGroup).data('model');
         this._groupData(groupModel);
+        groupModel.save();
         this.$(this.selectors.changeGroup).addClass('no-display');
         this.$(this.selectors.createGroup).removeClass('no-display');
     },
@@ -80,15 +86,21 @@ var GroupsView = BaseView.extend({
         );
     },
 
-    _fillCuratorList: function() {
-        this.teachersCollection.each(function(model) {
-            this.$('#groupCurator').append(this.optionCuratorTemplate(model.toJSON()));
-        }, this);
+
+    _fillCuratorList: function(model) {
+        this.teachersCollection.reset().fetch({
+            success: $.proxy(function () {
+                this.teachersCollection.each(function(model) {
+                    this.$('#groupCurator').append(this.optionCuratorTemplate(model.toJSON()));
+                }, this);
+            }, this)
+        });
     },
 
     render: function() {
         this.$el.html(this.template);
         this._attachEvents();
+        this._fillCuratorList();
         return this;
     }
 });

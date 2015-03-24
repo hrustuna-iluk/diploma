@@ -7,10 +7,6 @@ var GroupView = BaseView.extend({
         deleteGroup: ".remove-group"
     },
 
-    initialize: function() {
-        this.model.on('change', $.proxy(this.render, this));
-    },
-
     _attachEvents: function() {
         this.$(this.selectors.changeGroup).on("click", $.proxy(this._changeGroup, this));
         this.$(this.selectors.deleteGroup).on("click", $.proxy(this._deleteGroup, this));
