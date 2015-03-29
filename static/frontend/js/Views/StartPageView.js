@@ -21,7 +21,7 @@ var StartPageView = BaseView.extend ({
         this.collection = options.collection;
         this.teachersCollection = options.teachersCollection;
         this.collection.on("add", $.proxy(this._renderDepartment, this));
-        this.publisher.on('change department', $.proxy(this._onDepartmentChange, this));
+        this.publisher.on('change:department', $.proxy(this._onDepartmentChange, this));
         this.collection.reset().fetch();
     },
 

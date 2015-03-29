@@ -15,7 +15,7 @@ class GroupView(APIView):
 
     def get(self, request, pk=None,  format=None):
         if pk:
-            snippet = get_object_or_404(Group, pk=pk)
+            snippet = Group.objects.filter(department__id=pk)
         else:
             snippet = Group.objects.all()
 
@@ -26,19 +26,57 @@ class GroupView(APIView):
 
     def post(self, request, format=None):
         data = request.data
+        if isinstance(data['department'], dict):
+            data['department'] = data['department']['id']
+        if isinstance(data['leader'], dict):
+            data['leader'] = data['leader']['id']
+        if isinstance(data['deputyHeadman'], dict):
+            data['deputyHeadman'] = data['deputyHeadman']['id']
+        if isinstance(data['organizer'], dict):
+            data['organizer'] = data['organizer']['id']
+        if isinstance(data['culturalWork'], dict):
+            data['culturalWork'] = data['culturalWork']['id']
+        if isinstance(data['healthWork'], dict):
+            data['healthWork'] = data['healthWork']['id']
+        if isinstance(data['curator'], dict):
+            data['curator'] = data['curator']['id']
         serializer = GroupSerializer(data=data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return HttpResponse(serialize('json', [serializer.instance], relations=(
+            'department', 'leader', 'deputyHeadman', 'organizer',
+            'culturalWork', 'healthWork', 'editorialBoard', 'otherTasks', 'curator'
+        )), content_type='application/json', status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, format=None):
         data = request.data
+        if isinstance(data['department'], dict):
+            data['department'] = data['department']['id']
+        if isinstance(data['leader'], dict):
+            data['leader'] = data['leader']['id']
+        if isinstance(data['deputyHeadman'], dict):
+            data['deputyHeadman'] = data['deputyHeadman']['id']
+        if isinstance(data['organizer'], dict):
+            data['organizer'] = data['organizer']['id']
+        if isinstance(data['culturalWork'], dict):
+            data['culturalWork'] = data['culturalWork']['id']
+        if isinstance(data['healthWork'], dict):
+            data['healthWork'] = data['healthWork']['id']
+        if isinstance(data['editorialBoard'], dict):
+            data['editorialBoard'] = data['editorialBoard']['id']
+        if isinstance(data['otherTasks'], dict):
+            data['otherTasks'] = data['otherTasks']['id']
+        if isinstance(data['curator'], dict):
+            data['curator'] = data['curator']['id']
         snippet = get_object_or_404(Group, pk=request.data["id"])
         serializer = GroupSerializer(snippet, data=data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return HttpResponse(serialize('json', [snippet], relations=(
+            'department', 'leader', 'deputyHeadman', 'organizer',
+            'culturalWork', 'healthWork', 'editorialBoard', 'otherTasks', 'curator'
+        )), content_type='application/json')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):

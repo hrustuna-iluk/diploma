@@ -15,7 +15,7 @@ class PassView(APIView):
 
     def get(self, request, pk=None,  format=None):
         if pk:
-            snippet = get_object_or_404(Pass, pk=pk)
+            snippet = Pass.objects.filter(student__id=pk)
         else:
             snippet = Pass.objects.all()
 
@@ -23,23 +23,23 @@ class PassView(APIView):
 
     def post(self, request, format=None):
         data = request.data
-        data['class_passed'] = data['class_passed']['id']
-        data['student'] = data['student']['id']
         serializer = PassSerializer(data=data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return HttpResponse(serialize('json', [serializer.instance], relations=('student', 'class_passed')), content_type='application/json', status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, format=None):
         data = request.data
-        data['class_passed'] = data['class_passed']['id']
-        data['student'] = data['student']['id']
+        if isinstance(data['class_passed'], dict):
+            data['class_passed'] = data['class_passed']['id']
+        if isinstance(data['student'], dict):
+            data['student'] = data['student']['id']
         snippet = get_object_or_404(Pass, pk=request.data["id"])
         serializer = PassSerializer(snippet, data=data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return HttpResponse(serialize('json', [snippet], relations=('student', 'class_passed')), content_type='application/json')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):

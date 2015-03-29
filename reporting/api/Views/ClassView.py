@@ -15,7 +15,7 @@ class ClassView(APIView):
 
     def get(self, request, pk=None,  format=None):
         if pk:
-            snippet = get_object_or_404(Class, pk=pk)
+            snippet = Class.objects.filter(group__id=pk)
         else:
             snippet = Class.objects.all()
 
@@ -26,7 +26,7 @@ class ClassView(APIView):
         serializer = ClassSerializer(data=data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
-            return HttpResponse(serialize('json', data, content_type='application/json'))
+            return HttpResponse(serialize('json', [serializer.instance], content_type='application/json'), status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, format=None):
@@ -35,7 +35,7 @@ class ClassView(APIView):
         serializer = ClassSerializer(snippet, data=data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
-            return HttpResponse(serialize('json', data, content_type='application/json'))
+            return HttpResponse(serialize('json', [snippet], content_type='application/json'))
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):

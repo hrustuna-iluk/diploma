@@ -15,7 +15,7 @@ class StudentView(APIView):
 
     def get(self, request, pk=None,  format=None):
         if pk:
-            snippet = get_object_or_404(Student, pk=pk)
+            snippet = Student.objects.filter(group__id=pk)
         else:
             snippet = Student.objects.all()
         return HttpResponse(serialize('json', snippet, relations={
@@ -37,6 +37,8 @@ class StudentView(APIView):
 
     def post(self, request, format=None):
         data = request.data
+        if isinstance(data['group'], dict):
+            data['group'] = data['group']['id']
         father = Parents.objects.create(**data['father'])
         mother = Parents.objects.create(**data['mother'])
         father.save()
@@ -68,7 +70,8 @@ class StudentView(APIView):
 
     def put(self, request, format=None):
         data = request.data
-        data['group'] = data['group']['id']
+        if isinstance(data['group'], dict):
+            data['group'] = data['group']['id']
         snippet = get_object_or_404(Student, pk=request.data["id"])
         serializer = StudentSerializer(snippet, data=data, context=RequestContext(request))
         if serializer.is_valid():

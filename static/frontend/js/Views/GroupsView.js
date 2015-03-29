@@ -20,7 +20,7 @@ var GroupsView = BaseView.extend({
         this.teachersCollection = options.teachersCollection;
         this.collection.on("add", $.proxy(this._renderGroup, this));
         //this.teachersCollection.on("add", $.proxy(this._fillCuratorList, this));
-        this.publisher.on('change group', $.proxy(this._onGroupChange, this));
+        this.publisher.on('change:group', $.proxy(this._onGroupChange, this));
         this.collection.reset().fetch();
     },
 

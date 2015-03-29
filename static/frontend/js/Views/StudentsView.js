@@ -36,7 +36,7 @@ var StudentsView = BaseView.extend({
         this.languagesCollection = options.languagesCollection;
         this.group = options.group;
         this.collection.on("add", $.proxy(this._renderStudent, this));
-        this.publisher.on('change student data', $.proxy(this._onStudentChange, this));
+        this.publisher.on('change:student', $.proxy(this._onStudentChange, this));
         this.collection.reset().fetch();
     },
 

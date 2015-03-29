@@ -11,7 +11,7 @@ var IndividualWorkTabFormView = BaseView.extend({
 
     initialize: function(options) {
         this.collection = options.workWithStudentCollection;
-        this.publisher.on('change individual work', $.proxy(this._onIndividualWorkChange, this));
+        this.publisher.on('change:individual:work', $.proxy(this._onIndividualWorkChange, this));
     },
 
     _attachEvents: function() {

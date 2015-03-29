@@ -13,7 +13,7 @@ var IndividualWorkTabElementView = BaseView.extend({
     },
 
     _changeIndividualWork: function() {
-        this.publisher.trigger('change individual work', this.model);
+        this.publisher.trigger('change:individual:work', this.model);
     },
 
     _deleteIndividualWork: function() {

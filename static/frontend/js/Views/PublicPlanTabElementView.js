@@ -13,7 +13,7 @@ var PublicPlanTabElementView = BaseView.extend({
     },
 
     _changePublicPlan: function() {
-        this.publisher.trigger('change public plan', this.model);
+        this.publisher.trigger('change:public:plan', this.model);
     },
 
     _deletePublicPlan: function() {

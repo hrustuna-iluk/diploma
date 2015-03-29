@@ -17,7 +17,7 @@ var DepartmentView = BaseView.extend ({
     },
 
     _changeDepartment: function() {
-        this.publisher.trigger('change department', this.model);
+        this.publisher.trigger('change:department', this.model);
     },
 
     _deleteDepartment: function() {
