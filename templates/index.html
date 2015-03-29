@@ -27,7 +27,7 @@
                                     <form role="form" id="addDepartmentForm" onsubmit="return false;">
                                         <div class="form-group">
                                             <input type="text" placeholder="Назва кафедри" name="departmentName" id="departmentName" class="form-control">
-                                             <select id="headOfDepartment" class="form-control">
+                                             <select id="headOfDepartment" class="form-control no-display">
                                                     <option disabled>Завідувач кафедри</option>
                                              </select>
                                         </div>
@@ -253,7 +253,6 @@
                                                 <option value="Head of Department">Завідувач кафедри</option>
                                                 <option value="teacher">Викладач</option>
                             </select>
-                            <input type="text" name="teacherDepartment" id="teacherDepartment" placeholder="Кафедра" class="form-control">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default closeModal" data-dismiss="modal">Закрити</button>
@@ -267,8 +266,8 @@
         <!--Student Template-->
         <script type="text/template" id="studentTemplate">
             <td></td>
-            <td><%=name%></td>
-            <td><%=surname%></td>
+            <td><%=firstName%></td>
+            <td><%=lastName%></td>
             <td><%=middleName%></td>
             <td><%=group.number%></td>
             <td><%=sex%></td>
@@ -281,8 +280,7 @@
             <td><%=language.title%></td>
             <td><%=school%></td>
             <td><%=benefits.type%></td>
-            <td><%=additional.value%></td>
-            <td><%=publicOrders.type%></td>
+            <td><%=additional%></td>
             <td>
                 <div class="toolbar transparent place-right">
                     <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-student-data"></i></button>
@@ -316,6 +314,7 @@
                                             <input type="email" placeholder="E-mail" name="studentEmail" id="studentEmail" class="form-control">
                                             <input type="text" placeholder="Національність" name="studentNationality" id="studentNationality" class="form-control">
                                             <input type="text" placeholder="Школа" name="studentSchool" id="studentSchool" class="form-control">
+                                            <input type="text" placeholder="Бали ЗНО, математика" name="studentAdditional" id="studentAdditional" class="form-control">
 
                                             <select id="sex" class="form-control">
                                                 <option disabled>Стать</option>
@@ -344,7 +343,6 @@
 
                                             <div class="buttons">
                                                 <button  class="btn btn-default" name="studentParents" id="studentParents">+ Батьки</button>
-                                                <button  class="btn btn-default" name="additionalStudentData" id="additionalStudentData">+ Додатково</button>
                                             </div>
 
                                         </div>
@@ -387,28 +385,6 @@
             </div>
         </script>
 
-        <!--Student Additional Modal Template-->
-        <script type="text/template" id="studentAdditionalModalTemplate">
-               <div class="modal fade ">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Додаткова інформація про студента</h4>
-                        </div>
-                        <div class="modal-body">
-
-                            <input type="text" placeholder="Назва" name="title" id="title" class="form-control">
-                            <input type="text" placeholder="Значення" name="vaue" id="vaue" class="form-control">
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default closeModal" data-dismiss="modal">Закрити</button>
-                            <button type="button" class="btn btn-primary addAdditionalData">Додати</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </script>
 
          <!--Student Parents Modal Template-->
         <script type="text/template" id="studentParentsModalTemplate">
@@ -454,12 +430,6 @@
             </option>
         </script>
 
-        <!--Select option template for public orders-->
-        <script type="text/template" id="optionPublicOrdersTemplate">
-            <option value="<%=id%>">
-                <%=type%>
-            </option>
-        </script>
 
         <!--Schedule Template-->
         <script type="text/template" id="scheduleTemplate">
@@ -555,6 +525,16 @@
             </div>
         </script>
 
+        <!--Public Orders Template-->
+        <script type="text/template" id="publicOrdersTemplate">
+
+        </script>
+
+        <!--Public Orders Form Template-->
+        <script type="text/template" id="publicOrdersFormTemplate">
+
+        </script>
+
         <!--Attendance Template-->
         <script type="text/template" id="attendanceTemplate">
             <table class="table">
@@ -630,6 +610,12 @@
                                 <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center deleteJournal" title="Очистити журнал">
                                     <div class="tile-content icon">
                                         <i class="icon-box"></i>
+                                    </div>
+                                </div>
+
+                                <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center downloadJournal" title="Завантажити журнал">
+                                    <div class="tile-content icon">
+                                        <i class=" icon-download"></i>
                                     </div>
                                 </div>
 
@@ -761,7 +747,7 @@
         <script type="text/template" id="dataTabElementTemplate">
             <tr>
                 <td></td>
-                <td><%=surname%> <%=name%> <%=middleName%></td>
+                <td><%=lastName%> <%=firstName%> <%=middleName%></td>
                 <td><%=dateBirth%></td>
                 <td><%=nationality%></td>
                 <td><%=maritalStatus%></td>
@@ -828,6 +814,7 @@
                         <th>Дата виконання</th>
                         <th>Відповідальний</th>
                         <th>Примітка</th>
+                        <th>&nbsp;</th>
                     </tr>
                     <tr>
                         <th>1</th>
@@ -835,6 +822,7 @@
                         <th>3</th>
                         <th>4</th>
                         <th>5</th>
+                        <th>&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -913,6 +901,7 @@
                             <th>Подія</th>
                             <th>Кількість годин</th>
                             <th>Кількість присутніх</th>
+                            <th>&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -928,6 +917,7 @@
                             <th>Подія</th>
                             <th>Кількість годин</th>
                             <th>Кількість присутніх</th>
+                            <th>&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -971,7 +961,69 @@
         <script type="text/template" id="individualWorkTabTemplate">
             <h3 class="tabTableHeader">ІНДИВІДУАЛЬНА РОБОТА ЗІ СТУДЕНТАМИ</h3>
             <table class="table tabTable">
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Назва</th>
+                        <th>Рік</th>
+                        <th>Група</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
             </table>
+        </script>
+
+        <!--Individual Work Tab Element Template-->
+        <script type="text/template" id="individualWorkTabElementTemplate">
+           <tr>
+               <td></td>
+               <td><%=text%></td>
+               <td><%=year%></td>
+               <td><%=group%></td>
+               <td>
+                    <div class="toolbar transparent place-right">
+                        <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-individualWork"></i></button>
+                    </div>
+                </td>
+                <td>
+                    <div class="toolbar transparent place-right">
+                        <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white remove-individualWork"></i></button>
+                    </div>
+                </td>
+           </tr>
+        </script>
+
+         <!--Individual Work Tab Form Template-->
+        <script type="text/template" id="individualWorkTabFormTemplate">
+            <div class="add-individualWork-form">
+                <form role="form" id="addIndividualWorkForm" onsubmit="return false;">
+                    <div class="form-group">
+                        <input type="text" placeholder='Назва роботи' name="individualWorkTitle" id="individualWorkTitle" class="form-control">
+                        <input type="text" placeholder="Рік проведення" name="individualWorkYear" id="individualWorkYear" class="form-control">
+                    </div>
+
+                     <button  class="no-display btn btn-primary" name="changeIndividualWork" id="changeIndividualWork">Змінити</button>
+                     <button  class="btn btn-default" name="addIndividualWork" id="addIndividualWork">Додати</button>
+                </form>
+            </div>
+        </script>
+
+         <!--Report Tab Template-->
+        <script type="text/template" id="reportTabTemplate">
+            <h3 class="tabTableHeader">ЗВІТ ПРО ГРОМАДСЬКО-ВИХОВНУ РОБОТУ</h3>
+            <table class="table tabTable">
+                <tbody>
+                <tr>В навчальному році були проведені такі заходи:</tr>
+                </tbody>
+            </table>
+        </script>
+
+        <!--Report Tab Element Template-->
+        <script type="text/template" id="reportTabElementTemplate">
+            <tr>
+                <td><%=event%> (<%=date%>)</td>
+            </tr>
         </script>
 
         <!--Frameworks-->
@@ -983,7 +1035,6 @@
         <script src="{% static 'frameworks/backbone/backbone.js' %}"></script>
 
         <!--Models-->
-        <script src="{% static 'frontend/js/Models/AdditionalModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/BenefitsModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/LanguageModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/PublicPlanModel.js' %}"></script>
@@ -1011,8 +1062,8 @@
         <script src="{% static 'frontend/js/Collections/BenefitsCollection.js' %}"></script>
         <script src="{% static 'frontend/js/Collections/LanguagesCollection.js' %}"></script>
         <script src="{% static 'frontend/js/Collections/AttendanceCollection.js' %}"></script>
-        <script src="{% static 'frontend/js/Collections/AdditionalCollection.js' %}"></script>
         <script src="{% static 'frontend/js/Collections/PublicPlanCollection.js' %}"></script>
+        <script src="{% static 'frontend/js/Collections/WorkWithStudentCollection.js' %}"></script>
 
         <!--Views-->
         <script src="{% static 'frontend/js/Views/BaseView.js' %}"></script>
@@ -1039,7 +1090,6 @@
         <script src="{% static 'frontend/js/Views/DataTabView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/TeacherJournalView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/StudentParentsModalView.js' %}"></script>
-        <script src="{% static 'frontend/js/Views/StudentAdditionalModalView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/AddTeacherModalView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/AllInformationTabElementView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/AllInformationTabView.js' %}"></script>
@@ -1049,6 +1099,11 @@
         <script src="{% static 'frontend/js/Views/PublicEventsTabElementView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/PublicEventsTabFormView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/PublicEventsTabView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/IndividualWorkTabElementView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/IndividualWorkTabFormView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/IndividualWorkTabView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/ReportTabElementView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/ReportTabView.js' %}"></script>
 
         <!--Routes-->
         <script src="{% static 'frontend/js/Routes/Route.js' %}"></script>

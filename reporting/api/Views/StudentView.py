@@ -1,4 +1,4 @@
-from reporting.models import Student
+from reporting.models import Student, Parents
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication, permissions, status
@@ -37,25 +37,60 @@ class StudentView(APIView):
 
     def post(self, request, format=None):
         data = request.data
-        data['language'] = data['language']['id']
-        data['benefits'] = [item['id'] for item in data['benefits']]
-        data['group'] = data['group']['id']
+        father = Parents.objects.create(**data['father'])
+        mother = Parents.objects.create(**data['mother'])
+        father.save()
+        mother.save()
+        data['father'] = father.id
+        data['mother'] = mother.id
         serializer = StudentSerializer(data=data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return HttpResponse(serialize('json', [serializer.instance], relations={
+            'language': {},
+            'benefits': {},
+            'mother': {},
+            'father': {},
+            'group': {
+                'relations': ('department',
+                              'editorialBoard',
+                              'headOfDepartment',
+                              'culturalWork',
+                              'deputyHeadman',
+                              'otherTasks',
+                              'organizer',
+                              'curator',
+                              'leader'
+                )
+            }
+        }), content_type='application/json')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, format=None):
         data = request.data
-        data['language'] = data['language']['id']
-        data['benefits'] = [item['id'] for item in data['benefits']]
         data['group'] = data['group']['id']
         snippet = get_object_or_404(Student, pk=request.data["id"])
         serializer = StudentSerializer(snippet, data=data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return HttpResponse(serialize('json', [snippet], relations={
+            'language': {},
+            'benefits': {},
+            'mother': {},
+            'father': {},
+            'group': {
+                'relations': ('department',
+                              'editorialBoard',
+                              'headOfDepartment',
+                              'culturalWork',
+                              'deputyHeadman',
+                              'otherTasks',
+                              'organizer',
+                              'curator',
+                              'leader'
+                )
+            }
+        }), content_type='application/json')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):

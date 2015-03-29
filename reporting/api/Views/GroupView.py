@@ -26,24 +26,6 @@ class GroupView(APIView):
 
     def post(self, request, format=None):
         data = request.data
-        if data['department']:
-            data['department'] = data['department'].get('id')
-        if data['leader']:
-            data['leader'] = data['leader'].get('id')
-        if data['deputyHeadman']:
-            data['deputyHeadman'] = data['deputyHeadman'].get('id')
-        if data['organizer']:
-            data['organizer'] = data['organizer'].get('id')
-        if data['culturalWork']:
-            data['culturalWork'] = data['culturalWork'].get('id')
-        if data['healthWork']:
-            data['healthWork'] = data['healthWork'].get('id')
-        if data['editorialBoard']:
-            data['editorialBoard'] = [item.get('id') for item in data['editorialBoard']]
-        if data['otherTasks']:
-            data['otherTasks'] = [item.get('id') for item in data['otherTasks']]
-        if data['curator']:
-            data['curator'] = data['curator'].get('id')
         serializer = GroupSerializer(data=data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()

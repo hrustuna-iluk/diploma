@@ -1,0 +1,3 @@
+var PublicOrdersFormView = BaseView.extend({
+
+});

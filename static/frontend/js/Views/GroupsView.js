@@ -41,6 +41,7 @@ var GroupsView = BaseView.extend({
         $(this.selectors.groupNumber).val(model.getNumber());
         $(this.selectors.groupTuition).val(model.getTuition());
         $(this.selectors.groupYear).val(model.getYearStudy());
+        $(this.selectors.groupCurator).val(_.isObject(model.getCurator()) ? model.getCurator().id : model.getCurator());
         this.$(this.selectors.changeGroup).data('model', model);
         this.$(this.selectors.createGroup).addClass('no-display');
         this.$(this.selectors.changeGroup).removeClass('no-display');

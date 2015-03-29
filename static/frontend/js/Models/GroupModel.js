@@ -42,6 +42,10 @@ var GroupModel = Backbone.Model.extend ({
 
     getTuition: function() {
         return this.get("tuition");
+    },
+
+    getCurator: function() {
+        return this.get('curator');
     }
 
 });

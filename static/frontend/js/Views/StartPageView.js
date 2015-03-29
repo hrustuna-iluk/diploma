@@ -37,6 +37,7 @@ var StartPageView = BaseView.extend ({
         this.$(this.selectors.changeDepartment).data('model', model);
         this.$(this.selectors.createDepartment).addClass('no-display');
         this.$(this.selectors.changeDepartment).removeClass('no-display');
+        this.$(this.selectors.headOfDepartment).removeClass('no-display');
     },
 
     _onEnter: function(e) {
@@ -64,6 +65,7 @@ var StartPageView = BaseView.extend ({
         departmentModel.setTitle(this.$(this.selectors.departmentTitle).val());
         departmentModel.save();
         this.$(this.selectors.departmentTitle).val("");
+        this.$(this.selectors.headOfDepartment).addClass('no-display');
         this.$(this.selectors.changeDepartment).addClass('no-display');
         this.$(this.selectors.createDepartment).removeClass('no-display');
     },

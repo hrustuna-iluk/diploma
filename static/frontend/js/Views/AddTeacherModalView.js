@@ -8,14 +8,14 @@ var AddTeacherModalView = BaseView.extend({
     },
 
     _attachEvents: function() {
-        this.$('.addTeacher').on('click', $.proxy(this._addCurator, this));
+        this.$('.addTeacher').on('click', $.proxy(this._addTeacher, this));
         this.$('.closeModal').on('click', $.proxy(this._cancelModalWindow, this));
     },
 
     _addTeacher: function() {
         var teacher = new TeacherModel({
-                        name: this.$("#teacherName").val(),
-                        surname: this.$("#teacherSurname").val(),
+                        firstName: this.$("#teacherName").val(),
+                        lastName: this.$("#teacherSurname").val(),
                         middleName: this.$("#teacherMiddleName").val(),
                         position: this.$("#teacherPosition").val(),
                         department: this.department

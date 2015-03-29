@@ -23,6 +23,7 @@ var Route = Backbone.Router.extend({
         this.benefitsCollection = new BenefitsCollection();
         this.attendanceCollection = new AttendanceCollection();
         this.publicPlanCollection = new PublicPlanCollection();
+        this.workWithStudentCollection = new WorkWithStudentCollection();
         this.departmentsCollection.fetch();
         this._initializeEvents();
 
@@ -61,14 +62,18 @@ var Route = Backbone.Router.extend({
     },
 
     students: function(groupId) {
-        var group = this.groupsCollection.findWhere({cid: groupId});
-        var studentsView = new StudentsView({
-            group: group,
-            collection: this.studentsCollection,
-            benefitsCollection: this.benefitsCollection,
-            languagesCollection: this.languagesCollection
+        this.groupsCollection.fetch({
+            success: $.proxy(function () {
+                var group = this.groupsCollection.findWhere({id: +groupId});
+                var studentsView = new StudentsView({
+                    group: group,
+                    collection: this.studentsCollection,
+                    benefitsCollection: this.benefitsCollection,
+                    languagesCollection: this.languagesCollection
+                });
+                this.routeChanged(studentsView);
+            }, this)
         });
-        this.routeChanged(studentsView);
     },
 
     groups: function(departmentId) {
@@ -126,9 +131,11 @@ var Route = Backbone.Router.extend({
                 var teacherJournalView = new TeacherJournalView({
                     group: group,
                     studentsCollection: this.studentsCollection,
-                    publicPlanCollection: this.publicPlanCollection
+                    publicPlanCollection: this.publicPlanCollection,
+                    workWithStudentCollection: this.workWithStudentCollection
                 });
                 this.routeChanged(teacherJournalView);
+                teacherJournalView._wrapTab();
              }, this)
         });
     },

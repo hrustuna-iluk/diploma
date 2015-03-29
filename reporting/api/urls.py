@@ -1,6 +1,5 @@
 from django.conf.urls import patterns, include, url
 #views
-from reporting.api.Views.AdditionalView import AdditionalView
 from reporting.api.Views.BenefitsView import BenefitsView
 from reporting.api.Views.ClassView import ClassView
 from reporting.api.Views.DepartmentView import DepartmentView
@@ -18,10 +17,6 @@ from reporting.api.Views.PassView import PassView
 
 urlpatterns = patterns('',
     url(r'^auth/', include('rest_framework.urls', namespace='rest_framework')),
-
-    url(r'additional/', AdditionalView.as_view()),
-    url(r'additional/(?P<pk>\d+)', AdditionalView.as_view()),
-    url(r'additionals/', AdditionalView.as_view()),
 
     url(r'benefit/', BenefitsView.as_view()),
     url(r'benefit/(?P<pk>\d+)', BenefitsView.as_view()),

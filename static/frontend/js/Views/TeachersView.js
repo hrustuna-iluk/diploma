@@ -60,6 +60,7 @@ var TeachersView = BaseView.extend({
     _changeTeacherData: function() {
         var teacherModel = this.$(this.selectors.changeTeacherData).data('model');
         this._teacherData(teacherModel);
+        teacherModel.save();
         this.$(this.selectors.changeTeacherData).addClass('no-display');
         this.$(this.selectors.createTeacher).removeClass('no-display');
     },

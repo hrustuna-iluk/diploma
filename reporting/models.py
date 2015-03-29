@@ -115,6 +115,7 @@ class Student(models.Model):
     father = models.ForeignKey('Parents', null=True, blank=True, related_name='father')
     mother = models.ForeignKey('Parents', null=True, blank=True, related_name='mother')
     address = models.CharField(max_length=255)
+    currentAddress = models.CharField(max_length=255)
     language = models.ForeignKey(Language, null=True)
     phone = models.CharField(max_length=30)
     benefits = models.ManyToManyField(Benefits, blank=True, null=True)
@@ -125,7 +126,7 @@ class Student(models.Model):
     maritalStatus = models.CharField(max_length=50, choices=MARITAL_STATUSES)
     sex = models.CharField(max_length=50, choices=SEX)
     school = models.CharField(max_length=255)
-    additional = models.ManyToManyField('Additional', null=True, blank=True)
+    additional = models.CharField(max_length=255, null=True, blank=True)
 
     class Meta:
         verbose_name = 'Student'
@@ -135,33 +136,25 @@ class Student(models.Model):
 
 
 class Parents(models.Model):
-    fullname = models.CharField(max_length=255)
+    fullName = models.CharField(max_length=255)
     phone = models.CharField(max_length=30)
     position = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.fullname
-
-
-class Additional(models.Model):
-    title = models.CharField(max_length=255)
-    value = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.title + ' ' + self.student.firstName + ' ' + self.student.lastName
+        return self.fullName
 
 
 class Class(models.Model):
     subject = models.CharField(max_length=25)
     teacher = models.ForeignKey(Teacher, null=True, blank=True)
-    classRoom = models.CharField(max_length=25)
+    classroom = models.CharField(max_length=25)
     day = models.CharField(max_length=20, choices=DAYS)
-    number_of_week = models.CharField(max_length=2, choices=(('1', 1), ('2', 2)))
+    numberOfWeek = models.CharField(max_length=2, choices=(('1', 1), ('2', 2)))
     number = models.IntegerField()
     group = models.ForeignKey('Group', null=True, blank=True)
 
     def __str__(self):
-        return self.subject + ' ' + self.classRoom
+        return self.subject + ' ' + self.classroom
 
 
 class StudentWork(models.Model):
@@ -212,10 +205,6 @@ class PassView(admin.ModelAdmin):
     list_display = ('student', 'date', 'type', 'class_passed')
 
 
-class AdditionalAdminView(admin.ModelAdmin):
-    list_display = ('title',)
-
-
 class BenefitsAdminView(admin.ModelAdmin):
     list_display = ('type',)
 
@@ -241,7 +230,7 @@ class LanguageAdminView(admin.ModelAdmin):
 
 
 class ParentsAdminView(admin.ModelAdmin):
-    list_display = ('fullname',)
+    list_display = ('fullName',)
 
 
 class PublicPlanAdminView(admin.ModelAdmin):
@@ -265,7 +254,6 @@ class TeacherAdminView(admin.ModelAdmin):
 
 #register
 try:
-    admin.site.register(Additional, AdditionalAdminView)
     admin.site.register(Benefits, BenefitsAdminView)
     admin.site.register(Class, ClassAdminView)
     admin.site.register(Department, DepartmentAdminView)

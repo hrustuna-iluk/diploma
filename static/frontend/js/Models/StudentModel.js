@@ -4,8 +4,8 @@ var StudentModel = Backbone.Model.extend ({
 
     defaults: function() {
         return {
-            name: "",
-            surname: "",
+            firstName: "",
+            lastName: "",
             middleName: "",
             group: GroupModel,
             address: "",
@@ -22,24 +22,24 @@ var StudentModel = Backbone.Model.extend ({
             sex: "",
             school: "",
             email: "",
-            additional: []
+            additional: ""
         }
     },
 
     setName: function(value) {
-        this.set('name', value);
+        this.set('firstName', value);
     },
 
     getName: function() {
-        return this.get('name');
+        return this.get('firstName');
     },
 
     setSurname: function(value) {
-        this.set('surname', value);
+        this.set('lastName', value);
     },
 
     getSurname: function() {
-        return this.get('surname');
+        return this.get('lastName');
     },
 
     setMiddleName: function(value) {
@@ -160,5 +160,12 @@ var StudentModel = Backbone.Model.extend ({
 
     getEmail: function() {
         return this.get('email');
+    },
+
+    parse: function(resp) {
+        if (_.isArray(resp)) {
+            return resp[0];
+        }
+        return resp;
     }
 });
