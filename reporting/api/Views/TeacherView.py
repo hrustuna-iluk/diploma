@@ -15,7 +15,7 @@ class TeacherView(APIView):
 
     def get(self, request, pk=None,  format=None):
         if pk:
-            snippet = get_object_or_404(Teacher, pk=pk)
+            snippet = Teacher.objects.filter(department__id=pk)
         else:
             snippet = Teacher.objects.all()
 
@@ -23,22 +23,37 @@ class TeacherView(APIView):
 
     def post(self, request, format=None):
         data = request.data
-        data['department'] = data['department']['id']
+        if isinstance(data['department'], dict):
+            data['department'] = data['department']["id"]
+
+            if data['position'] != 'teacher':
+                teacher = Teacher.objects.get(department=data['department'], position=data['position'])
+                if teacher:
+                    teacher.position = 'teacher'
+                    teacher.save()
         serializer = TeacherSerializer(data=data, context=RequestContext(request))
 
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return HttpResponse(serialize('json', [serializer.instance], relations=('department', )), content_type='application/json', status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, format=None):
         data = request.data
-        data['department'] = data['department']["id"]
+        if isinstance(data['department'], dict):
+            data['department'] = data['department']["id"]
+
+            if data['position'] != 'teacher':
+                teacher = Teacher.objects.get(department=data['department'], position=data['position'])
+                if teacher:
+                    teacher.position = 'teacher'
+                    teacher.save()
+
         snippet = get_object_or_404(Teacher, pk=request.data["id"])
         serializer = TeacherSerializer(snippet, data=data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return HttpResponse(serialize('json', [snippet], relations=('department', )), content_type='application/json')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):

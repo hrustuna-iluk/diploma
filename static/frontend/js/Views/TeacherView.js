@@ -19,7 +19,7 @@ var TeacherView = BaseView.extend({
     },
 
     _changeTeacherData: function() {
-        this.publisher.trigger('change teacher data', this.model);
+        this.publisher.trigger('change:teacher', this.model);
     },
 
     _deleteTeacherData: function() {

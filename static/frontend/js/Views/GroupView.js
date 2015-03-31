@@ -13,7 +13,7 @@ var GroupView = BaseView.extend({
     },
 
     _changeGroup: function() {
-        this.publisher.trigger('change group', this.model);
+        this.publisher.trigger('change:group', this.model);
     },
 
     _deleteGroup: function() {

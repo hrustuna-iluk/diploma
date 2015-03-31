@@ -22,18 +22,24 @@ class ReportView(APIView):
         return HttpResponse(serialize('json', snippet, relations=('event', )), content_type='application/json')
 
     def post(self, request, format=None):
+        data = request.data
+        if isinstance(data['event'], dict):
+            data['event'] = data['event']['id']
         serializer = ReportSerializer(data=request.data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return HttpResponse(serialize('json', [serializer.instance], relations=('event', )), content_type='application/json', status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, format=None):
+        data = request.data
+        if isinstance(data['event'], dict):
+            data['event'] = data['event']['id']
         snippet = get_object_or_404(Report, pk=request.data["id"])
         serializer = ReportSerializer(snippet, data=request.data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return HttpResponse(serialize('json', [snippet], relations=('event', )), content_type='application/json')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):

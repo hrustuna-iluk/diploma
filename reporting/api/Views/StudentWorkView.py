@@ -15,7 +15,7 @@ class StudentWorkView(APIView):
 
     def get(self, request, pk=None,  format=None):
         if pk:
-            snippet = get_object_or_404(StudentWork, pk=pk)
+            snippet = StudentWork.objects.filter(group__id=pk)
         else:
             snippet = StudentWork.objects.all()
 
@@ -23,21 +23,23 @@ class StudentWorkView(APIView):
 
     def post(self, request, format=None):
         data = request.data
-        data['group'] = data['group']['id']
+        if isinstance(data['group'], dict):
+            data['group'] = data['group']['id']
         serializer = StudentWorkSerializer(data=data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return HttpResponse(serialize('json', [serializer.instance], relations='group'), content_type='application/json', status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, format=None):
         data = request.data
-        data['group'] = data['group']['id']
+        if isinstance(data['group'], dict):
+            data['group'] = data['group']['id']
         snippet = get_object_or_404(StudentWork, pk=request.data["id"])
         serializer = StudentWorkSerializer(snippet, data=data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return HttpResponse(serialize('json', [snippet], relations='group'), content_type='application/json')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):

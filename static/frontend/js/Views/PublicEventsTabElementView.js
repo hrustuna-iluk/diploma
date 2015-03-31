@@ -13,7 +13,7 @@ var PublicEventsTabElementView = BaseView.extend({
     },
 
     _changePublicEvent: function() {
-        this.publisher.trigger('change public event', this.model);
+        this.publisher.trigger('change:public:event', this.model);
     },
 
     _deletePublicEvent: function() {

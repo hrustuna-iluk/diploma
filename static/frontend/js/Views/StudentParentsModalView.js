@@ -21,7 +21,7 @@ var StudentParentsModalView = BaseView.extend({
                 fullName: this.$("#fatherFullName").val(),
                 position: this.$("#fatherPosition").val(),
                 phone: this.$("#fatherPhone").val()
-            })
+            });
         this.studentModel.set({
            mother: studentMother,
            father: studentFather
