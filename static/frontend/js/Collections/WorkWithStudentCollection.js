@@ -1,6 +1,6 @@
 var WorkWithStudentCollection = Backbone.Collection.extend({
 
-    url: '/api/',
+    url: '/api/studentworks',
 
     model: WorkWithStudentModel
 

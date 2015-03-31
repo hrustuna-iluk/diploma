@@ -7,7 +7,8 @@ var Route = Backbone.Router.extend({
         'students/:groupId' : 'students',
         'reduction/:groupId': 'reduction',
         'scheduler/:groupId': 'scheduler',
-        'journal/:groupId': 'journal'
+        'journal/:groupId': 'journal',
+        'publicOrders/:groupId': 'publicOrders'
     },
 
     currentView: null,
@@ -37,6 +38,7 @@ var Route = Backbone.Router.extend({
         this.on('route:reduction:', this.reduction);
         this.on('route:scheduler:', this.scheduler);
         this.on('route:journal:', this.journal);
+        this.on('route:publicOrders:', this.publicOrders);
 
     },
 
@@ -137,6 +139,21 @@ var Route = Backbone.Router.extend({
                 this.routeChanged(teacherJournalView);
                 teacherJournalView._wrapTab();
              }, this)
+        });
+    },
+
+    publicOrders: function(groupId) {
+        this.groupsCollection.fetch({
+            success: $.proxy(function () {
+                var group = this.groupsCollection.findWhere({id: +groupId});
+                var publicOrdersView = new AddPublicOrdersOfGroupView({
+                    group: group,
+                    studentsCollection: this.studentsCollection
+                });
+                this.routeChanged(publicOrdersView);
+                publicOrdersView.renderForm();
+                publicOrdersView.renderTable();
+            }, this)
         });
     },
 

@@ -1,6 +1,6 @@
 var WorkWithStudentModel = Backbone.Model.extend ({
 
-    urlRoot: '/api/workwithstudent/',
+    urlRoot: '/api/studentwork/',
 
     defaults: function() {
         return {

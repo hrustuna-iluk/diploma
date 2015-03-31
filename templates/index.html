@@ -266,21 +266,21 @@
         <!--Student Template-->
         <script type="text/template" id="studentTemplate">
             <td></td>
-            <td><%=firstName%></td>
-            <td><%=lastName%></td>
-            <td><%=middleName%></td>
-            <td><%=group.number%></td>
-            <td><%=sex%></td>
-            <td><%=dateBirth%></td>
-            <td><%=address%></td>
-            <td><%=email%></td>
-            <td><%=phone%></td>
-            <td><%=nationality%></td>
-            <td><%=maritalStatus%></td>
-            <td><%=language.title%></td>
-            <td><%=school%></td>
-            <td><%=benefits.type%></td>
-            <td><%=additional%></td>
+            <td><% if(firstName){ %> <%=firstName%> <%}%></td>
+            <td><% if(lastName){ %> <%=lastName%> <%}%></td>
+            <td><% if(middleName){ %> <%=middleName%> <%}%></td>
+            <td><% if(group){ %> <%=group.number%> <%}%></td>
+            <td><% if(sex){ %> <%=sex%> <%}%></td>
+            <td><% if(dateBirth){ %> <%=dateBirth%> <%}%></td>
+            <td><% if(address){ %> <%=address%> <%}%></td>
+            <td><% if(email){ %> <%=email%> <%}%></td>
+            <td><% if(phone){ %> <%=phone%> <%}%></td>
+            <td><% if(nationality){ %> <%=nationality%> <%}%></td>
+            <td><% if(maritalStatus){ %> <%=maritalStatus%> <%}%></td>
+            <td><% if(language){ %> <%=language.title%> <%}%></td>
+            <td><% if(school){ %> <%=school%> <%}%></td>
+            <td><% if(benefits){ %> <%=benefits.type%> <%}%></td>
+            <td><% if(additional){ %> ><%=additional%> <%}%></td>
             <td>
                 <div class="toolbar transparent place-right">
                     <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-student-data"></i></button>
@@ -361,11 +361,12 @@
                                             <th>Ім'я</th>
                                             <th>Прізвище</th>
                                             <th>По батькові</th>
+                                            <th>Група</th>
                                             <th>Стать</th>
                                             <th>Дата народження</th>
                                             <th>Адреса</th>
-                                            <th>Телефон</th>
                                             <th>E-mail</th>
+                                            <th>Телефон</th>
                                             <th>Національність</th>
                                             <th>Сімейний статус</th>
                                             <th>Мова, яку вивчає</th>
@@ -525,16 +526,6 @@
             </div>
         </script>
 
-        <!--Public Orders Template-->
-        <script type="text/template" id="publicOrdersTemplate">
-
-        </script>
-
-        <!--Public Orders Form Template-->
-        <script type="text/template" id="publicOrdersFormTemplate">
-
-        </script>
-
         <!--Attendance Template-->
         <script type="text/template" id="attendanceTemplate">
             <table class="table">
@@ -691,22 +682,22 @@
             <table class="table tabTable">
                 <tr><td>1.Курс</td><td><%=yearStudy%></td></tr>
                 <tr><td>2.Група</td><td><%=number%></td></tr>
-                <tr><td>3.Староста</td><td><%=leader.surname%><%=leader.name%></td></tr>
-                <tr><td>4.Заступник старости</td><td><%=deputyHeadman.surname%><%=deputyHeadman.name%></td></tr>
-                <tr><td>5.Профгрупорг</td><td><%=organizer.surname%><%=organizer.name%></td></tr>
-                <tr><td>6.Культурно-дозвіллєва робота</td><td><%=culturalWork.surname%><%=culturalWork.name%></td></tr>
-                <tr><td>7.Спортивно-оздоровча робота</td><td><%=healthWork.surname%><%=healthWork.name%></td></tr>
+                <tr><td>3.Староста</td><td><%=leader.lastName%><%=leader.firstName%></td></tr>
+                <tr><td>4.Заступник старости</td><td><%=deputyHeadman.lastName%><%=deputyHeadman.firstName%></td></tr>
+                <tr><td>5.Профгрупорг</td><td><%=organizer.lastName%><%=organizer.firstName%></td></tr>
+                <tr><td>6.Культурно-дозвіллєва робота</td><td><%=culturalWork.lastName%><%=culturalWork.firstName%></td></tr>
+                <tr><td>7.Спортивно-оздоровча робота</td><td><%=healthWork.lastName%><%=healthWork.firstName%></td></tr>
                 <tr><td>8.Редколегія</td><td>
-                    <% editorialBoard.each(function(item) { %>
+                    <% editorialBoard.forEach(function(item) { %>
                         <div>
-                            <%=item.surname%><%=item.name%>
+                            <%=item.lastName%><%=item.firstName%>
                         </div>
                     <% }) %>
                 </td></tr>
                 <tr><td>9.Інші доручення</td><td>
-                    <% otherTasks.each(function(item) { %>
+                    <% otherTasks.forEach(function(item) { %>
                         <div>
-                            <%=item.surname%><%=item.name%>
+                            <%=item.lastName%><%=item.firstName%>
                         </div>
                     <% }) %>
                 </td></tr>
@@ -788,7 +779,7 @@
         <script type="text/template" id="allInformationTabElementTemplate">
             <tr>
                 <td></td>
-                <td><%=surname%> <%=name%> <%=middleName%></td>
+                <td><%=lastName%> <%=firstName%> <%=middleName%></td>
                 <td><%=telephone%></td>
                 <td><%=telephone%></td>
                 <td><%=telephone%></td>
@@ -1026,6 +1017,102 @@
             </tr>
         </script>
 
+        <!--Add Public Orders Template-->
+         <script type="text/template" id="addPublicOrdersTemplate">
+            <div class="grid">
+                <div class="row">
+                    <div class="span20" id="page-content">
+                        <span class="title-page">Система контролю відвідувань</span>
+                        <div class="row">
+                            <div class="span4" id="addPublicOrdersForm">
+                            </div>
+                            <div class="span11" id="addPublicOrdersTable" >
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <!--Add Public Orders Form Template-->
+        <script type="text/template" id="addPublicOrdersFormTemplate">
+            <div class="add-publicOrders-form">
+                <form role="form" id="addPublicOrdersForm" onsubmit="return false;">
+                    <div class="form-group">
+                        <select id="groupLeaderSelect" class="form-control">
+                            <option disabled selected>Староста</option>
+                        </select>
+
+                        <select id="groupDeputyHeadmanSelect" class="form-control">
+                            <option disabled selected>Заступник старости</option>
+                        </select>
+
+                        <select id="groupOrganizerSelect" class="form-control">
+                            <option disabled selected>Профгрупорг</option>
+                        </select>
+
+                        <select id="groupCulturalWorkSelect" class="form-control">
+                            <option disabled selected>Культурно-дозвіллєва робота</option>
+                        </select>
+
+                        <select id="groupHealthWorkSelect" class="form-control">
+                            <option disabled>Спортивно-оздоровча робота</option>
+                        </select>
+
+                         <select id="groupEditorialBoardSelect" multiple class="form-control">
+                            <option disabled>Редколегія</option>
+                        </select>
+
+                        <select id="groupOtherTasksSelect" multiple class="form-control">
+                            <option disabled>Інші доручення</option>
+                        </select>
+
+                    </div>
+                     <button  class="btn btn-default" name="addPublicOrders" id="addPublicOrders">Зберегти</button>
+                </form>
+            </div>
+        </script>
+
+        <!--Add Public Orders Table Template-->
+        <script type="text/template" id="addPublicOrdersTableTemplate">
+            <h3 class="tabTableHeader">РОЗПОДІЛ ГРОМАДСЬКИХ ДОРУЧЕНЬ</h3>
+            <table class="table tabTable">
+                <tr><td>1.Староста</td><td><%if(leader){ %> <%=leader.lastName%><%=leader.firstName%> <%}%></td></tr>
+                <tr><td>2.Заступник старости</td><td><%if(deputyHeadman){ %> <%=deputyHeadman.lastName%><%=deputyHeadman.firstName%> <%}%></td></tr>
+                <tr><td>3.Профгрупорг</td><td><%if(organizer){ %> <%=organizer.lastName%><%=organizer.firstName%> <%}%></td></tr>
+                <tr><td>4.Культурно-дозвіллєва робота</td><td><%if(culturalWork){ %> <%=culturalWork.lastName%><%=culturalWork.firstName%> <%}%></td></tr>
+                <tr><td>5.Спортивно-оздоровча робота</td><td><%if(healthWork){ %> <%=healthWork.lastName%><%=healthWork.firstName%> <%}%></td></tr>
+                <tr><td>6.Редколегія</td><td>
+                    <%if (editorialBoard){ %>
+                        <% editorialBoard.forEach(function(item) { %>
+                            <div>
+                                <%=item.lastName%><%=item.firstName%>
+                            </div>
+                        <% }) %>
+                    <%}%>
+                </td></tr>
+                <tr><td>7.Інші доручення</td><td>
+                    <%if (otherTasks){ %>
+                        <% otherTasks.forEach(function(item) { %>
+                            <div>
+                                <%=item.lastName%><%=item.firstName%>
+                            </div>
+                        <% }) %>
+                    <%}%>
+                </td></tr>
+            </table>
+        </script>
+
+        <!--Select Public Orders Student Template-->
+        <script type="text/template" id="optionPublicOrdersStudentTemplate">
+            <option value="<%=id%>">
+                <%=lastName%><%=firstName%>
+            </option>
+        </script>
+
+
+
         <!--Frameworks-->
         <script src="{% static 'frameworks/Metro-UI-CSS-master/docs/js/jquery/jquery.min.js' %}"></script>
         <script src="{% static 'frameworks/bootstrap/js/bootstrap.min.js' %}"></script>
@@ -1104,6 +1191,9 @@
         <script src="{% static 'frontend/js/Views/IndividualWorkTabView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/ReportTabElementView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/ReportTabView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/AddPublicOrdersTableView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/AddPublicOrdersOfGroupFormView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/AddPublicOrdersOfGroupView.js' %}"></script>
 
         <!--Routes-->
         <script src="{% static 'frontend/js/Routes/Route.js' %}"></script>

@@ -7,7 +7,7 @@ var AttendanceModel = Backbone.Model.extend({
             startDate: '',
             endDate: '',
             group: GroupModel,
-            path: ''
+            amountOfWeeks: 0
         }
     }
 });
