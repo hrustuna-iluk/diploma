@@ -15,7 +15,7 @@ class PublicPlanView(APIView):
 
     def get(self, request, pk=None,  format=None):
         if request.GET.get('group'):
-            snippet = get_object_or_404(PublicPlan, group__id=request.GET.get('group'))
+            snippet = PublicPlan.objects.filter(group__id=request.GET.get('group'))
         else:
             snippet = PublicPlan.objects.all()
 
