@@ -15,10 +15,7 @@ class DepartmentView(APIView):
     permission_classes = (permissions.IsAdminUser,)
 
     def get(self, request, pk=None,  format=None):
-        if pk:
-            snippet = get_object_or_404(Department, pk=pk)
-        else:
-            snippet = Department.objects.all()
+        snippet = Department.objects.all()
 
         return HttpResponse(serialize('json', snippet, relations=('headOfDepartment', )), content_type="application/json")
 

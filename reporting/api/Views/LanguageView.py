@@ -14,10 +14,7 @@ class LanguageView(APIView):
     permission_classes = (permissions.IsAdminUser,)
 
     def get(self, request, pk=None,  format=None):
-        if pk:
-            snippet = get_object_or_404(Language, pk=pk)
-        else:
-            snippet = Language.objects.all()
+        snippet = Language.objects.all()
 
         return HttpResponse(serialize('json', snippet), content_type='application/json')
 

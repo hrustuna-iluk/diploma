@@ -8,7 +8,9 @@ var AllInformationTabView = BaseView.extend({
     },
 
     _buildTable: function() {
-        this.collection.reset().fetch({
+        this.collection.reset().fetch({data: {
+            group: this.group.get('id')
+        },
             success: $.proxy(function () {
                 this.collection.each($.proxy (function(item, index, array) {
                     this.$('tbody').append(

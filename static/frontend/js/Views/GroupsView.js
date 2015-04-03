@@ -35,6 +35,7 @@ var GroupsView = BaseView.extend({
             department: this.department,
             collection: this.teachersCollection
         }).render().$el;
+        this._fillCuratorList();
     },
 
     _onGroupChange: function(model) {
@@ -90,6 +91,9 @@ var GroupsView = BaseView.extend({
 
     _fillCuratorList: function(model) {
         this.teachersCollection.reset().fetch({
+            data: {
+                department: this.department.get('id')
+            },
             success: $.proxy(function () {
                 this.teachersCollection.each(function(model) {
                     this.$('#groupCurator').append(this.optionCuratorTemplate(model.toJSON()));
@@ -99,7 +103,7 @@ var GroupsView = BaseView.extend({
     },
 
     render: function() {
-        this.$el.html(this.template);
+        this.$el.html(this.template(this.department.toJSON()));
         this._attachEvents();
         this._fillCuratorList();
         return this;

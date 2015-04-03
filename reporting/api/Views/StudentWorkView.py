@@ -14,8 +14,8 @@ class StudentWorkView(APIView):
     permission_classes = (permissions.IsAdminUser,)
 
     def get(self, request, pk=None,  format=None):
-        if pk:
-            snippet = StudentWork.objects.filter(group__id=pk)
+        if request.GET.get('group'):
+            snippet = StudentWork.objects.filter(group__id=request.GET.get('group'))
         else:
             snippet = StudentWork.objects.all()
 

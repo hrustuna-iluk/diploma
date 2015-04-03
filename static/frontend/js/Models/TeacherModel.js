@@ -38,6 +38,13 @@ var TeacherModel = Backbone.Model.extend ({
 
     setPosition: function(value) {
         this.set("position", value);
+    },
+
+    parse: function(resp) {
+        if (_.isArray(resp)) {
+            return resp[0];
+        }
+        return resp;
     }
 
 });

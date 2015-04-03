@@ -65,6 +65,7 @@ var TeacherJournalView = BaseView.extend({
             publicPlanCollection: this.publicPlanCollection
         });
         var publicPlanTabForm = new PublicPlanTabFormView({
+            group: this.group,
             publicPlanCollection: this.publicPlanCollection
         });
         this._tabChanged('publicPlanTab', publicPlanTabView);
@@ -81,6 +82,7 @@ var TeacherJournalView = BaseView.extend({
             publicPlanCollection: this.publicPlanCollection
         });
         var publicEventsTabForm = new PublicEventsTabFormView({
+            group: this.group,
             publicPlanCollection: this.publicPlanCollection
         });
         this._tabChanged('educationalEventsTab', publicEventsTabView);
@@ -93,6 +95,7 @@ var TeacherJournalView = BaseView.extend({
             workWithStudentCollection: this.workWithStudentCollection
         });
         var individualWorkTabFormView = new IndividualWorkTabFormView({
+            group: this.group,
             workWithStudentCollection: this.workWithStudentCollection
         });
         this._tabChanged('individualWorkTab', individualWorkTabView);
@@ -127,7 +130,7 @@ var TeacherJournalView = BaseView.extend({
     },
 
     render: function() {
-        this.$el.html(this.template);
+        this.$el.html(this.template(this.group.toJSON()));
         this._attachEvents();
         return this;
     }

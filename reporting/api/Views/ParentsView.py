@@ -14,8 +14,8 @@ class ParentsView(APIView):
     permission_classes = (permissions.IsAdminUser,)
 
     def get(self, request, pk=None,  format=None):
-        if pk:
-            snippet = get_object_or_404(Parents, pk=pk)
+        if request.GET.get('student'):
+            snippet = get_object_or_404(Parents, student__id=request.GET.get('student'))
         else:
             snippet = Parents.objects.all()
 

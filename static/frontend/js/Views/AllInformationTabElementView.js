@@ -1,5 +1,7 @@
 var AllInformationTabElementView = BaseView.extend({
 
+    tagName: 'tr',
+
     template: _.template($("#allInformationTabElementTemplate").html()),
 
     render: function() {

@@ -26,7 +26,7 @@ var AddPublicOrdersOfGroupView = BaseView.extend({
 
 
     render: function() {
-        this.$el.html(this.template);
+        this.$el.html(this.template(this.group.toJSON()));
         return this;
     }
 

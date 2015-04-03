@@ -1,5 +1,7 @@
 var PublicEventsTabElementView = BaseView.extend({
 
+    tagName: 'tr',
+
     template: _.template($("#publicEventTabElementTemplate").html()),
 
     selectors: {

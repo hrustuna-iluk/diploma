@@ -14,8 +14,8 @@ class TeacherView(APIView):
     permission_classes = (permissions.IsAdminUser,)
 
     def get(self, request, pk=None,  format=None):
-        if pk:
-            snippet = Teacher.objects.filter(department__id=pk)
+        if request.GET.get('department'):
+            snippet = Teacher.objects.filter(department__id=request.GET.get('department'))
         else:
             snippet = Teacher.objects.all()
 
@@ -27,10 +27,13 @@ class TeacherView(APIView):
             data['department'] = data['department']["id"]
 
             if data['position'] != 'teacher':
-                teacher = Teacher.objects.get(department=data['department'], position=data['position'])
-                if teacher:
-                    teacher.position = 'teacher'
-                    teacher.save()
+                try:
+                    teacher = Teacher.objects.get(department=data['department'], position=data['position'])
+                    if teacher:
+                        teacher.position = 'teacher'
+                        teacher.save()
+                except Teacher.DoesNotExist:
+                    pass
         serializer = TeacherSerializer(data=data, context=RequestContext(request))
 
         if serializer.is_valid():

@@ -11,6 +11,7 @@ var IndividualWorkTabFormView = BaseView.extend({
 
     initialize: function(options) {
         this.collection = options.workWithStudentCollection;
+        this.group = options.group;
         this.publisher.on('change:individual:work', $.proxy(this._onIndividualWorkChange, this));
     },
 

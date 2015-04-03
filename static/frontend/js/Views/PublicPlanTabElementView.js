@@ -1,5 +1,7 @@
 var PublicPlanTabElementView = BaseView.extend({
 
+    tagName: 'tr',
+
     template: _.template($("#publicPlanTabElementTemplate").html()),
 
     selectors: {

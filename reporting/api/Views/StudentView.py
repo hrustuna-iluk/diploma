@@ -14,13 +14,17 @@ class StudentView(APIView):
     permission_classes = (permissions.IsAdminUser,)
 
     def get(self, request, pk=None,  format=None):
-        if pk:
-            snippet = Student.objects.filter(group__id=pk)
+        if request.GET.get('group'):
+            snippet = Student.objects.filter(group__id=request.GET['group'])
+        elif request.GET.get('department'):
+            snippet = Student.objects.filter(group__id=request.GET['department'])
         else:
             snippet = Student.objects.all()
         return HttpResponse(serialize('json', snippet, relations={
             'language': {},
             'benefits': {},
+            'father': {},
+            'mother': {},
             'group': {
                 'relations': ('department',
                               'editorialBoard',

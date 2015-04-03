@@ -10,7 +10,8 @@ var PublicPlanModel = Backbone.Model.extend ({
             description: "",
             amountHours: 0,
             amountPresent: 0,
-            semester: 0
+            semester: 0,
+            group: null
         }
     },
 
@@ -68,6 +69,13 @@ var PublicPlanModel = Backbone.Model.extend ({
 
     getSemester: function() {
         return this.get('semester');
+    },
+
+    parse: function(resp) {
+        if (_.isArray(resp)) {
+            return resp[0];
+        }
+        return resp;
     }
 
 

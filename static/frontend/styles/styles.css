@@ -344,6 +344,10 @@ th {
     background-color: rgba(0, 0, 0, 0.7);
 }
 
+#wrapTab {
+    text-align: center;
+}
+
 #journalTable ul li.active a{
     background-color: rgba(0, 0, 0, 0.9);
 }
@@ -376,4 +380,9 @@ th {
 #addPublicOrdersForm .add-publicOrders-form{
     background-color: rgba(0, 0, 0, 0.7);
     padding: 50px 20px 50px 20px;
+}
+
+.span20 .department-title {
+    color: #ffffff;
+    font-style: italic;
 }

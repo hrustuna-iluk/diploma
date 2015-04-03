@@ -10,7 +10,8 @@ var StartPageView = BaseView.extend ({
         createDepartment: "#addDepartment",
         changeDepartment: "#changeDepartment",
         departmentTitle: "#departmentName",
-        headOfDepartment: "#headOfDepartment"
+        headOfDepartment: "#headOfDepartment",
+        specialization: "#departmentSpecialization"
     },
 
     constants: {
@@ -34,6 +35,7 @@ var StartPageView = BaseView.extend ({
 
     _onDepartmentChange: function(model) {
         $(this.selectors.departmentTitle).val(model.getTitle());
+        $(this.selectors.specialization).val(model.getSpecialization());
         this.$(this.selectors.changeDepartment).data('model', model);
         this.$(this.selectors.createDepartment).addClass('no-display');
         this.$(this.selectors.changeDepartment).removeClass('no-display');
@@ -48,10 +50,11 @@ var StartPageView = BaseView.extend ({
 
     _addDepartment: function() {
         var departmentModel = new DepartmentModel();
-        var departmentTitle = this.$(this.selectors.departmentTitle).val();
+        departmentModel.setTitle(this.$(this.selectors.departmentTitle).val());
+        departmentModel.setSpecialization(this.$(this.selectors.specialization).val());
         this.$(this.selectors.departmentTitle).val("");
-        departmentModel.setTitle(departmentTitle);
-        departmentModel.save({wait: true}, {success: $.proxy(function() {
+        this.$(this.selectors.specialization).val("");
+        departmentModel.save({}, {success: $.proxy(function() {
                     this.collection.add(departmentModel);
                 }, this)});
         return false;
@@ -60,11 +63,16 @@ var StartPageView = BaseView.extend ({
     _changeDepartment: function() {
         var departmentModel = this.$(this.selectors.changeDepartment).data('model'),
             headOfDepartment = this.$(this.selectors.headOfDepartment).val();
-
-        departmentModel.setHeadOfDepartment( +headOfDepartment );
+        if(headOfDepartment) {
+            departmentModel.setHeadOfDepartment(+headOfDepartment);
+        } else {
+            departmentModel.setHeadOfDepartment(null);
+        }
         departmentModel.setTitle(this.$(this.selectors.departmentTitle).val());
+         departmentModel.setSpecialization(this.$(this.selectors.specialization).val());
         departmentModel.save();
         this.$(this.selectors.departmentTitle).val("");
+        this.$(this.selectors.specialization).val("");
         this.$(this.selectors.headOfDepartment).addClass('no-display');
         this.$(this.selectors.changeDepartment).addClass('no-display');
         this.$(this.selectors.createDepartment).removeClass('no-display');

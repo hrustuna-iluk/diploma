@@ -14,8 +14,8 @@ class GroupView(APIView):
     permission_classes = (permissions.IsAdminUser,)
 
     def get(self, request, pk=None,  format=None):
-        if pk:
-            snippet = Group.objects.filter(department__id=pk)
+        if request.GET.get('department'):
+            snippet = Group.objects.filter(department__id=request.GET.get('department'))
         else:
             snippet = Group.objects.all()
 

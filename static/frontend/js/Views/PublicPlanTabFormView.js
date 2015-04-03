@@ -13,6 +13,7 @@ var PublicPlanTabFormView = BaseView.extend({
 
     initialize: function(options) {
         this.collection = options.publicPlanCollection;
+        this.group = options.group;
         this.publisher.on('change:public:plan', $.proxy(this._onPublicPlanChange, this));
     },
 
@@ -43,7 +44,9 @@ var PublicPlanTabFormView = BaseView.extend({
     },
 
     _createPublicPlan: function() {
-        var publicPlanModel = new PublicPlanModel();
+        var publicPlanModel = new PublicPlanModel({
+            group: this.group.get('id')
+        });
         this._publicPlanData(publicPlanModel);
         publicPlanModel.save({wait: true}, {success: $.proxy(function() {
                     this.collection.add(publicPlanModel);

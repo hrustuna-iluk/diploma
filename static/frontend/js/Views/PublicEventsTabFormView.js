@@ -15,8 +15,11 @@ var PublicEventsTabFormView = BaseView.extend({
 
     initialize: function(options) {
         this.collection = options.publicPlanCollection;
+        this.group = options.group;
         this.publisher.on('change:public:event', $.proxy(this._onPublicEventChange, this));
-        this.collection.reset().fetch({
+        this.collection.reset().fetch({data: {
+            group: this.group.get('id')
+        },
             success: $.proxy(this._fillEventList, this)
         });
     },

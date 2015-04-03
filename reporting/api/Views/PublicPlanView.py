@@ -14,32 +14,32 @@ class PublicPlanView(APIView):
     permission_classes = (permissions.IsAdminUser,)
 
     def get(self, request, pk=None,  format=None):
-        if pk:
-            snippet = get_object_or_404(PublicPlan, pk=pk)
+        if request.GET.get('group'):
+            snippet = get_object_or_404(PublicPlan, group__id=request.GET.get('group'))
         else:
             snippet = PublicPlan.objects.all()
 
-        return HttpResponse(serialize('json', snippet, relations=('event', 'responsive')), content_type='application/json')
+        return HttpResponse(serialize('json', snippet, relations=('group', )), content_type='application/json')
 
     def post(self, request, format=None):
         data = request.data
-        if isinstance(data['responsive'], dict):
-            data['responsive'] = data['responsive']['id']
+        if isinstance(data['group'], dict):
+            data['group'] = data['group']['id']
         serializer = PublicPlanSerializer(data=data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
-            return HttpResponse(serialize('json', [serializer.instance], relations=('event', 'responsive')), content_type='application/json', status=status.HTTP_201_CREATED)
+            return HttpResponse(serialize('json', [serializer.instance], relations=('group',)), content_type='application/json', status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, format=None):
         data = request.data
-        if isinstance(data['responsive'], dict):
-            data['responsive'] = data['responsive']['id']
+        if isinstance(data['group'], dict):
+            data['group'] = data['group']['id']
         snippet = get_object_or_404(PublicPlan, pk=request.data["id"])
         serializer = PublicPlanSerializer(snippet, data=data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
-            return HttpResponse(serialize('json', [snippet], relations=('event', 'responsive')), content_type='application/json')
+            return HttpResponse(serialize('json', [snippet], relations=('group',)), content_type='application/json')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):

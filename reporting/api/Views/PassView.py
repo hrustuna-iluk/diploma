@@ -14,8 +14,8 @@ class PassView(APIView):
     permission_classes = (permissions.IsAdminUser,)
 
     def get(self, request, pk=None,  format=None):
-        if pk:
-            snippet = Pass.objects.filter(student__id=pk)
+        if request.GET.get('student'):
+            snippet = Pass.objects.filter(student__id=request.GET.get('student'))
         else:
             snippet = Pass.objects.all()
 

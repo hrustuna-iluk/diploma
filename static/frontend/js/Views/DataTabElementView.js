@@ -1,5 +1,7 @@
 var DataTabElementView = BaseView.extend({
 
+    tagName: 'tr',
+
     template: _.template($("#dataTabElementTemplate").html()),
 
     render: function() {

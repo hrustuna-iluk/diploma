@@ -5,6 +5,7 @@ from django.contrib import admin
 POSITIONS = (
     ('dean', 'Декан'),
     ('Head of Department', 'Завідувач кафедри'),
+    ('Deputy Dean', 'Заступник декана'),
     ('teacher', 'Викладач')
 )
 
@@ -55,6 +56,7 @@ class Faculty(models.Model):
 
 class Department(models.Model):
     title = models.CharField(max_length=255)
+    specialization = models.CharField(max_length=255)
     headOfDepartment = models.ForeignKey('Teacher', null=True, related_name='head', blank=True)
 
     def __str__(self):
@@ -169,22 +171,15 @@ class StudentWork(models.Model):
 class PublicPlan(models.Model):
     event = models.CharField(max_length=255)
     date = models.CharField(max_length=100)
-    responsive = models.ForeignKey(Teacher, null=True, blank=True)
-    description = models.CharField(max_length=255, blank=True)
-    amount_hours = models.FloatField()
-    amount_present = models.IntegerField()
-    semester = models.IntegerField()
+    responsive = models.CharField(max_length=255)
+    description = models.CharField(max_length=255, null=True, blank=True)
+    amount_hours = models.FloatField(null=True, blank=True)
+    amount_present = models.IntegerField(null=True, blank=True)
+    semester = models.IntegerField(null=True, blank=True)
+    group = models.ForeignKey(Group, null=True, blank=True)
 
     def __str__(self):
         return self.description
-
-
-class Report(models.Model):
-    date = models.DateField()
-    event = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.event.title
 
 
 class Pass(models.Model):
@@ -237,10 +232,6 @@ class PublicPlanAdminView(admin.ModelAdmin):
     list_display = ('description',)
 
 
-class ReportAdminView(admin.ModelAdmin):
-    list_display = ('date',)
-
-
 class StudentAdminView(admin.ModelAdmin):
     list_display = ('firstName', 'lastName')
 
@@ -262,7 +253,6 @@ try:
     admin.site.register(Language, LanguageAdminView)
     admin.site.register(Parents, ParentsAdminView)
     admin.site.register(PublicPlan, PublicPlanAdminView)
-    admin.site.register(Report, ReportAdminView)
     admin.site.register(Student, StudentAdminView)
     admin.site.register(StudentWork, StudentWorkAdminView)
     admin.site.register(Teacher, TeacherAdminView)

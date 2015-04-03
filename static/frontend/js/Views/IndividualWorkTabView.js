@@ -6,7 +6,9 @@ var IndividualWorkTabView = BaseView.extend({
         this.collection = options.workWithStudentCollection;
         this.group = options.group;
         this.collection.on('add', $.proxy(this._renderTr, this));
-        //this.collection.reset().fetch();
+        this.collection.reset().fetch({data: {
+            group: this.group.get('id')
+        }});
     },
 
     _renderTr: function(model) {

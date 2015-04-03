@@ -37,7 +37,10 @@ var StudentsView = BaseView.extend({
         this.group = options.group;
         this.collection.on("add", $.proxy(this._renderStudent, this));
         this.publisher.on('change:student', $.proxy(this._onStudentChange, this));
-        this.collection.reset().fetch();
+        this.collection.reset().fetch({data: {
+            group: this.group.get('id')
+            //department: this.group.get('department').get('id')
+        }});
     },
 
     _attachEvents: function() {

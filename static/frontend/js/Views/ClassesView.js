@@ -25,6 +25,7 @@ var ClassesView = BaseView.extend ({
                });
                this.$el.append(
                    new ClassView({
+                       group: this.group,
                        model: model,
                        teachersCollection: this.teachersCollection
                    }).render().$el

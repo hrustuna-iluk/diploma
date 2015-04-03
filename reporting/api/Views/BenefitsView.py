@@ -14,10 +14,7 @@ class BenefitsView(APIView):
     permission_classes = (permissions.IsAdminUser,)
 
     def get(self, request, pk=None,  format=None):
-        if pk:
-            snippet = get_object_or_404(Benefits, pk=pk)
-        else:
-            snippet = Benefits.objects.all()
+        snippet = Benefits.objects.all()
 
         return HttpResponse(serialize('json', snippet), content_type='application/json')
 

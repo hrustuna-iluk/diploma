@@ -27,6 +27,7 @@
                                     <form role="form" id="addDepartmentForm" onsubmit="return false;">
                                         <div class="form-group">
                                             <input type="text" placeholder="Назва кафедри" name="departmentName" id="departmentName" class="form-control">
+                                            <input type="text" placeholder="Спеціальність,напрям" name="departmentSpecialization" id="departmentSpecialization" class="form-control">
                                              <select id="headOfDepartment" class="form-control no-display">
                                                     <option disabled>Завідувач кафедри</option>
                                              </select>
@@ -104,6 +105,7 @@
                                                 <option value="dean">Декан</option>
                                                 <option value="Head of Department">Завідувач кафедри</option>
                                                 <option value="teacher">Викладач</option>
+                                                <option value="Deputy Dean">Викладач</option>
                                             </select>
                                         </div>
 
@@ -140,7 +142,10 @@
             <td><%=lastName%></td>
             <td><%=firstName%></td>
             <td><%=middleName%></td>
-            <td><%=position%></td>
+            <td><%if(position == 'teacher'){ %> Викладач <%} else if(position == 'Head of Department'){ %>
+                 Завідувач кафедрою <%} else if(position == 'dean'){ %>
+              Декан <%} else if(position == 'Deputy Dean'){ %> Заступник декана <%}%>
+            </td>
             <td><%if(department){ %><%=department.title%><%}%></td>
             <td colspan="2">
                 <div class="toolbar transparent place-right">
@@ -180,6 +185,8 @@
                 <div class="row">
                     <div class="span20" id="page-content">
                         <span class="title-page">Система контролю відвідувань</span>
+                        <h3 class="department-title">Кафедра</h3>
+                        <h3 class="department-title"><%=title%></h3>
                         <div class="row">
                             <div class="span4" >
                                 <div class="add-group-form">
@@ -215,9 +222,9 @@
                                     </div>
                                 </div>
 
-                                <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Зведення по кафедрі">
+                                <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Пошук студента">
                                     <div class="tile-content icon">
-                                        <i class="icon-file"></i>
+                                        <i class="icon-search"></i>
                                     </div>
                                 </div>
                             </div>
@@ -231,7 +238,7 @@
         <!--Select option template for curator-->
         <script type="text/template" id="optionCuratorTemplate">
             <option value="<%=id%>">
-                <%=firstName%> <%=lastName%> <%=middleName%>
+                <%=lastName%> <%=firstName%> <%=middleName%>
             </option>
         </script>
 
@@ -266,21 +273,25 @@
         <!--Student Template-->
         <script type="text/template" id="studentTemplate">
             <td></td>
-            <td><% if(firstName){ %> <%=firstName%> <%}%></td>
             <td><% if(lastName){ %> <%=lastName%> <%}%></td>
+            <td><% if(firstName){ %> <%=firstName%> <%}%></td>
             <td><% if(middleName){ %> <%=middleName%> <%}%></td>
             <td><% if(group){ %> <%=group.number%> <%}%></td>
-            <td><% if(sex){ %> <%=sex%> <%}%></td>
+            <td><% if(sex){ %>
+                    <%if(sex == 'male'){ %> Ч <%} else if (sex == 'female'){ %> Ж <%}%>
+                <%}%></td>
             <td><% if(dateBirth){ %> <%=dateBirth%> <%}%></td>
             <td><% if(address){ %> <%=address%> <%}%></td>
             <td><% if(email){ %> <%=email%> <%}%></td>
             <td><% if(phone){ %> <%=phone%> <%}%></td>
             <td><% if(nationality){ %> <%=nationality%> <%}%></td>
-            <td><% if(maritalStatus){ %> <%=maritalStatus%> <%}%></td>
+            <td><% if(maritalStatus){ %>
+                    <%if(maritalStatus == 'single') { %> Неодружений<%}else if(maritalStatus == 'married'){ %>Одружений<%}%>
+                    <%}%></td>
             <td><% if(language){ %> <%=language.title%> <%}%></td>
             <td><% if(school){ %> <%=school%> <%}%></td>
             <td><% if(benefits){ %> <%=benefits.type%> <%}%></td>
-            <td><% if(additional){ %> ><%=additional%> <%}%></td>
+            <td><% if(additional){ %> <%=additional%> <%}%></td>
             <td>
                 <div class="toolbar transparent place-right">
                     <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-student-data"></i></button>
@@ -358,8 +369,8 @@
                                     <thead>
                                         <tr>
                                             <th>№</th>
-                                            <th>Ім'я</th>
                                             <th>Прізвище</th>
+                                            <th>Ім'я</th>
                                             <th>По батькові</th>
                                             <th>Група</th>
                                             <th>Стать</th>
@@ -438,7 +449,7 @@
                 <div class="row">
                     <div class="span20" id="page-content">
                         <span class="title-page">Система контролю відвідувань</span>
-
+                        <h3 class="department-title">Група <%=number%></h3>
                         <div class="row">
                             <div class="span2" >
 
@@ -482,7 +493,7 @@
                 <div class="row">
                     <div class="span20" id="page-content">
                         <span class="title-page">Система контролю відвідувань</span>
-
+                        <h3 class="department-title">Група <%=number%></h3>
                         <div class="row">
                             <div class="span2" >
 
@@ -518,7 +529,11 @@
                             </div>
 
                             <div class="span11" id="attendanceTable" >
-
+                                <div></div>
+                                <ul class="nav nav-pills">
+                                    <li role="presentation" class="active"><a href='firstSemester'>Перший семестр</a></li>
+                                    <li role="presentation"><a href="secondSemester">Другий семестр</a></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -595,6 +610,7 @@
                 <div class="row">
                     <div class="span20" id="page-content">
                         <span class="title-page">Система контролю відвідувань</span>
+                        <h3 class="department-title">Група <%=number%></h3>
                         <div class="row">
                             <div class="span4" id="formForTab">
 
@@ -682,24 +698,28 @@
             <table class="table tabTable">
                 <tr><td>1.Курс</td><td><%=yearStudy%></td></tr>
                 <tr><td>2.Група</td><td><%=number%></td></tr>
-                <tr><td>3.Староста</td><td><%=leader.lastName%><%=leader.firstName%></td></tr>
-                <tr><td>4.Заступник старости</td><td><%=deputyHeadman.lastName%><%=deputyHeadman.firstName%></td></tr>
-                <tr><td>5.Профгрупорг</td><td><%=organizer.lastName%><%=organizer.firstName%></td></tr>
-                <tr><td>6.Культурно-дозвіллєва робота</td><td><%=culturalWork.lastName%><%=culturalWork.firstName%></td></tr>
-                <tr><td>7.Спортивно-оздоровча робота</td><td><%=healthWork.lastName%><%=healthWork.firstName%></td></tr>
+                <tr><td>3.Староста</td><td><%if(leader){ %> <%=leader.lastName%><%=leader.firstName%> <%}%></td></tr>
+                <tr><td>4.Заступник старости</td><td><%if(deputyHeadman){ %> <%=deputyHeadman.lastName%><%=deputyHeadman.firstName%> <%}%></td></tr>
+                <tr><td>5.Профгрупорг</td><td><%if(organizer){ %> <%=organizer.lastName%><%=organizer.firstName%> <%}%></td></tr>
+                <tr><td>6.Культурно-дозвіллєва робота</td><td><%if(culturalWork){ %> <%=culturalWork.lastName%><%=culturalWork.firstName%> <%}%></td></tr>
+                <tr><td>7.Спортивно-оздоровча робота</td><td><%if(healthWork){ %> <%=healthWork.lastName%><%=healthWork.firstName%> <%}%></td></tr>
                 <tr><td>8.Редколегія</td><td>
-                    <% editorialBoard.forEach(function(item) { %>
-                        <div>
-                            <%=item.lastName%><%=item.firstName%>
-                        </div>
-                    <% }) %>
+                    <%if(editorialBoard){ %>
+                        <% editorialBoard.forEach(function(item) { %>
+                            <div>
+                                <%=item.lastName%><%=item.firstName%>
+                            </div>
+                        <% }) %>
+                    <%}%>
                 </td></tr>
                 <tr><td>9.Інші доручення</td><td>
-                    <% otherTasks.forEach(function(item) { %>
-                        <div>
-                            <%=item.lastName%><%=item.firstName%>
-                        </div>
-                    <% }) %>
+                    <%if(otherTasks){ %>
+                        <% otherTasks.forEach(function(item) { %>
+                            <div>
+                                <%=item.lastName%><%=item.firstName%>
+                            </div>
+                        <% }) %>
+                    <%}%>
                 </td></tr>
             </table>
         </script>
@@ -715,7 +735,6 @@
                         <th>Дата народження</th>
                         <th>Національність</th>
                         <th>Сімейний стан</th>
-                        <th>Громадське доручення</th>
                         <th>Адреса, де проживає під час навчання</th>
                         <th>Місце праці та посада батьків</th>
                     </tr>
@@ -727,7 +746,6 @@
                         <th>5</th>
                         <th>6</th>
                         <th>7</th>
-                        <th>8</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -736,21 +754,21 @@
 
         <!--Data Tab Element Template-->
         <script type="text/template" id="dataTabElementTemplate">
-            <tr>
-                <td></td>
-                <td><%=lastName%> <%=firstName%> <%=middleName%></td>
-                <td><%=dateBirth%></td>
-                <td><%=nationality%></td>
-                <td><%=maritalStatus%></td>
-                <td><%=publicOrders.type%></td>
-                <td><%=currentAddress%></td>
-                <td>
-                    <span><%=father.fullName%></span>
-                    <span><%=father.position%></span>
-                    <span><%=mother.fullName%></span>
-                    <span><%=mother.position%></span>
-                </td>
-            </tr>
+            <td></td>
+            <td><%=lastName%> <%=firstName%> <%=middleName%></td>
+            <td><%=dateBirth%></td>
+            <td><%=nationality%></td>
+            <td><%if(maritalStatus == 'single'){ %> Неодружений <%}else if(maritalStatus == 'married'){ %>Одружений<%}%></td>
+            <td><%=currentAddress%></td>
+            <td>
+                <span><%=father.fullName%></span>
+                <br/>
+                (<span><i><%=father.position%></i></span>)
+                <br/>
+                <span><%=mother.fullName%></span>
+                <br/>
+                (<span><i><%=mother.position%></i></span>)
+            </td>
         </script>
 
          <!--All Information Tab Template-->
@@ -761,8 +779,7 @@
                     <tr>
                         <th>№</th>
                         <th>Прізвище, ім'я, по батькові</th>
-                        <th>Сума балів</th>
-                        <th>Бали з математики</th>
+                        <th>Бали ЗНО, математика</th>
                         <th>Телефон</th>
                         <th>e-mail</th>
                         <th>Адреса</th>
@@ -777,12 +794,10 @@
 
         <!--All Information Tab Element Template-->
         <script type="text/template" id="allInformationTabElementTemplate">
-            <tr>
                 <td></td>
                 <td><%=lastName%> <%=firstName%> <%=middleName%></td>
-                <td><%=telephone%></td>
-                <td><%=telephone%></td>
-                <td><%=telephone%></td>
+                <td><%=additional%></td>
+                <td><%=phone%></td>
                 <td><%=email%></td>
                 <td><%=currentAddress%></td>
                 <td>
@@ -791,7 +806,6 @@
                 </td>
                 <td><%=address%></td>
                 <td><%=school%></td>
-            </tr>
         </script>
 
          <!--Public Plan Tab-->
@@ -822,7 +836,6 @@
 
          <!--Public Plan Tab Element-->
         <script type="text/template" id="publicPlanTabElementTemplate">
-            <tr>
                 <td></td>
                 <td><%=event%></td>
                 <td><%=date%></td>
@@ -838,7 +851,6 @@
                         <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white remove-publicPlan"></i></button>
                     </div>
                 </td>
-            </tr>
         </script>
 
         <!--Public Plan Tab Form-->
@@ -861,7 +873,6 @@
 
          <!--Public Events Tab Element Template-->
         <script type="text/template" id="publicEventTabElementTemplate">
-            <tr>
                 <td></td>
                 <td><%=date%></td>
                 <td><%=event%></td>
@@ -877,7 +888,6 @@
                         <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white remove-publicEvent"></i></button>
                     </div>
                 </td>
-            </tr>
         </script>
 
          <!--Public Events Tab Template-->
@@ -967,11 +977,10 @@
 
         <!--Individual Work Tab Element Template-->
         <script type="text/template" id="individualWorkTabElementTemplate">
-           <tr>
                <td></td>
                <td><%=text%></td>
                <td><%=year%></td>
-               <td><%=group%></td>
+               <td><%=group.number%></td>
                <td>
                     <div class="toolbar transparent place-right">
                         <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-individualWork"></i></button>
@@ -982,7 +991,7 @@
                         <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white remove-individualWork"></i></button>
                     </div>
                 </td>
-           </tr>
+
         </script>
 
          <!--Individual Work Tab Form Template-->
@@ -1005,7 +1014,9 @@
             <h3 class="tabTableHeader">ЗВІТ ПРО ГРОМАДСЬКО-ВИХОВНУ РОБОТУ</h3>
             <table class="table tabTable">
                 <tbody>
-                <tr>В навчальному році були проведені такі заходи:</tr>
+                    <tr>
+                        <th>В навчальному році були проведені такі заходи:</th>
+                    </tr>
                 </tbody>
             </table>
         </script>
@@ -1023,6 +1034,7 @@
                 <div class="row">
                     <div class="span20" id="page-content">
                         <span class="title-page">Система контролю відвідувань</span>
+                        <h3 class="department-title">Група <%=number%></h3>
                         <div class="row">
                             <div class="span4" id="addPublicOrdersForm">
                             </div>
@@ -1125,7 +1137,6 @@
         <script src="{% static 'frontend/js/Models/BenefitsModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/LanguageModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/PublicPlanModel.js' %}"></script>
-        <script src="{% static 'frontend/js/Models/ReportModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/TeacherModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/GroupModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/FatherModel.js' %}"></script>

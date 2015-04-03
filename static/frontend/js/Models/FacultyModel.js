@@ -9,6 +9,13 @@ var FacultyModel = Backbone.Model.extend ({
             department: DepartmentModel
 
         }
+    },
+
+    parse: function(resp) {
+        if (_.isArray(resp)) {
+            return resp[0];
+        }
+        return resp;
     }
 
 });

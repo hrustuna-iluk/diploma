@@ -5,6 +5,7 @@ var ClassModalView = BaseView.extend({
     optionSelectTemplateForTeacher: _.template($("#optionTeacherTemplate").html()),
 
     initialize: function(options) {
+        this.group = options.group
         this.teachersCollection = options.teachersCollection;
     },
 
@@ -31,7 +32,9 @@ var ClassModalView = BaseView.extend({
     },
 
     _fillTeachersList: function() {
-         this.teachersCollection.reset().fetch({
+         this.teachersCollection.reset().fetch({data: {
+            department: this.group.get('department').id
+        },
             success: $.proxy(function () {
                 this.teachersCollection.each(function(model) {
                     this.$('.classTeacher').append(this.optionSelectTemplateForTeacher(model.toJSON()));

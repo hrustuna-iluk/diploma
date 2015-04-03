@@ -42,7 +42,7 @@ var ScheduleView = BaseView.extend({
     },
 
     render: function() {
-        this.$el.html(this.template);
+        this.$el.html(this.template(this.group.toJSON()));
         this._buildScheduler();
         this._attachEvents();
         return this;

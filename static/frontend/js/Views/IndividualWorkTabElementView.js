@@ -1,5 +1,7 @@
 var IndividualWorkTabElementView = BaseView.extend({
 
+    tagName: "tr",
+
     template: _.template($("#individualWorkTabElementTemplate").html()),
 
     selectors: {

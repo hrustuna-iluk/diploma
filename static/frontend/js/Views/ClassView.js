@@ -5,6 +5,7 @@ var ClassView = BaseView.extend ({
     template:  _.template($("#classInformation").html()),
 
     initialize: function(options) {
+        this.group = options.group;
         this.teachersCollection = options.teachersCollection;
     },
 
@@ -20,6 +21,7 @@ var ClassView = BaseView.extend ({
 
     _showModal: function() {
         new ClassModalView ({
+            group: this.group,
             model: this.model,
             teachersCollection: this.teachersCollection
         }).render().el

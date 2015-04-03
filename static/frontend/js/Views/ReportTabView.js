@@ -1,6 +1,6 @@
 var ReportTabView = BaseView.extend({
 
-    template: _.template($("#allInformationTabTemplate").html()),
+    template: _.template($("#reportTabTemplate").html()),
 
     initialize: function(options) {
         this.collection = options.publicPlanCollection;
@@ -9,6 +9,9 @@ var ReportTabView = BaseView.extend({
 
     _buildTable: function() {
         this.collection.reset().fetch({
+            data: {
+                group: this.group.get('id')
+            },
             success: $.proxy(function () {
                 this.collection.each($.proxy (function(item, index, array) {
                     this.$('tbody').append(
