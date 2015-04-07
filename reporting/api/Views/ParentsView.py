@@ -23,8 +23,6 @@ class ParentsView(APIView):
 
     def post(self, request, format=None):
         data = request.data
-        if isinstance(data['student'], dict):
-            data['student'] = data['student']['id']
         serializer = ParentsSerializer(data=request.data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
@@ -33,8 +31,6 @@ class ParentsView(APIView):
 
     def put(self, request, format=None):
         data = request.data
-        if isinstance(data['student'], dict):
-            data['student'] = data['student']['id']
         snippet = get_object_or_404(Parents, pk=request.data["id"])
         serializer = ParentsSerializer(snippet, data=request.data, context=RequestContext(request))
         if serializer.is_valid():
