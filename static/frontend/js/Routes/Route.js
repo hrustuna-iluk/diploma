@@ -49,7 +49,7 @@ var Route = Backbone.Router.extend({
     startPage: function() {
         if(!this.facultyCollection.length) {
             var facultyModel = new FacultyModel();
-            facultyModel.save();
+            facultyModel.set({ dean: null }).save();
         } else {
             var facultyModel = this.facultyCollection.models[0];
         }
