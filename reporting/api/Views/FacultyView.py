@@ -16,21 +16,27 @@ class FacultyView(APIView):
     def get(self, request, pk=None,  format=None):
         snippet = Faculty.objects.all()
 
-        return HttpResponse(serialize('json', snippet), content_type='application/json')
+        return HttpResponse(serialize('json', snippet, relations=('dean', )), content_type='application/json')
 
     def post(self, request, format=None):
+        data = request.data
+        if isinstance(data['dean'], dict):
+            data['dean'] = data['dean']['id']
         serializer = FacultySerializer(data=request.data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
-            return HttpResponse(serialize('json', [serializer.instance]), content_type='application/json', status=status.HTTP_201_CREATED)
+            return HttpResponse(serialize('json', [serializer.instance], relations=('dean', )), content_type='application/json', status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, format=None):
+        data = request.data
+        if isinstance(data['dean'], dict):
+            data['dean'] = data['dean']['id']
         snippet = get_object_or_404(Faculty, pk=request.data["id"])
         serializer = FacultySerializer(snippet, data=request.data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
-            return HttpResponse(serialize('json', [snippet]), content_type='application/json')
+            return HttpResponse(serialize('json', [snippet], relations=('dean', )), content_type='application/json')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
