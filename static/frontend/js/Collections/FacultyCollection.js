@@ -1,6 +1,6 @@
 var FacultyCollection  = Backbone.Collection.extend({
 
-    url: "",
+    url: "/api/faculties",
 
     model: FacultyModel
 

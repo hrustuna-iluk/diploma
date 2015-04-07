@@ -13,6 +13,7 @@ var TeachersView = BaseView.extend({
 
     initialize: function(options) {
         this.collection = options.collection;
+        this.faculty = options.faculty;
         this.department = options.department;
         this.collection.on("add", $.proxy(this._renderTeacher, this));
         this.publisher.on('change:teacher', $.proxy(this._onTeacherChange, this));
@@ -56,6 +57,10 @@ var TeachersView = BaseView.extend({
         this._teacherData(model);
         model.save({wait: true}, {success: $.proxy(function() {
             this.collection.add(model);
+            if(model.getPosition() === 'dean') {
+                this.faculty.set('dean', model);
+                this.faculty.save();
+            }
         }, this)});
     },
 

@@ -15,6 +15,7 @@ var Route = Backbone.Router.extend({
     currentView: null,
 
     initialize: function() {
+        this.facultyCollection = new FacultyCollection();
         this.departmentsCollection = new DepartmentsCollection();
         this.teachersCollection = new TeachersCollection();
         this.groupsCollection = new GroupsCollection();
@@ -26,7 +27,7 @@ var Route = Backbone.Router.extend({
         this.attendanceCollection = new AttendanceCollection();
         this.publicPlanCollection = new PublicPlanCollection();
         this.workWithStudentCollection = new WorkWithStudentCollection();
-        this.facultyCollection = new FacultyCollection();
+        this.facultyCollection.fetch({ async: false });
         this.departmentsCollection.fetch();
         this._initializeEvents();
 
@@ -46,21 +47,19 @@ var Route = Backbone.Router.extend({
     },
 
     startPage: function() {
-        this.facultyCollection.fetch({
-            success: $.proxy(function () {
-                if(!this.facultyCollection.length) {
-                    var facultyModel = new FacultyModel();
-                } else {
-                    var facultyModel = this.facultyCollection.models[0];
-                }
-                var startPageView = new StartPageView({
-                    collection: this.departmentsCollection,
-                    teachersCollection: this.teachersCollection,
-                    faculty: facultyModel
-                });
-                this.routeChanged(startPageView);
-            }, this)
+        if(!this.facultyCollection.length) {
+            var facultyModel = new FacultyModel();
+            facultyModel.save();
+        } else {
+            var facultyModel = this.facultyCollection.models[0];
+        }
+        var startPageView = new StartPageView({
+            collection: this.departmentsCollection,
+            teachersCollection: this.teachersCollection,
+            faculty: facultyModel
         });
+        this.routeChanged(startPageView);
+
     },
 
     teachers: function(departmentId) {

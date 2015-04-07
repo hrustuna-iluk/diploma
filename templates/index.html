@@ -1169,9 +1169,14 @@
         <script type="text/template">
             <form role="form" id="addGroupForm" onsubmit="return false;">
                 <div class="form-group">
-                    <input type="text" placeholder="" name="facultyTitle" id="facultyTitle" class="form-control">
-
-
+                    <input type="text" placeholder="Назва факультету" name="facultyTitle" id="facultyTitle" class="form-control">
+                    <select id="facultyDean" class="form-control">
+                        <option disabled>Декан факультету</option>
+                    </select>
+                    <input type="date" placeholder="Початок першого семестру" name="firstSemesterStart" id="firstSemesterStart" class="form-control">
+                    <input type="date" placeholder="Кінець першого семестру" name="firstSemesterEnd" id="firstSemesterEnd" class="form-control">
+                    <input type="date" placeholder="Початок другого семестру" name="secondSemesterStart" id="secondSemesterStart" class="form-control">
+                    <input type="date" placeholder="Кінець другого семестру" name="secondSemesterEnd" id="secondSemesterEnd" class="form-control">
                 </div>
 
                   <button  class="btn btn-primary no-display" name="changeFacultyInformation" id="changeFacultyInformation">Змінити</button>
@@ -1208,6 +1213,7 @@
 
 
         <!--Collections-->
+        <script src="{% static 'frontend/js/Collections/FacultyCollection.js' %}"></script>
         <script src="{% static 'frontend/js/Collections/DepartmentsCollection.js' %}"></script>
         <script src="{% static 'frontend/js/Collections/TeachersCollection.js' %}"></script>
         <script src="{% static 'frontend/js/Collections/GroupsCollection.js' %}"></script>

@@ -101,7 +101,7 @@ var StartPageView = BaseView.extend ({
     },
 
     render: function() {
-        this.$el.html(this.template(this.faculty.toJSON));
+        this.$el.html(this.template);
         this._attachEvents();
         this._fillHeadOfDepartmentList();
         return this;
