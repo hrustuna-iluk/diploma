@@ -21,7 +21,9 @@ var GroupsView = BaseView.extend({
         this.collection.on("add", $.proxy(this._renderGroup, this));
         //this.teachersCollection.on("add", $.proxy(this._fillCuratorList, this));
         this.publisher.on('change:group', $.proxy(this._onGroupChange, this));
-        this.collection.reset().fetch();
+        this.collection.reset().fetch({data: {
+            department: this.department.get('id')
+        }});
     },
 
     _attachEvents: function() {

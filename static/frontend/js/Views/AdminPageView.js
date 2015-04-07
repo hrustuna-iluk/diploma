@@ -1,0 +1,3 @@
+var AdminPageView = BaseView.extend({
+
+});

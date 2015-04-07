@@ -5,9 +5,7 @@ var FacultyModel = Backbone.Model.extend ({
     defaults: function() {
         return {
             title: "",
-            dean: TeacherModel,
-            department: DepartmentModel
-
+            dean: TeacherModel
         }
     },
 

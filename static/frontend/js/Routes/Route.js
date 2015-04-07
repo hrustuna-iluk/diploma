@@ -8,7 +8,8 @@ var Route = Backbone.Router.extend({
         'reduction/:groupId': 'reduction',
         'scheduler/:groupId': 'scheduler',
         'journal/:groupId': 'journal',
-        'publicOrders/:groupId': 'publicOrders'
+        'publicOrders/:groupId': 'publicOrders',
+        'adminPage': 'adminPage'
     },
 
     currentView: null,
@@ -25,6 +26,7 @@ var Route = Backbone.Router.extend({
         this.attendanceCollection = new AttendanceCollection();
         this.publicPlanCollection = new PublicPlanCollection();
         this.workWithStudentCollection = new WorkWithStudentCollection();
+        this.facultyCollection = new FacultyCollection();
         this.departmentsCollection.fetch();
         this._initializeEvents();
 
@@ -39,15 +41,26 @@ var Route = Backbone.Router.extend({
         this.on('route:scheduler:', this.scheduler);
         this.on('route:journal:', this.journal);
         this.on('route:publicOrders:', this.publicOrders);
+        this.on('route:adminPage:', this.adminPage);
 
     },
 
     startPage: function() {
-        var startPageView = new StartPageView({
-            collection: this.departmentsCollection,
-            teachersCollection: this.teachersCollection
+        this.facultyCollection.fetch({
+            success: $.proxy(function () {
+                if(!this.facultyCollection.length) {
+                    var facultyModel = new FacultyModel();
+                } else {
+                    var facultyModel = this.facultyCollection.models[0];
+                }
+                var startPageView = new StartPageView({
+                    collection: this.departmentsCollection,
+                    teachersCollection: this.teachersCollection,
+                    faculty: facultyModel
+                });
+                this.routeChanged(startPageView);
+            }, this)
         });
-        this.routeChanged(startPageView);
     },
 
     teachers: function(departmentId) {
@@ -157,11 +170,13 @@ var Route = Backbone.Router.extend({
         });
     },
 
+    adminPage: function() {},
+
     routeChanged: function(view) {
         if (this.currentView) {
             this.currentView.remove();
         }
-        $('body').html( view.render().el );
+        $('#main').html( view.render().el );
         this.currentView = view;
     }
 });

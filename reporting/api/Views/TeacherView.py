@@ -26,14 +26,17 @@ class TeacherView(APIView):
         if isinstance(data['department'], dict):
             data['department'] = data['department']["id"]
 
-            if data['position'] != 'teacher':
-                try:
+        if data['position'] != 'teacher':
+            try:
+                teacher = None
+                if data['position'] == 'Deputy Dean' or data['position'] == 'dean':
+                    teacher = Teacher.objects.get(position=data['position'])
+                elif data['position'] == 'Head of Department':
                     teacher = Teacher.objects.get(department=data['department'], position=data['position'])
-                    if teacher:
-                        teacher.position = 'teacher'
-                        teacher.save()
-                except Teacher.DoesNotExist:
-                    pass
+                teacher.position = 'teacher'
+                teacher.save()
+            except Teacher.DoesNotExist:
+                pass
         serializer = TeacherSerializer(data=data, context=RequestContext(request))
 
         if serializer.is_valid():
@@ -46,12 +49,17 @@ class TeacherView(APIView):
         if isinstance(data['department'], dict):
             data['department'] = data['department']["id"]
 
-            if data['position'] != 'teacher':
-                teacher = Teacher.objects.get(department=data['department'], position=data['position'])
-                if teacher:
-                    teacher.position = 'teacher'
-                    teacher.save()
-
+        if data['position'] != 'teacher':
+            try:
+                teacher = None
+                if data['position'] == 'Deputy Dean' or data['position'] == 'dean':
+                    teacher = Teacher.objects.get(position=data['position'])
+                elif data['position'] == 'Head of Department':
+                    teacher = Teacher.objects.get(department=data['department'], position=data['position'])
+                teacher.position = 'teacher'
+                teacher.save()
+            except Teacher.DoesNotExist:
+                pass
         snippet = get_object_or_404(Teacher, pk=request.data["id"])
         serializer = TeacherSerializer(snippet, data=data, context=RequestContext(request))
         if serializer.is_valid():

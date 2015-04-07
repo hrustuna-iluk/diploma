@@ -9,6 +9,12 @@ var ClassView = BaseView.extend ({
         this.teachersCollection = options.teachersCollection;
     },
 
+    setModel: function (model) {
+        this.model = model;
+        this._changeClass();
+        return this;
+    },
+
     _attachEvents: function() {
         this.$el.on('click', $.proxy(this._showModal, this));
         this.model.on('change', $.proxy(this._changeClass, this));

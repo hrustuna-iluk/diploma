@@ -13,7 +13,12 @@
         <link rel="stylesheet" href="{% static 'frontend/styles/styles.css' %}">
     </head>
     <body class="metro">
-
+        <header>
+        <nav style="text-align: right; margin-right: 30px; font-size: 12pt;">
+            <a style="color: white" href="#adminPage">Адмінка</a>&nbsp;|&nbsp;<a style="color: white" href="/app/logout">Вийти</a>
+        </nav>
+    </header>
+    <div id="main"></div>
         <!--Templates-->
         <!--Start page template-->
         <script type="text/template" id="startPageTemplate">
@@ -105,7 +110,7 @@
                                                 <option value="dean">Декан</option>
                                                 <option value="Head of Department">Завідувач кафедри</option>
                                                 <option value="teacher">Викладач</option>
-                                                <option value="Deputy Dean">Викладач</option>
+                                                <option value="Deputy Dean">Заступник декана</option>
                                             </select>
                                         </div>
 
@@ -528,12 +533,24 @@
                                 </div>
                             </div>
 
-                            <div class="span11" id="attendanceTable" >
+                            <div class="span12" id="attendanceTable" >
                                 <div></div>
-                                <ul class="nav nav-pills">
-                                    <li role="presentation" class="active"><a href='firstSemester'>Перший семестр</a></li>
-                                    <li role="presentation"><a href="secondSemester">Другий семестр</a></li>
-                                </ul>
+                                <div role="tabpanel">
+
+                                    <!-- Nav tabs -->
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="firstSemesterJournal active"><a href="#firstSemesterJournal" aria-controls="firstSemesterJournal" role="tab" data-toggle="tab">Перший семестр</a></li>
+                                        <li role="presentation" class="secondSemesterJournal"><a href="#secondSemesterJournal" aria-controls="secondSemesterJournal" role="tab" data-toggle="tab">Другий семестр</a></li>
+
+                                    </ul>
+
+                                   <!-- Tab panes -->
+                                    <div class="tab-content">
+                                        <div role="tabpanel" class="tab-pane active" id="firstSemesterJournal"></div>
+                                        <div role="tabpanel" class="tab-pane" id="secondSemesterJournal"></div>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1121,6 +1138,46 @@
             <option value="<%=id%>">
                 <%=lastName%><%=firstName%>
             </option>
+        </script>
+
+        <!--Admin page-->
+        <script type="text/template" id="adminPage">
+            <div class="grid">
+                <div class="row">
+                    <div class="span20" id="page-content">
+                        <span class="title-page">Система контролю відвідувань</span>
+
+                        <div class="row">
+                            <div class="span4">
+                                <div class="list-group">
+                                    <a href="#" class="list-group-item adminInformationAboutFaculty">Дані про факультет</a>
+                                    <a href="#" class="list-group-item adminReduction">Зведення</a>
+                                    <a href="#" class="list-group-item adminUserAccess">Надання доступу користувачам</a>
+                                    <a href="#" class="list-group-item adminData">Змінити особисті дані</a>
+                                </div>
+                            </div>
+
+                            <div class="span11" id="adminContent" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <!--Admin all information about faculty-->
+        <script type="text/template">
+            <form role="form" id="addGroupForm" onsubmit="return false;">
+                <div class="form-group">
+                    <input type="text" placeholder="" name="facultyTitle" id="facultyTitle" class="form-control">
+
+
+                </div>
+
+                  <button  class="btn btn-primary no-display" name="changeFacultyInformation" id="changeFacultyInformation">Змінити</button>
+                  <button  class="btn btn-default" name="addGroup" id="addFacultyInformation">Додати</button>
+            </form>
+
         </script>
 
 

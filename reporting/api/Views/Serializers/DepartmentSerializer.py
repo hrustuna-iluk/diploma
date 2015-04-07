@@ -13,6 +13,7 @@ class DepartmentSerializer(serializers.ModelSerializer):
     def update(self, department, validated_data):
         department.headOfDepartment = validated_data.get('headOfDepartment')
         department.title = validated_data.get('title')
+        department.specialization = validated_data.get('specialization')
         department.save()
         return department
 

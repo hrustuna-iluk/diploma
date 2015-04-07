@@ -6,6 +6,7 @@ var DepartmentModel = Backbone.Model.extend ({
         return {
             title: "",
             specialization: "",
+            faculty: FacultyModel,
             headOfDepartment: null
 
         }

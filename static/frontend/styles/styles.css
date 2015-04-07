@@ -335,11 +335,11 @@ th {
     font-size: 8pt;
 }
 
-#journalTable ul li a, h3.tabTableHeader{
+#attendanceTable ul li a, #journalTable ul li a, h3.tabTableHeader{
     color: white;
 }
 
-#journalTable ul li a:hover, table.tabTable {
+#attendanceTable ul li a:hover, #journalTable ul li a:hover, table.tabTable {
     color: white;
     background-color: rgba(0, 0, 0, 0.7);
 }
@@ -348,7 +348,7 @@ th {
     text-align: center;
 }
 
-#journalTable ul li.active a{
+#journalTable ul li.active a, #attendanceTable ul li.active a{
     background-color: rgba(0, 0, 0, 0.9);
 }
 
@@ -386,3 +386,4 @@ th {
     color: #ffffff;
     font-style: italic;
 }
+

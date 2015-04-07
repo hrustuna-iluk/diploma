@@ -32,9 +32,7 @@ var ClassModalView = BaseView.extend({
     },
 
     _fillTeachersList: function() {
-         this.teachersCollection.reset().fetch({data: {
-            department: this.group.get('department').id
-        },
+         this.teachersCollection.reset().fetch({
             success: $.proxy(function () {
                 this.teachersCollection.each(function(model) {
                     this.$('.classTeacher').append(this.optionSelectTemplateForTeacher(model.toJSON()));

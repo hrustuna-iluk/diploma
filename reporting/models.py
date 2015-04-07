@@ -1,6 +1,7 @@
 #-*-coding:UTF-8-*-
 from django.db import models
 from django.contrib import admin
+from django.contrib.auth.models import User
 
 POSITIONS = (
     ('dean', 'Декан'),
@@ -49,9 +50,18 @@ PASS_TYPES = (
 
 class Faculty(models.Model):
     title = models.CharField(max_length=255)
+    startFirstSemester = models.DateField(null=True)
+    startSecondSemester = models.DateField(null=True)
+    endFirstSemester = models.DateField(null=True)
+    endSecondSemester = models.DateField(null=True)
+    amountOfWeekInFirstSemester = models.IntegerField()
+    amountOfWeekInSecondSemester = models.IntegerField()
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        super(Faculty, self).save(*args, **kwargs)
 
 
 class Department(models.Model):

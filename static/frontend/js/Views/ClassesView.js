@@ -11,10 +11,11 @@ var ClassesView = BaseView.extend ({
         this.numberOfWeek = options.numberOfWeek;
         this.scheduleModel = options.scheduleModel;
         this.teachersCollection = options.teachersCollection;
+        this.parentView = options.parentView;
     },
 
     _buildRow: function() {
-        if(!this.collection.length) {
+        var classes = [];
             this.days.forEach($.proxy(function (weekDay, index, array) {
                var model = new ClassModel({
                    group: this.group.get('id'),
@@ -23,15 +24,15 @@ var ClassesView = BaseView.extend ({
                    numberOfWeek: this.numberOfWeek,
                    schedule: this.scheduleModel
                });
-               this.$el.append(
-                   new ClassView({
-                       group: this.group,
-                       model: model,
-                       teachersCollection: this.teachersCollection
-                   }).render().$el
-               );
+               var classView = new ClassView({
+                   group: this.group,
+                   model: model,
+                   teachersCollection: this.teachersCollection
+               }).render();
+               this.$el.append(classView.$el);
+               classes.push(classView);
             }, this));
-        }
+            this.parentView.classes.push(classes);
     },
 
     render: function() {

@@ -2,10 +2,17 @@ var ScheduleView = BaseView.extend({
 
     template:  _.template($("#scheduleTemplate").html()),
 
+    days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+
+    classes: [],
+
     initialize: function(options) {
         this.collection = options.collection;
         this.teachersCollection = options.teachersCollection;
         this.group = options.group;
+        this.collection.reset().fetch({
+            success: $.proxy(this._buildScheduler, this)
+        });
     },
 
     _attachEvents: function() {
@@ -14,11 +21,13 @@ var ScheduleView = BaseView.extend({
     },
 
     _buildScheduler: function () {
+        this.classes = [];
         var numberOfClass = 1;
         this.$('table tbody').empty();
         while (numberOfClass !== 7) {
             this.$('table tbody').append(
                 new ClassesView({
+                    parentView: this,
                     numberOfClass: numberOfClass,
                     numberOfWeek: this.$('select').val(),
                     group: this.group,
@@ -28,6 +37,15 @@ var ScheduleView = BaseView.extend({
             );
             numberOfClass++;
         }
+        this._fillClassesCollection();
+    },
+
+    _fillClassesCollection: function() {
+         this.collection.each($.proxy(function(model) {
+             if(model.getNumberOfWeek() === this.$('select').val()){
+                 this.classes[model.getNumber()-1][this.days.indexOf(model.getDay())].setModel(model);
+             }
+         }, this), this);
     },
 
     _wantDeleteSchedule: function() {
@@ -43,7 +61,6 @@ var ScheduleView = BaseView.extend({
 
     render: function() {
         this.$el.html(this.template(this.group.toJSON()));
-        this._buildScheduler();
         this._attachEvents();
         return this;
     }

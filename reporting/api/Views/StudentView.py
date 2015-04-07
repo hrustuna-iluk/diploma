@@ -76,6 +76,10 @@ class StudentView(APIView):
         data = request.data
         if isinstance(data['group'], dict):
             data['group'] = data['group']['id']
+        if isinstance(data['mother'], dict):
+            data['mother'] = data['mother']['id']
+        if isinstance(data['father'], dict):
+            data['father'] = data['father']['id']
         snippet = get_object_or_404(Student, pk=request.data["id"])
         serializer = StudentSerializer(snippet, data=data, context=RequestContext(request))
         if serializer.is_valid():

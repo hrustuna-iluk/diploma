@@ -20,6 +20,7 @@ var StartPageView = BaseView.extend ({
 
     initialize: function(options) {
         this.collection = options.collection;
+        this.faculty = options.faculty;
         this.teachersCollection = options.teachersCollection;
         this.collection.on("add", $.proxy(this._renderDepartment, this));
         this.publisher.on('change:department', $.proxy(this._onDepartmentChange, this));
@@ -36,6 +37,7 @@ var StartPageView = BaseView.extend ({
     _onDepartmentChange: function(model) {
         $(this.selectors.departmentTitle).val(model.getTitle());
         $(this.selectors.specialization).val(model.getSpecialization());
+        $(this.selectors.headOfDepartment).val(_.isObject(model.getHeadOfDepartment()) ? model.getHeadOfDepartment().id : model.getHeadOfDepartment());
         this.$(this.selectors.changeDepartment).data('model', model);
         this.$(this.selectors.createDepartment).addClass('no-display');
         this.$(this.selectors.changeDepartment).removeClass('no-display');
@@ -49,7 +51,9 @@ var StartPageView = BaseView.extend ({
     },
 
     _addDepartment: function() {
-        var departmentModel = new DepartmentModel();
+        var departmentModel = new DepartmentModel({
+            faculty: this.faculty
+        });
         departmentModel.setTitle(this.$(this.selectors.departmentTitle).val());
         departmentModel.setSpecialization(this.$(this.selectors.specialization).val());
         this.$(this.selectors.departmentTitle).val("");
@@ -97,7 +101,7 @@ var StartPageView = BaseView.extend ({
     },
 
     render: function() {
-        this.$el.html(this.template);
+        this.$el.html(this.template(this.faculty.toJSON));
         this._attachEvents();
         this._fillHeadOfDepartmentList();
         return this;
