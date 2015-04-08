@@ -101,6 +101,7 @@ class Language(models.Model):
 
 
 class Teacher(models.Model):
+    user = models.ForeignKey(User, unique=True, null=True)
     firstName = models.CharField(max_length=255, blank=True)
     lastName = models.CharField(max_length=255, blank=True)
     middleName = models.CharField(max_length=255, blank=True)
@@ -122,6 +123,7 @@ class Benefits(models.Model):
 
 
 class Student(models.Model):
+    user = models.ForeignKey(User, unique=True, null=True)
     firstName = models.CharField(max_length=255, blank=True)
     lastName = models.CharField(max_length=255, blank=True)
     middleName = models.CharField(max_length=255, blank=True)
