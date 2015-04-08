@@ -12,10 +12,13 @@ from reporting.api.Views.StudentView import StudentView
 from reporting.api.Views.StudentWorkView import StudentWorkView
 from reporting.api.Views.TeacherView import TeacherView
 from reporting.api.Views.PassView import PassView
+from reporting.api.Views.UsersView import UsersView
 
 
 urlpatterns = patterns('',
     url(r'^auth/', include('rest_framework.urls', namespace='rest_framework')),
+
+    url(r'users/', UsersView.as_view()),
 
     url(r'benefit/', BenefitsView.as_view()),
     url(r'benefits/', BenefitsView.as_view()),
