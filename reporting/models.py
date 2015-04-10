@@ -49,13 +49,13 @@ PASS_TYPES = (
 
 
 class Faculty(models.Model):
-    title = models.CharField(max_length=255)
-    startFirstSemester = models.DateField(null=True)
-    startSecondSemester = models.DateField(null=True)
-    endFirstSemester = models.DateField(null=True)
-    endSecondSemester = models.DateField(null=True)
-    amountOfWeekInFirstSemester = models.IntegerField()
-    amountOfWeekInSecondSemester = models.IntegerField()
+    title = models.CharField(max_length=255, blank=True, null=True)
+    startFirstSemester = models.DateField(null=True, blank=True)
+    startSecondSemester = models.DateField(null=True, blank=True)
+    endFirstSemester = models.DateField(null=True, blank=True)
+    endSecondSemester = models.DateField(null=True, blank=True)
+    amountOfWeekInFirstSemester = models.IntegerField(null=True, blank=True)
+    amountOfWeekInSecondSemester = models.IntegerField(null=True, blank=True)
     dean = models.ForeignKey('Teacher', null=True, blank=True)
 
     def __str__(self):
