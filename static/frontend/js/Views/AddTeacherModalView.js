@@ -18,6 +18,8 @@ var AddTeacherModalView = BaseView.extend({
                         lastName: this.$("#teacherSurname").val(),
                         middleName: this.$("#teacherMiddleName").val(),
                         position: this.$("#teacherPosition").val(),
+                        email: this.$("#teacherEmail").val(),
+                        phone: this.$("#teacherPhone").val(),
                         department: this.department
                         });
         teacher.save({wait: true}, {success: $.proxy(function() {

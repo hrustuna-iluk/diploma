@@ -5,7 +5,13 @@ var FacultyModel = Backbone.Model.extend ({
     defaults: function() {
         return {
             title: "",
-            dean: TeacherModel
+            dean: TeacherModel,
+            startFirstSemester: '',
+            startSecondSemester: '',
+            endFirstSemester: "",
+            endSecondSemester: '',
+            amountOfWeekInFirstSemester: '',
+            amountOfWeekInSecondSemester: ''
         }
     },
 

@@ -27,6 +27,7 @@ var Route = Backbone.Router.extend({
         this.attendanceCollection = new AttendanceCollection();
         this.publicPlanCollection = new PublicPlanCollection();
         this.workWithStudentCollection = new WorkWithStudentCollection();
+        this.usersCollection = new UserCollection();
         this.facultyCollection.fetch({ async: false });
         this.departmentsCollection.fetch();
         this._initializeEvents();
@@ -49,7 +50,7 @@ var Route = Backbone.Router.extend({
     startPage: function() {
         if(!this.facultyCollection.length) {
             var facultyModel = new FacultyModel();
-            facultyModel.save();
+            facultyModel.set({ dean: null }).save();
         } else {
             var facultyModel = this.facultyCollection.models[0];
         }
@@ -169,7 +170,15 @@ var Route = Backbone.Router.extend({
         });
     },
 
-    adminPage: function() {},
+    adminPage: function() {
+        var adminView = new AdminPageView({
+            faculty: this.facultyCollection.models[0],
+            teachersCollection: this.teachersCollection,
+            studentsCollection: this.studentsCollection,
+            usersCollection: this.usersCollection
+        });
+         this.routeChanged(adminView);
+    },
 
     routeChanged: function(view) {
         if (this.currentView) {
