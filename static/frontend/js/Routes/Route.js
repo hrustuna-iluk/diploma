@@ -24,7 +24,6 @@ var Route = Backbone.Router.extend({
         this.classesCollection = new ClassesCollection();
         this.languagesCollection = new LanguagesCollection();
         this.benefitsCollection = new BenefitsCollection();
-        this.attendanceCollection = new AttendanceCollection();
         this.publicPlanCollection = new PublicPlanCollection();
         this.workWithStudentCollection = new WorkWithStudentCollection();
         this.usersCollection = new UserCollection();
@@ -109,16 +108,11 @@ var Route = Backbone.Router.extend({
         this.groupsCollection.fetch({
             success: $.proxy(function () {
                 var group = this.groupsCollection.findWhere({id: +groupId});
-                var reduction = this.attendanceCollection.find({group: +groupId});
-                if(!reduction) {
-                    reduction = new AttendanceModel({
-                        group: group
-                    })
-                }
                 var reductionView = new ReductionView({
-                    model: reduction,
                     group: group,
-                    collection: this.passesCollection
+                    passesCollection: this.passesCollection,
+                    studentsCollection: this.studentsCollection,
+                    classesCollection: this.classesCollection
                 });
                 this.routeChanged(reductionView);
             }, this)

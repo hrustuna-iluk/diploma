@@ -538,7 +538,6 @@
                             </div>
 
                             <div class="span12" id="attendanceTable" >
-                                <div></div>
                                 <div role="tabpanel">
 
                                     <!-- Nav tabs -->
@@ -550,8 +549,12 @@
 
                                    <!-- Tab panes -->
                                     <div class="tab-content">
-                                        <div role="tabpanel" class="tab-pane active" id="firstSemesterJournal"></div>
-                                        <div role="tabpanel" class="tab-pane" id="secondSemesterJournal"></div>
+                                        <div role="tabpanel" class="tab-pane active" id="firstSemesterJournal">
+                                            <div class="paginationJournal"><nav></nav></div>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="secondSemesterJournal">
+                                            <div class="paginationJournal"><nav></nav></div>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -561,6 +564,7 @@
                 </div>
             </div>
         </script>
+
 
         <!--Attendance Template-->
         <script type="text/template" id="attendanceTemplate">
@@ -1171,9 +1175,6 @@
             <form role="form" id="addFacultyInfo" onsubmit="return false;">
                 <div class="form-group">
                     <input type="text" placeholder="Назва факультету" name="facultyTitle" id="facultyTitle" class="form-control">
-                    <select id="facultyDean" class="form-control">
-                        <option disabled>Декан факультету</option>
-                    </select>
                     <label for="firstSemesterStart" class="label-information">Початок першого семестру</label>
                     <input type="date" name="firstSemesterStart" id="firstSemesterStart" class="form-control">
                     <label for="firstSemesterEnd" class="label-information">Кінець першого семестру</label>
@@ -1293,6 +1294,8 @@
             </td>
         </script>
 
+
+
         {% comment %}
             {% include 'login.html' %}
         {% endcomment %}
@@ -1321,7 +1324,7 @@
         <script src="{% static 'frontend/js/Models/DepartmentModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/ClassModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/PassModel.js' %}"></script>
-        <script src="{% static 'frontend/js/Models/AttendanceModel.js' %}"></script>
+        <script src="{% static 'frontend/js/Models/PaginationModel.js' %}"></script>
 
 
         <!--Collections-->
@@ -1334,7 +1337,6 @@
         <script src="{% static 'frontend/js/Collections/PassesCollection.js' %}"></script>
         <script src="{% static 'frontend/js/Collections/BenefitsCollection.js' %}"></script>
         <script src="{% static 'frontend/js/Collections/LanguagesCollection.js' %}"></script>
-        <script src="{% static 'frontend/js/Collections/AttendanceCollection.js' %}"></script>
         <script src="{% static 'frontend/js/Collections/PublicPlanCollection.js' %}"></script>
         <script src="{% static 'frontend/js/Collections/WorkWithStudentCollection.js' %}"></script>
         <script src="{% static 'frontend/js/Collections/UserCollection.js' %}"></script>
@@ -1387,6 +1389,9 @@
         <script src="{% static 'frontend/js/Views/UserTableView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/AdminUserAccessView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/AdminPageView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/PaginationView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/PaginationsView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/StudentJournalView.js' %}"></script>
 
         <!--Routes-->
         <script src="{% static 'frontend/js/Routes/Route.js' %}"></script>

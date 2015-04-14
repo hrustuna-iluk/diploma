@@ -10,13 +10,30 @@ var AdminInformationAboutFacultyView = BaseView.extend({
         this.$('#saveFacultyInformation').on('click', $.proxy(this._addInformation, this))
     },
 
-    _addInformation: function() {
+    _facultyData: function() {
+        this.$("#facultyTitle").val(this.model.get('title'));
+        this.$("#firstSemesterStart").val(this.model.get('startFirstSemester'));
+        this.$("#firstSemesterEnd").val(this.model.get('endFirstSemester'));
+        this.$("#secondSemesterStart").val(this.model.get('startSecondSemester'));
+        this.$("#secondSemesterEnd").val(this.model.get('endSecondSemester'))
+    },
 
+    _addInformation: function() {
+        this.model.set({
+            title: this.$("#facultyTitle").val(),
+            startFirstSemester: this.$("#firstSemesterStart").val(),
+            endFirstSemester: this.$("#firstSemesterEnd").val(),
+            startSecondSemester: this.$("#secondSemesterStart").val(),
+            endSecondSemester: this.$("#secondSemesterEnd").val()
+        });
+
+        this.model.save();
     },
 
     render: function() {
         this.$el.html(this.template);
         this._attachEvents();
+        this._facultyData();
         return this;
     }
 
