@@ -8,7 +8,9 @@ var TeachersView = BaseView.extend({
         teacherNameInput: "#teacherName",
         teacherSurnameInput: "#teacherSurname",
         teacherMiddleNameInput: "#teacherMiddleName",
-        teacherPositionSelect: "#teacherPosition"
+        teacherPositionSelect: "#teacherPosition",
+        teacherPhone: "#teacherPhone",
+        teacherEmail: "#teacherEmail"
     },
 
     initialize: function(options) {
@@ -31,25 +33,27 @@ var TeachersView = BaseView.extend({
         $(this.selectors.teacherSurnameInput).val(model.getSurname());
         $(this.selectors.teacherNameInput).val(model.getName());
         $(this.selectors.teacherMiddleNameInput).val(model.getMiddleName());
+        $(this.selectors.teacherPhone).val(model.getPhone());
+        $(this.selectors.teacherEmail).val(model.getEmail());
         this.$(this.selectors.changeTeacherData).data('model', model);
         this.$(this.selectors.createTeacher).addClass('no-display');
         this.$(this.selectors.changeTeacherData).removeClass('no-display');
     },
 
     _teacherData: function(teacherModel) {
-        var teacherSurname = this.$(this.selectors.teacherSurnameInput).val(),
-            teacherName = this.$(this.selectors.teacherNameInput).val(),
-            teacherMiddleName = this.$(this.selectors.teacherMiddleNameInput).val(),
-            teacherPosition = this.$(this.selectors.teacherPositionSelect).val();
+        teacherModel.setSurname(this.$(this.selectors.teacherSurnameInput).val());
+        teacherModel.setName(this.$(this.selectors.teacherNameInput).val());
+        teacherModel.setMiddleName(this.$(this.selectors.teacherMiddleNameInput).val());
+        teacherModel.setPosition(this.$(this.selectors.teacherPositionSelect).val());
+        teacherModel.setPhone(this.$(this.selectors.teacherPhone).val());
+        teacherModel.setEmail(this.$(this.selectors.teacherEmail).val());
+        teacherModel.set('department', this.department);
+        this.$(this.selectors.teacherPhone).val('');
+        this.$(this.selectors.teacherEmail).val('');
         this.$(this.selectors.teacherSurnameInput).val("");
         this.$(this.selectors.teacherNameInput).val("");
         this.$(this.selectors.teacherMiddleNameInput).val("");
         this.$(this.selectors.teacherPositionSelect).find('option:first').attr('selected', true);
-        teacherModel.setSurname(teacherSurname);
-        teacherModel.setName(teacherName);
-        teacherModel.setMiddleName(teacherMiddleName);
-        teacherModel.setPosition(teacherPosition);
-        teacherModel.set('department', this.department);
     },
 
     _addTeacher: function() {

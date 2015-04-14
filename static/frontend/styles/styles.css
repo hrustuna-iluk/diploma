@@ -252,7 +252,7 @@ a.department-links:hover, a.group-links:hover{
 
 .add-department-form, .add-teacher-form, .add-group-form {
     background: rgba(0, 0, 0, 0.7);
-    padding: 71px 20px 71px 20px;
+    padding: 51px 20px 51px 20px;
 }
 
 .add-student-form {
@@ -335,11 +335,11 @@ th {
     font-size: 8pt;
 }
 
-#attendanceTable ul li a, #journalTable ul li a, h3.tabTableHeader{
+#attendanceTable ul li a, #addUserForm ul li a, #journalTable ul li a, h3.tabTableHeader, .label-information{
     color: white;
 }
 
-#attendanceTable ul li a:hover, #journalTable ul li a:hover, table.tabTable {
+#attendanceTable ul li a:hover, #journalTable ul li a:hover, table.tabTable, #addUserForm ul li a:hover {
     color: white;
     background-color: rgba(0, 0, 0, 0.7);
 }
@@ -348,7 +348,7 @@ th {
     text-align: center;
 }
 
-#journalTable ul li.active a, #attendanceTable ul li.active a{
+#journalTable ul li.active a, #attendanceTable ul li.active a,  #addUserForm ul li.active a{
     background-color: rgba(0, 0, 0, 0.9);
 }
 
@@ -387,3 +387,21 @@ th {
     font-style: italic;
 }
 
+li.list-group-item {
+   color: #ffffff;
+   background-color: rgba(0, 0, 0, 0.7);
+}
+
+li.list-group-item:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+    cursor: pointer;
+}
+
+#userStudentTable, #userTeacherTable {
+    height: 200px;
+    overflow-y: auto;
+}
+
+#userTeacherForm, #userStudentForm, #addFacultyInfo {
+    padding: 50px;
+}

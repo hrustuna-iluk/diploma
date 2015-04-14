@@ -24,9 +24,9 @@ var Route = Backbone.Router.extend({
         this.classesCollection = new ClassesCollection();
         this.languagesCollection = new LanguagesCollection();
         this.benefitsCollection = new BenefitsCollection();
-        this.attendanceCollection = new AttendanceCollection();
         this.publicPlanCollection = new PublicPlanCollection();
         this.workWithStudentCollection = new WorkWithStudentCollection();
+        this.usersCollection = new UserCollection();
         this.facultyCollection.fetch({ async: false });
         this.departmentsCollection.fetch();
         this._initializeEvents();
@@ -108,16 +108,11 @@ var Route = Backbone.Router.extend({
         this.groupsCollection.fetch({
             success: $.proxy(function () {
                 var group = this.groupsCollection.findWhere({id: +groupId});
-                var reduction = this.attendanceCollection.find({group: +groupId});
-                if(!reduction) {
-                    reduction = new AttendanceModel({
-                        group: group
-                    })
-                }
                 var reductionView = new ReductionView({
-                    model: reduction,
                     group: group,
-                    collection: this.passesCollection
+                    passesCollection: this.passesCollection,
+                    studentsCollection: this.studentsCollection,
+                    classesCollection: this.classesCollection
                 });
                 this.routeChanged(reductionView);
             }, this)
@@ -169,7 +164,15 @@ var Route = Backbone.Router.extend({
         });
     },
 
-    adminPage: function() {},
+    adminPage: function() {
+        var adminView = new AdminPageView({
+            faculty: this.facultyCollection.models[0],
+            teachersCollection: this.teachersCollection,
+            studentsCollection: this.studentsCollection,
+            usersCollection: this.usersCollection
+        });
+         this.routeChanged(adminView);
+    },
 
     routeChanged: function(view) {
         if (this.currentView) {

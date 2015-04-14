@@ -50,9 +50,9 @@
                                     </div>
                                 </div>
 
-                                <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Зведення по факультету">
+                                 <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Пошук студента">
                                     <div class="tile-content icon">
-                                        <i class="icon-file"></i>
+                                        <i class="icon-search"></i>
                                     </div>
                                 </div>
                             </div>
@@ -105,6 +105,8 @@
                                             <input type="text" placeholder="Прізвище" name="teacherSurname" id="teacherSurname" class="form-control">
                                             <input type="text" placeholder="Ім'я" name="teacherName" id="teacherName" class="form-control">
                                             <input type="text" placeholder="По батькові" name="teacherMiddleName" id="teacherMiddleName" class="form-control">
+                                            <input type="text" name="teacherPhone" id="teacherPhone" placeholder="Телефон" class="form-control">
+                                            <input type="text" name="teacherEmail" id="teacherEmail" placeholder="Email" class="form-control">
                                             <select id="teacherPosition" class="form-control">
                                                 <option disabled selected>Посада</option>
                                                 <option value="dean">Декан</option>
@@ -259,6 +261,8 @@
                             <input type="text" name="teacherName" id="teacherName" placeholder="Ім'я" class="form-control">
                             <input type="text" name="teacherSurname" id="teacherSurname" placeholder="Прізвище" class="form-control">
                             <input type="text" name="teacherMiddleName" id="teacherMiddleName" placeholder="По батькові" class="form-control">
+                            <input type="text" name="teacherPhone" id="teacherPhone" placeholder="Телефон" class="form-control">
+                            <input type="text" name="teacherEmail" id="teacherEmail" placeholder="Email" class="form-control">
                             <select id="teacherPosition" class="form-control">
                                                 <option disabled>Посада</option>
                                                 <option value="dean">Декан</option>
@@ -534,7 +538,6 @@
                             </div>
 
                             <div class="span12" id="attendanceTable" >
-                                <div></div>
                                 <div role="tabpanel">
 
                                     <!-- Nav tabs -->
@@ -546,8 +549,12 @@
 
                                    <!-- Tab panes -->
                                     <div class="tab-content">
-                                        <div role="tabpanel" class="tab-pane active" id="firstSemesterJournal"></div>
-                                        <div role="tabpanel" class="tab-pane" id="secondSemesterJournal"></div>
+                                        <div role="tabpanel" class="tab-pane active" id="firstSemesterJournal">
+                                            <div class="paginationJournal"><nav></nav></div>
+                                        </div>
+                                        <div role="tabpanel" class="tab-pane" id="secondSemesterJournal">
+                                            <div class="paginationJournal"><nav></nav></div>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -557,6 +564,7 @@
                 </div>
             </div>
         </script>
+
 
         <!--Attendance Template-->
         <script type="text/template" id="attendanceTemplate">
@@ -1040,9 +1048,7 @@
 
         <!--Report Tab Element Template-->
         <script type="text/template" id="reportTabElementTemplate">
-            <tr>
                 <td><%=event%> (<%=date%>)</td>
-            </tr>
         </script>
 
         <!--Add Public Orders Template-->
@@ -1149,12 +1155,11 @@
 
                         <div class="row">
                             <div class="span4">
-                                <div class="list-group">
-                                    <a href="#" class="list-group-item adminInformationAboutFaculty">Дані про факультет</a>
-                                    <a href="#" class="list-group-item adminReduction">Зведення</a>
-                                    <a href="#" class="list-group-item adminUserAccess">Надання доступу користувачам</a>
-                                    <a href="#" class="list-group-item adminData">Змінити особисті дані</a>
-                                </div>
+                                <ul class="list-group">
+                                    <li class="list-group-item adminInformationAboutFaculty">Дані про факультет</li>
+                                    <li class="list-group-item adminReduction">Зведення</li>
+                                    <li class="list-group-item adminUserAccess">Надання доступу користувачам</li>
+                                </ul>
                             </div>
 
                             <div class="span11" id="adminContent" >
@@ -1166,25 +1171,134 @@
         </script>
 
         <!--Admin all information about faculty-->
-        <script type="text/template">
-            <form role="form" id="addGroupForm" onsubmit="return false;">
+        <script type="text/template" id="adminAllFacultyInfoTemplate">
+            <form role="form" id="addFacultyInfo" onsubmit="return false;">
                 <div class="form-group">
                     <input type="text" placeholder="Назва факультету" name="facultyTitle" id="facultyTitle" class="form-control">
-                    <select id="facultyDean" class="form-control">
-                        <option disabled>Декан факультету</option>
-                    </select>
-                    <input type="date" placeholder="Початок першого семестру" name="firstSemesterStart" id="firstSemesterStart" class="form-control">
-                    <input type="date" placeholder="Кінець першого семестру" name="firstSemesterEnd" id="firstSemesterEnd" class="form-control">
-                    <input type="date" placeholder="Початок другого семестру" name="secondSemesterStart" id="secondSemesterStart" class="form-control">
-                    <input type="date" placeholder="Кінець другого семестру" name="secondSemesterEnd" id="secondSemesterEnd" class="form-control">
+                    <label for="firstSemesterStart" class="label-information">Початок першого семестру</label>
+                    <input type="date" name="firstSemesterStart" id="firstSemesterStart" class="form-control">
+                    <label for="firstSemesterEnd" class="label-information">Кінець першого семестру</label>
+                    <input type="date" name="firstSemesterEnd" id="firstSemesterEnd" class="form-control">
+                    <label for="secondSemesterStart" class="label-information">Початок другого семестру</label>
+                    <input type="date" name="secondSemesterStart" id="secondSemesterStart" class="form-control">
+                    <label for="secondSemesterEnd" class="label-information">Кінець другого семестру</label>
+                    <input type="date" name="secondSemesterEnd" id="secondSemesterEnd" class="form-control">
                 </div>
 
-                  <button  class="btn btn-primary no-display" name="changeFacultyInformation" id="changeFacultyInformation">Змінити</button>
-                  <button  class="btn btn-default" name="addGroup" id="addFacultyInformation">Додати</button>
+                  <button  class="btn btn-default" name="addGroup" id="saveFacultyInformation">Зберегти</button>
             </form>
-
         </script>
 
+         <!--Admin user access-->
+        <script type="text/template" id="adminUserAccessTemplate">
+            <form role="form" id="addUserForm" onsubmit="return false;">
+                <div role="tabpanel">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#teacherUserTab" aria-controls="teacherUserTab" role="tab" data-toggle="tab">Викладачі</a></li>
+                        <li role="presentation"><a href="#studentUserTab" aria-controls="studentUserTab" role="tab" data-toggle="tab">Студенти</a></li>
+
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="teacherUserTab">
+                            <div id="userTeacher">
+                                <div id="userTeacherForm">
+                                    <input list="teacherUserSelect" name="teacherUserSelect" class="form-control" placeholder="Викладачі">
+                                    <datalist id="teacherUserSelect">
+                                    </datalist>
+                                    <input type="text" placeholder="Логін" name="teacherUserLogin" id="teacherUserLogin" class="form-control">
+                                    <input type="password" placeholder="Пароль" name="teacherUserPassword" id="teacherUserPassword" class="form-control">
+                                    <button  class="btn btn-default" name="addTeacherUser" id="addTeacherUser">Додати</button>
+                                </div>
+
+                                <div id="userTeacherTable">
+                                    <table class="table tabTable">
+                                        <thead>
+                                            <tr>
+                                                <th>№</th>
+                                                <th>ПІБ</th>
+                                                <th>Логін</th>
+                                                <th>Email</th>
+                                                <th>Активний</th>
+                                                <th>&nbsp;</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="studentUserTab">
+                            <div id="userStudent">
+                                <div id="userStudentForm">
+                                    <input list="studentUserSelect" name="studentUserSelect" class="form-control" placeholder="Студенти">
+                                    <datalist id="studentUserSelect">
+                                    </datalist>
+                                    <input type="text" placeholder="Логін" name="studentUserLogin" id="studentUserLogin" class="form-control">
+                                    <input type="password" placeholder="Пароль" name="studentUserPassword" id="studentUserPassword" class="form-control">
+                                    <button  class="btn btn-default" name="addStudentUser" id="addStudentUser">Додати</button>
+                                </div>
+
+                                <div id="userStudentTable">
+                                    <table class="table tabTable">
+                                        <thead>
+                                            <tr>
+                                                <th>№</th>
+                                                <th>ПІБ</th>
+                                                <th>Логін</th>
+                                                <th>Email</th>
+                                                <th>Активний</th>
+                                                <th>&nbsp;</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                   </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </script>
+
+        <script type="text/template" id="optionStudentUserTemplate">
+            <option data-id="<%=id%>" value="<%=lastName%> <%=firstName%> <%=middleName%> <<%=email%>>">
+        </script>
+
+        <script type="text/template" id="optionTeacherUserTemplate">
+            <option data-id="<%=id%>" value="<%=lastName%> <%=firstName%> <%=middleName%> <<%=email%>>">
+        </script>
+
+        <!--Reduction admin Template-->
+        <script type="text/template" id="adminReductionTemplate">
+             <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Зведення по факультету">
+                 <div class="tile-content icon">
+                     <i class="icon-file"></i>
+                 </div>
+             </div>
+        </script>
+
+          <!--User table Template-->
+        <script type="text/template" id="userTableTemplate">
+            <td></td>
+            <td><%=lastName%> <%=firstName%> <%=middleName%></td>
+            <td><%=user.login%></td>
+            <td><%=email%></td>
+            <td>
+                <input type="checkbox" id="userAccess" name="userAccess" class="checkbox">
+            </td>
+            <td>
+                <div class="toolbar transparent place-right">
+                    <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white remove-user-data"></i></button>
+                </div>
+            </td>
+        </script>
+
+
+
+        {% comment %}
+            {% include 'login.html' %}
+        {% endcomment %}
 
 
         <!--Frameworks-->
@@ -1196,6 +1310,7 @@
         <script src="{% static 'frameworks/backbone/backbone.js' %}"></script>
 
         <!--Models-->
+        <script src="{% static 'frontend/js/Models/UserModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/BenefitsModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/LanguageModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/PublicPlanModel.js' %}"></script>
@@ -1209,7 +1324,7 @@
         <script src="{% static 'frontend/js/Models/DepartmentModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/ClassModel.js' %}"></script>
         <script src="{% static 'frontend/js/Models/PassModel.js' %}"></script>
-        <script src="{% static 'frontend/js/Models/AttendanceModel.js' %}"></script>
+        <script src="{% static 'frontend/js/Models/PaginationModel.js' %}"></script>
 
 
         <!--Collections-->
@@ -1222,9 +1337,11 @@
         <script src="{% static 'frontend/js/Collections/PassesCollection.js' %}"></script>
         <script src="{% static 'frontend/js/Collections/BenefitsCollection.js' %}"></script>
         <script src="{% static 'frontend/js/Collections/LanguagesCollection.js' %}"></script>
-        <script src="{% static 'frontend/js/Collections/AttendanceCollection.js' %}"></script>
         <script src="{% static 'frontend/js/Collections/PublicPlanCollection.js' %}"></script>
         <script src="{% static 'frontend/js/Collections/WorkWithStudentCollection.js' %}"></script>
+        <script src="{% static 'frontend/js/Collections/UserCollection.js' %}"></script>
+
+
 
         <!--Views-->
         <script src="{% static 'frontend/js/Views/BaseView.js' %}"></script>
@@ -1267,7 +1384,14 @@
         <script src="{% static 'frontend/js/Views/ReportTabView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/AddPublicOrdersTableView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/AddPublicOrdersOfGroupFormView.js' %}"></script>
-        <script src="{% static 'frontend/js/Views/AddPublicOrdersOfGroupView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/AdminInformationAboutFacultyView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/AdminReductionView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/UserTableView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/AdminUserAccessView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/AdminPageView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/PaginationView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/PaginationsView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/StudentJournalView.js' %}"></script>
 
         <!--Routes-->
         <script src="{% static 'frontend/js/Routes/Route.js' %}"></script>
