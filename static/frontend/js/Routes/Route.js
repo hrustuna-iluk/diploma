@@ -29,7 +29,7 @@ var Route = Backbone.Router.extend({
         this.usersCollection = new UserCollection();
         this.facultyCollection.fetch({ async: false });
         this.departmentsCollection.fetch();
-        this._initializeEvents();
+        //this._initializeEvents();
 
     },
 
@@ -47,18 +47,23 @@ var Route = Backbone.Router.extend({
     },
 
     startPage: function() {
+        var facultyReady = $.Deferred();
+        var facultyModel = new FacultyModel();
+
+        facultyReady.done($.proxy(function () {
+            var startPageView = new StartPageView({
+                collection: this.departmentsCollection,
+                teachersCollection: this.teachersCollection,
+                faculty: facultyModel
+            });
+            this.routeChanged(startPageView);
+        }, this));
         if(!this.facultyCollection.length) {
-            var facultyModel = new FacultyModel();
-            facultyModel.set({ dean: null }).save();
+            facultyModel.set({ dean: null }).save({ success: facultyReady.resolve });
         } else {
-            var facultyModel = this.facultyCollection.models[0];
+            facultyModel = this.facultyCollection.models[0];
+            facultyReady.resolve();
         }
-        var startPageView = new StartPageView({
-            collection: this.departmentsCollection,
-            teachersCollection: this.teachersCollection,
-            faculty: facultyModel
-        });
-        this.routeChanged(startPageView);
 
     },
 
