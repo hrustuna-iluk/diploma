@@ -115,6 +115,7 @@ var Route = Backbone.Router.extend({
                 var group = this.groupsCollection.findWhere({id: +groupId});
                 var reductionView = new ReductionView({
                     group: group,
+                    faculty: this.facultyCollection.models[0],
                     passesCollection: this.passesCollection,
                     studentsCollection: this.studentsCollection,
                     classesCollection: this.classesCollection
@@ -177,6 +178,7 @@ var Route = Backbone.Router.extend({
             usersCollection: this.usersCollection
         });
          this.routeChanged(adminView);
+        adminView._addFacultyInformation();
     },
 
     routeChanged: function(view) {
