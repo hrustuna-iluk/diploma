@@ -13,15 +13,19 @@ var PaginationsView  = BaseView.extend({
     _addPaginationElement: function() {
         if(this.semester === 1){
             for(var i = 1; i <= this.faculty.get('amountOfWeekInFirstSemester'); i++){
-                new PaginationView({
-                    collection: this.collection
-                });
+                this.$el.append(
+                    new PaginationView({
+                        collection: this.collection
+                    }).render().el
+                )
             }
         }else if(this.semester === 2){
             for(var i = 1; i <= this.faculty.get('amountOfWeekInSecondSemester'); i++){
-                new PaginationView({
-                    collection: this.collection
-                });
+                this.$el.append(
+                    new PaginationView({
+                        collection: this.collection
+                    }).render().el
+                )
             }
         }
 

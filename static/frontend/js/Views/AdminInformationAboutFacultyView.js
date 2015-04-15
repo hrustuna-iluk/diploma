@@ -10,12 +10,25 @@ var AdminInformationAboutFacultyView = BaseView.extend({
         this.$('#saveFacultyInformation').on('click', $.proxy(this._addInformation, this))
     },
 
+    _formatDate: function (date) {
+        if (!date) return;
+
+        var year = date.getFullYear();
+        var month = date.getMonth();
+        var day = date.getDate();
+        return [
+            year,
+            month < 10 ? '0' + month : month,
+            day < 10 ? '0' + day : day
+        ].join('-')
+    },
+
     _facultyData: function() {
         this.$("#facultyTitle").val(this.model.get('title'));
         this.$("#firstSemesterStart").val(this.model.get('startFirstSemester'));
         this.$("#firstSemesterEnd").val(this.model.get('endFirstSemester'));
         this.$("#secondSemesterStart").val(this.model.get('startSecondSemester'));
-        this.$("#secondSemesterEnd").val(this.model.get('endSecondSemester'))
+        this.$("#secondSemesterEnd").val(this.model.get('endSecondSemester'));
     },
 
     _addInformation: function() {

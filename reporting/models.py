@@ -63,29 +63,32 @@ class Faculty(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        startWeekFirst = datetime.date(
-            self.startFirstSemester.year,
-            self.startFirstSemester.month,
-            self.startFirstSemester.day
+        try:
+            startWeekFirst = datetime.date(
+                self.startFirstSemester.year,
+                self.startFirstSemester.month,
+                self.startFirstSemester.day
+                ).isocalendar()[1]
+            endWeekFirst = datetime.date(
+                self.endFirstSemester.year,
+                self.endFirstSemester.month,
+                self.endFirstSemester.day
             ).isocalendar()[1]
-        endWeekFirst = datetime.date(
-            self.endFirstSemester.year,
-            self.endFirstSemester.month,
-            self.endFirstSemester.day
-        ).isocalendar()[1]
-        startWeekSecond = datetime.date(
-            self.startSecondSemester.year,
-            self.startSecondSemester.month,
-            self.startSecondSemester.day
-        ).isocalendar()[1]
-        endWeekSecond = datetime.date(
-            self.endSecondSemester.year,
-            self.endSecondSemester.month,
-            self.endSecondSemester.day
-        ).isocalendar()[1]
+            startWeekSecond = datetime.date(
+                self.startSecondSemester.year,
+                self.startSecondSemester.month,
+                self.startSecondSemester.day
+            ).isocalendar()[1]
+            endWeekSecond = datetime.date(
+                self.endSecondSemester.year,
+                self.endSecondSemester.month,
+                self.endSecondSemester.day
+            ).isocalendar()[1]
 
-        self.amountOfWeekInFirstSemester = endWeekFirst - startWeekFirst
-        self.amountOfWeekInSecondSemester = endWeekSecond - startWeekSecond
+            self.amountOfWeekInFirstSemester = endWeekFirst - startWeekFirst
+            self.amountOfWeekInSecondSemester = endWeekSecond - startWeekSecond
+        except AttributeError:
+            pass
         super(Faculty, self).save(*args, **kwargs)
 
 

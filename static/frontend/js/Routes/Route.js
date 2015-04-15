@@ -2,6 +2,7 @@ var Route = Backbone.Router.extend({
 
     routes: {
         "": "startPage",
+        "startPage": "startPage",
         'teachers/:departmentId': 'teachers',
         'groups/:departmentId' : 'groups',
         'students/:groupId' : 'students',
