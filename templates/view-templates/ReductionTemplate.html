@@ -1,0 +1,77 @@
+ <script type="text/template" id="reductionTemplate">
+    <div class="grid">
+        <div class="row">
+            <div class="span20" id="page-content">
+                <span class="title-page">Система контролю відвідувань</span>
+                <h3 class="department-title">Група <%=number%></h3>
+                <div class="row">
+                    <div class="span2" >
+
+                        <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Розклад">
+                            <a href="#scheduler/<%=id%>">
+                                <div class="tile-content icon">
+                                    <i class="icon-grid"></i>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Динаміка відвідувань групи">
+                            <div class="tile-content icon">
+                                <i class="icon-stats-up"></i>
+                            </div>
+                        </div>
+
+                        <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Журнал викладача">
+                            <a href="#journal/<%=id%>">
+                                <div class="tile-content icon">
+                                    <i class="icon-book"></i>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Громадські доручення">
+                            <a href="#publicOrders/<%=id%>">
+                                <div class="tile-content icon">
+                                    <i class="icon-user-3"></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="span12" id="attendanceTable" >
+                        <div role="tabpanel">
+
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="firstSemesterJournal active"><a href="#firstSemesterJournal" aria-controls="firstSemesterJournal" role="tab" data-toggle="tab">Перший семестр</a></li>
+                                <li role="presentation" class="secondSemesterJournal"><a href="#secondSemesterJournal" aria-controls="secondSemesterJournal" role="tab" data-toggle="tab">Другий семестр</a></li>
+
+                            </ul>
+
+                           <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="firstSemesterJournal">
+                                    <div class="paginationJournal"><nav></nav></div>
+                                    <table class="table table-bordered reduction">
+                                        <thead>
+
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="secondSemesterJournal">
+                                    <div class="paginationJournal"><nav></nav></div>
+                                    <table class="table table-bordered reduction">
+                                        <thead></thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

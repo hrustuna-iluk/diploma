@@ -10,38 +10,46 @@ var ReductionView = BaseView.extend ({
         this.classesCollection = options.classesCollection;
     },
 
-    firstSemester: null,
+    _renderSubViews: function () {
+        this.firstSemesterPagination = new PaginationsView({
+            container: this.$('#firstSemesterJournal .paginationJournal nav'),
+            faculty: this.faculty,
+            semester: 1
+        }).render();
 
-    secondSemester: null,
+        this.secondSemesterPagination = new PaginationsView({
+            container: this.$('#secondSemesterJournal .paginationJournal nav'),
+            faculty: this.faculty,
+            semester: 2
+        }).render();
+    },
 
     _attachEvents: function() {
-        this.$('.firstSemesterJournal').on('click', $.proxy(this._firstSemester, this));
-        this.$('.secondSemesterJournal').on('click', $.proxy(this._secondSemester, this));
+        this.publisher.on('pagination:item:clicked', $.proxy(function (semester, week) {
+            var container = semester == 1 ? this.$('#firstSemesterJournal table') : this.$('#secondSemesterJournal table');
+            this.passesView = new PassesTableView({
+                week: week,
+                passesCollection: this.passesCollection,
+                studentsCollection: this.studentsCollection,
+                classesCollection: this.classesCollection.where({ semester: semester.toString() }),
+                container: container
+            }).render();
+        }, this));
     },
 
-    _firstSemester: function() {
-        this.secondSemester = null;
-        this.$('#firstSemesterJournal .paginationJournal nav').html(
-            this.firstSemester = new PaginationsView({
-                faculty: this.faculty,
-                semester: 1
-            }).render().el
-        );
+    _showFirstPage: function () {
+        this.publisher.trigger('passes:paginator:show:page', 1);
     },
 
-    _secondSemester: function() {
-        this.firstSemester = null;
-        this.$('#secondSemesterJournal .paginationJournal nav').html(
-            this.secondSemester = new PaginationsView({
-                faculty: this.faculty,
-                semester: 2
-            }).render().el
-        );
+    _showSecondSemester: function () {
+        this.publisher('passes:paginator:show:page', 1);
     },
 
     render: function() {
-        this.$el.html(this.template(_.extend(this.model.toJSON(), this.group.toJSON())));
+        this.$el.html(this.template(this.group.toJSON()));
+        this._renderSubViews();
         this._attachEvents();
+        this._showFirstPage();
         return this;
     }
 

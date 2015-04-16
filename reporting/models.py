@@ -194,6 +194,7 @@ class Class(models.Model):
     day = models.CharField(max_length=20, choices=DAYS)
     numberOfWeek = models.CharField(max_length=2, choices=(('1', 1), ('2', 2)))
     number = models.IntegerField()
+    semester = models.CharField(max_length=2, choices=(('1', 1), ('2', 2)))
     group = models.ForeignKey('Group', null=True, blank=True)
 
     def __str__(self):

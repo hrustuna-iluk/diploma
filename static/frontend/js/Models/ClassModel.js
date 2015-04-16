@@ -11,6 +11,7 @@ var ClassModel = Backbone.Model.extend ({
             day: "",
             numberOfWeek: 0,
             number: 0,
+            semester: 1,
             group: GroupModel
         }
     },
@@ -69,6 +70,10 @@ var ClassModel = Backbone.Model.extend ({
 
     getNumber: function() {
         return this.get('number');
+    },
+
+    getSemester: function() {
+        return this.get('semester');
     },
 
     parse: function(resp) {

@@ -111,19 +111,22 @@ var Route = Backbone.Router.extend({
     },
 
     reduction: function(groupId) {
-        this.groupsCollection.fetch({
-            success: $.proxy(function () {
-                var group = this.groupsCollection.findWhere({id: +groupId});
-                var reductionView = new ReductionView({
-                    group: group,
-                    faculty: this.facultyCollection.models[0],
-                    passesCollection: this.passesCollection,
-                    studentsCollection: this.studentsCollection,
-                    classesCollection: this.classesCollection
-                });
-                this.routeChanged(reductionView);
+        $.when(
+            this.groupsCollection.fetch(),
+            this.passesCollection.fetch(),
+            this.classesCollection.fetch()
+        ).done($.proxy(function () {
+            var group = this.groupsCollection.findWhere({id: +groupId});
+            var reductionView = new ReductionView({
+                group: group,
+                faculty: this.facultyCollection.models[0],
+                passesCollection: this.passesCollection,
+                studentsCollection: this.studentsCollection,
+                classesCollection: this.classesCollection
+            });
+            this.routeChanged(reductionView);
             }, this)
-        });
+        );
     },
 
     scheduler: function(groupId) {
