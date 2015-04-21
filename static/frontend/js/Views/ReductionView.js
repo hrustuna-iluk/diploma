@@ -29,6 +29,8 @@ var ReductionView = BaseView.extend ({
             var container = semester == 1 ? this.$('#firstSemesterJournal table') : this.$('#secondSemesterJournal table');
             this.passesView = new PassesTableView({
                 week: week,
+                faculty: this.faculty,
+                semester: semester,
                 passesCollection: this.passesCollection,
                 studentsCollection: this.studentsCollection,
                 classesCollection: this.classesCollection.where({ semester: semester.toString() }),
@@ -39,10 +41,6 @@ var ReductionView = BaseView.extend ({
 
     _showFirstPage: function () {
         this.publisher.trigger('passes:paginator:show:page', 1);
-    },
-
-    _showSecondSemester: function () {
-        this.publisher('passes:paginator:show:page', 1);
     },
 
     render: function() {

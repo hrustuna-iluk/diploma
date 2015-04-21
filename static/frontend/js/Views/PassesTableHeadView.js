@@ -1,6 +1,6 @@
 var PassesTableHeadView = BaseView.extend({
 
-    tagName: 'tr',
+    tagName: 'thead',
 
     MAX_CLASS_AMOUNT: 6,
 
@@ -23,13 +23,16 @@ var PassesTableHeadView = BaseView.extend({
     },
 
     _renderDays: function () {
+        var $line = $('<tr>');
         var start = this.week.get('start').valueOf();
         this.days.forEach($.proxy(function (day, index) {
             var startDate = new Date(start);
             var date = new Date( startDate.setDate( startDate.getDate() + index ) );
             var $day = this._renderDay(day, date);
-            this.$el.append($day);
+            $line.append($day);
         }, this));
+        $line.prepend($('<td>'));
+        this.$el.append($line)
     },
 
     _renderDay: function (day, date) {
@@ -38,16 +41,18 @@ var PassesTableHeadView = BaseView.extend({
             day: day,
             numberOfWeek: this.week.get('numberOfWeek').toString()
         });
-
         if (!classes.length) {
             return this._emptyDay(day, date);
         }
         classes = new ClassesCollection(classes);
-        for (var i=1; i <= this.MAX_CLASS_AMOUNT; i++ ) {
-            var $class = null;
+        for (var i = 1; i <= this.MAX_CLASS_AMOUNT; i++ ) {
+            var pass = null;
             var classItem = classes.findWhere({
                 number: i
             });
+            var $class = classItem ?
+                    this.classTemplate(classItem.toJSON()) :
+                    this.classTemplate({  subject: '&nbsp;' });
             $el = $el.add(
                 classItem ?
                     this.classTemplate(classItem.toJSON()) :
@@ -79,7 +84,8 @@ var PassesTableHeadView = BaseView.extend({
 
     render: function () {
         this._renderDays();
-        this.container.html(this.$el);
+        this.container.find(this.tagName).remove();
+        this.container.append(this.$el);
         return this;
     }
 });

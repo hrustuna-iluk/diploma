@@ -23,6 +23,10 @@ class PassView(APIView):
 
     def post(self, request, format=None):
         data = request.data
+        if isinstance(data['class_passed'], dict):
+            data['class_passed'] = data['class_passed']['id']
+        if isinstance(data['student'], dict):
+            data['student'] = data['student']['id']
         serializer = PassSerializer(data=data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()

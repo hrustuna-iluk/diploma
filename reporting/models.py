@@ -148,6 +148,9 @@ class Benefits(models.Model):
     def __str__(self):
         return self.type
 
+    class Meta:
+        verbose_name_plural = 'Benefits'
+
 
 class Student(models.Model):
     user = models.ForeignKey(User, unique=True, null=True)
@@ -186,6 +189,9 @@ class Parents(models.Model):
     def __str__(self):
         return self.fullName
 
+    class Meta:
+        verbose_name_plural = 'Parents'
+
 
 class Class(models.Model):
     subject = models.CharField(max_length=25)
@@ -199,6 +205,9 @@ class Class(models.Model):
 
     def __str__(self):
         return self.subject + ' ' + self.classroom
+
+    class Meta:
+        verbose_name_plural = 'Classes'
 
 
 class StudentWork(models.Model):
@@ -231,10 +240,13 @@ class Pass(models.Model):
     class_passed = models.ForeignKey(Class, null=True, blank=True)
 
     def __str__(self):
-        return ' '.join([self.student.first_name, self.student.last_name, self.type, self.date])
+        return ' '.join([self.student.firstName, self.student.lastName, self.type, self.class_passed.subject])
 
     def __str(self):
         return str(self.id) + ' ' + str(self.group.number)
+
+    class Meta:
+        verbose_name_plural = 'Passes'
 
 
 #models views
@@ -298,5 +310,6 @@ try:
     admin.site.register(Student, StudentAdminView)
     admin.site.register(StudentWork, StudentWorkAdminView)
     admin.site.register(Teacher, TeacherAdminView)
+    admin.site.register(Pass, PassView)
 except Exception:
     pass

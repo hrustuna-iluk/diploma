@@ -5,7 +5,7 @@ var PassModel = Backbone.Model.extend({
     defaults: function() {
         return {
             student: StudentModel,
-            class: ClassModel,
+            class_passed: ClassModel,
             date: "",
             type: ""
         }

@@ -13,6 +13,9 @@
         <link rel="stylesheet" href="{% static 'frontend/styles/styles.css' %}">
     </head>
     <body class="metro">
+        <div class="loading-container">
+        <img class="loading" src="{% static 'images/loading.gif' %}" width="200" height="200">
+    </div>
         <header>
         <nav style="text-align: right; margin-right: 30px; font-size: 12pt;">
             <a style="color: white" href="#adminPage">Адмінка</a>&nbsp;|&nbsp;<a style="color: white" href="/app/logout">Вийти</a>
@@ -1312,6 +1315,7 @@
         <script src="{% static 'frontend/js/Views/ReportTabView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/AddPublicOrdersTableView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/AddPublicOrdersOfGroupFormView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/AddPublicOrdersOfGroupView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/AdminInformationAboutFacultyView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/AdminReductionView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/UserTableView.js' %}"></script>

@@ -114,7 +114,8 @@ var Route = Backbone.Router.extend({
         $.when(
             this.groupsCollection.fetch(),
             this.passesCollection.fetch(),
-            this.classesCollection.fetch()
+            this.classesCollection.fetch(),
+            this.studentsCollection.fetch()
         ).done($.proxy(function () {
             var group = this.groupsCollection.findWhere({id: +groupId});
             var reductionView = new ReductionView({
@@ -193,6 +194,14 @@ var Route = Backbone.Router.extend({
         this.currentView = view;
     }
 });
+
+$(document).bind("ajaxSend", function(){
+   $(".loading-container").show();
+ }).bind("ajaxComplete", function(){
+    if ($.active === 1) {
+        $(".loading-container").hide();
+    }
+ });
 
 var route = new Route;
 Backbone.history.start();

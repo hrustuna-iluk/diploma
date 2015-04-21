@@ -18,7 +18,7 @@ var PaginationView = BaseView.extend({
     _countStart: function(week) {
         var startSemester = this.semester == 1 ? this.faculty.get('startFirstSemester') : this.faculty.get('startSecondSemester');
         var year = new Date().getFullYear();
-        var offset = week * 6 * 24 * 60 * 60 * 1000;
+        var offset = week * 7 * 24 * 60 * 60 * 1000;
         var startOfCurrentYear = new Date(startSemester);
         var date = new Date(startOfCurrentYear.valueOf() + offset);
         var day = date.getDay();
@@ -32,7 +32,7 @@ var PaginationView = BaseView.extend({
     _countEnd: function(week) {
         var endSemester = this.semester == 1 ? this.faculty.get('endFirstSemester') : this.faculty.get('endSecondSemester');
         var year = new Date().getFullYear();
-        var offset = week * 6 * 24 * 60 * 60 * 1000;
+        var offset = week * 7 * 24 * 60 * 60 * 1000;
         var startOfCurrentYear = new Date(endSemester);
         var date = new Date(startOfCurrentYear.valueOf() + offset);
         var day = date.getDay();
@@ -51,7 +51,7 @@ var PaginationView = BaseView.extend({
         var week = this._countWeek();
         var number = this.collection.length;
         this.model = new PaginationModel({
-            number: number + 1,
+            number: number,
             numberOfWeek: week,
             start: this._countStart(number),
             end: this._countEnd(number)

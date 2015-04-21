@@ -5,8 +5,6 @@ from reporting.api.Views.Serializers.ClassSerializer import ClassSerializer
 
 class PassSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=False)
-    student = StudentSerializer()
-    class_passed = ClassSerializer()
 
     def create(self, validated_data):
         pass_instance = Pass.objects.create(**validated_data)
