@@ -12,47 +12,44 @@ from reporting.api.Views.StudentView import StudentView
 from reporting.api.Views.StudentWorkView import StudentWorkView
 from reporting.api.Views.TeacherView import TeacherView
 from reporting.api.Views.PassView import PassView
-from reporting.api.Views.UsersView import UsersView
 
 
 urlpatterns = patterns('',
     url(r'^auth/', include('rest_framework.urls', namespace='rest_framework')),
 
-    url(r'users/', UsersView.as_view()),
-
     url(r'benefit/', BenefitsView.as_view()),
-    url(r'benefits/', BenefitsView.as_view()),
+    url(r'benefits', BenefitsView.as_view()),
 
     url(r'class/', ClassView.as_view()),
-    url(r'classes/', ClassView.as_view()),
+    url(r'classes', ClassView.as_view()),
 
     url(r'department/', DepartmentView.as_view()),
-    url(r'departments/', DepartmentView.as_view()),
+    url(r'departments', DepartmentView.as_view()),
 
     url(r'faculty/', FacultyView.as_view()),
-    url(r'faculties/', FacultyView.as_view()),
+    url(r'faculties', FacultyView.as_view()),
 
     url(r'group/', GroupView.as_view()),
-    url(r'groups/', GroupView.as_view()),
+    url(r'groups', GroupView.as_view()),
 
     url(r'language/', LanguageView.as_view()),
-    url(r'languages/', LanguageView.as_view()),
+    url(r'languages', LanguageView.as_view()),
 
     url(r'parent/', ParentsView.as_view()),
-    url(r'parents/', ParentsView.as_view()),
+    url(r'parents', ParentsView.as_view()),
 
     url(r'publicplan/', PublicPlanView.as_view()),
-    url(r'publicplans/', PublicPlanView.as_view()),
+    url(r'publicplans', PublicPlanView.as_view()),
 
     url(r'student/', StudentView.as_view()),
-    url(r'students/', StudentView.as_view()),
+    url(r'students', StudentView.as_view()),
 
     url(r'studentwork/', StudentWorkView.as_view()),
-    url(r'studentworks/', StudentWorkView.as_view()),
+    url(r'studentworks', StudentWorkView.as_view()),
 
     url(r'teacher/', TeacherView.as_view()),
-    url(r'teachers/', TeacherView.as_view()),
+    url(r'teachers', TeacherView.as_view()),
 
     url(r'pass/', PassView.as_view()),
-    url(r'passes/', PassView.as_view())
+    url(r'passes', PassView.as_view())
 )

@@ -11,7 +11,7 @@ from django.core.serializers import serialize
 
 
 class LanguageView(APIView):
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, pk=None,  format=None):
         snippet = Language.objects.all()

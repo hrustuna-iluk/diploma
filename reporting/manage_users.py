@@ -4,33 +4,43 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 
 
-def create_user(request, person_data):
+PERMISSIONS = {
+    'admin': Permission.objects.all(),
+    'dean': None, #None value means that person can only browse
+    'Deputy Dean': None,
+    'Head of Department': None,
+    'group_leader': Permission.objects.all(),
+    'curator': Permission.objects.all()
+}
+
+
+def create_user(user_data):
     user = User.objects.create(
-        usename=person_data.username,
-        password=person_data.password,
-        email=person_data.email
+        username=user_data['username'],
+        password=user_data['password'],
+        email=user_data['email']
     )
-    user.save()
-    return user
+    return user.save()
 
 
-def get_person_by_user(user, person_type):
+def get_person_by_user(user):
     person = None
     try:
-        if person_type == 'student':
-            person = Student.objects.get(user=user)
-        elif person_type == 'teacher':
+        person = Student.objects.get(user=user)
+    except Student.DoesNotExist:
+        try:
             person = Teacher.objects.get(user=user)
-    except (Teacher.DoesNotExist, Student.DoesNotExist):
-        pass
+        except Teacher.DoesNotExist:
+            pass
     return person
 
 
-def add_permission(user, permission_list):
+def add_permission(user, role):
     user.user_permissions.clear()
-    for permission in permission_list:
+    for permission in PERMISSIONS[role]:
         user.user_permissions.add(permission)
     return user
+
 
 def get_permissions(user=None):
     if user:

@@ -8,7 +8,7 @@ var AdminPageView = BaseView.extend({
         this.faculty = options.faculty;
         this.teachersCollection = options.teachersCollection;
         this.studentsCollection = options.studentsCollection;
-        this.usersCollection = options.usersCollection;
+        this.groupsCollection = options.groupsCollection;
     },
 
     _attachEvents: function(){
@@ -25,15 +25,17 @@ var AdminPageView = BaseView.extend({
     },
 
     _adminReduction: function() {
-        var reductionView = new AdminReductionView();
+        var reductionView = new AdminReductionView({
+            groupsCollection: this.groupsCollection,
+            faculty: this.faculty
+        });
         this._viewChanged(reductionView);
     },
 
     _addUser: function() {
         var userView = new AdminUserAccessView({
             teachersCollection: this.teachersCollection,
-            studentsCollection: this.studentsCollection,
-            usersCollection: this.usersCollection
+            studentsCollection: this.studentsCollection
         });
         this._viewChanged(userView);
     },

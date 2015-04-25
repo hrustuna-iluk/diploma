@@ -128,10 +128,11 @@ class Language(models.Model):
 
 
 class Teacher(models.Model):
-    user = models.ForeignKey(User, unique=True, null=True)
+    user = models.ForeignKey(User, unique=True, null=True, blank=True)
     firstName = models.CharField(max_length=255, blank=True)
     lastName = models.CharField(max_length=255, blank=True)
     middleName = models.CharField(max_length=255, blank=True)
+    email = models.EmailField(max_length=255)
     position = models.CharField(max_length=255, choices=POSITIONS)
     department = models.ForeignKey(Department, null=True, blank=True)
 
@@ -153,7 +154,7 @@ class Benefits(models.Model):
 
 
 class Student(models.Model):
-    user = models.ForeignKey(User, unique=True, null=True)
+    user = models.ForeignKey(User, unique=True, null=True, blank=True)
     firstName = models.CharField(max_length=255, blank=True)
     lastName = models.CharField(max_length=255, blank=True)
     middleName = models.CharField(max_length=255, blank=True)

@@ -23,7 +23,7 @@ var GroupsView = BaseView.extend({
         this.publisher.on('change:group', $.proxy(this._onGroupChange, this));
         this.collection.reset().fetch({data: {
             department: this.department.get('id')
-        }});
+        }, processData: true});
     },
 
     _attachEvents: function() {

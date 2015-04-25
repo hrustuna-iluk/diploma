@@ -9,10 +9,11 @@ from rest_framework import serializers, viewsets
 from django.shortcuts import get_object_or_404
 from reporting.api.Views.Serializers.TeacherSerializer import TeacherSerializer
 from django.core.serializers import serialize
+from reporting.manage_users import *
 
 
 class TeacherView(APIView):
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, pk=None,  format=None):
         if request.GET.get('department'):
@@ -58,6 +59,14 @@ class TeacherView(APIView):
                 elif data['position'] == 'Head of Department':
                     teacher = Teacher.objects.get(department=data['department'], position=data['position'])
                 teacher.position = 'teacher'
+                if not teacher.user:
+                    user = create_user({
+                        'username': data['user']['username'],
+                        'password': data['user']['password'],
+                        'email': teacher.email
+                    })
+                    add_permission(user, data['position'])
+                    teacher.user = user
                 teacher.save()
             except Teacher.DoesNotExist:
                 pass

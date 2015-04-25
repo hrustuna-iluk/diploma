@@ -11,7 +11,7 @@ from django.core.serializers import serialize
 
 
 class PassView(APIView):
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, pk=None,  format=None):
         if request.GET.get('student'):

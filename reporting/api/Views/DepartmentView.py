@@ -12,7 +12,7 @@ from django.http import HttpResponse
 
 
 class DepartmentView(APIView):
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, pk=None,  format=None):
         snippet = Department.objects.all()

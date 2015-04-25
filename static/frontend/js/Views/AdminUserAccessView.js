@@ -9,8 +9,6 @@ var AdminUserAccessView = BaseView.extend({
     initialize: function(options) {
         this.studentsCollection = options.studentsCollection;
         this.teachersCollection = options.teachersCollection;
-        this.collection = options.usersCollection;
-        this.collection.on("add", $.proxy(this._renderUser, this));
     },
 
     _attachEvents: function() {
@@ -26,11 +24,16 @@ var AdminUserAccessView = BaseView.extend({
         });
         var teacherId = this.$('#teacherUserSelect').find('[value="' + value + '"]').data('id');
 
+        if (!teacherId) {
+            alert('Виберіть спочатку викладача');
+            return;
+        }
+
         var teacher = this.teachersCollection.findWhere({ id: teacherId });
         teacher.set({
             user: userModel
         });
-        this.teacher.save({
+        teacher.save({
             success: $.proxy(function () {
                     this._renderUser(teacher);
             }, this)
@@ -47,11 +50,17 @@ var AdminUserAccessView = BaseView.extend({
             password: this.$('#studentUserPassword').val()
         });
         var studentId = this.$('#studentUserSelect').find('[value="' + value + '"]').data('id');
+
+        if (!studentId) {
+            alert('Виберіть спочатку студента');
+            return;
+        }
+
         var student = this.studentsCollection.findWhere({ id: studentId });
         student.set({
             user: userModel
         });
-        this.student.save({
+        student.save({
             success: $.proxy(function () {
                     this._renderUser(student);
             }, this)

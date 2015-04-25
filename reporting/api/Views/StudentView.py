@@ -8,10 +8,11 @@ from rest_framework import serializers, viewsets
 from django.shortcuts import get_object_or_404
 from reporting.api.Views.Serializers.StudentSerializer import StudentSerializer
 from django.core.serializers import serialize
+from reporting.manage_users import *
 
 
 class StudentView(APIView):
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get(self, request, pk=None,  format=None):
         if request.GET.get('group'):
@@ -43,6 +44,8 @@ class StudentView(APIView):
         data = request.data
         if isinstance(data['group'], dict):
             data['group'] = data['group']['id']
+        if isinstance(data['language'], dict):
+            data['language'] = data['language']['id']
         father = Parents.objects.create(**data['father'])
         mother = Parents.objects.create(**data['mother'])
         father.save()
@@ -53,27 +56,30 @@ class StudentView(APIView):
         if serializer.is_valid():
             serializer.save()
             return HttpResponse(serialize('json', [serializer.instance], relations={
-            'language': {},
-            'benefits': {},
-            'mother': {},
-            'father': {},
-            'group': {
-                'relations': ('department',
-                              'editorialBoard',
-                              'headOfDepartment',
-                              'culturalWork',
-                              'deputyHeadman',
-                              'otherTasks',
-                              'organizer',
-                              'curator',
-                              'leader'
-                )
-            }
-        }), content_type='application/json')
+                'language': {},
+                'benefits': {},
+                'mother': {},
+                'father': {},
+                'group': {
+                    'relations': (
+                        'department',
+                        'editorialBoard',
+                        'headOfDepartment',
+                        'culturalWork',
+                        'deputyHeadman',
+                        'otherTasks',
+                        'organizer',
+                        'curator',
+                        'leader'
+                    )
+                }
+            }), content_type='application/json')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request, format=None):
         data = request.data
+        if isinstance(data['language'], dict):
+            data['language'] = data['language']['id']
         if isinstance(data['group'], dict):
             data['group'] = data['group']['id']
         if isinstance(data['mother'], dict):
@@ -81,27 +87,36 @@ class StudentView(APIView):
         if isinstance(data['father'], dict):
             data['father'] = data['father']['id']
         snippet = get_object_or_404(Student, pk=request.data["id"])
+        if not snippet.user and snippet.group.leader.id == snippet.id:
+            user = create_user({
+                'username': data['user']['username'],
+                'password': data['user']['password'],
+                'email': snippet.email
+            })
+            add_permission(user, 'group_leader')
+            snippet.user = user
         serializer = StudentSerializer(snippet, data=data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
             return HttpResponse(serialize('json', [snippet], relations={
-            'language': {},
-            'benefits': {},
-            'mother': {},
-            'father': {},
-            'group': {
-                'relations': ('department',
-                              'editorialBoard',
-                              'headOfDepartment',
-                              'culturalWork',
-                              'deputyHeadman',
-                              'otherTasks',
-                              'organizer',
-                              'curator',
-                              'leader'
-                )
-            }
-        }), content_type='application/json')
+                'language': {},
+                'benefits': {},
+                'mother': {},
+                'father': {},
+                'group': {
+                    'relations': (
+                        'department',
+                        'editorialBoard',
+                        'headOfDepartment',
+                        'culturalWork',
+                        'deputyHeadman',
+                        'otherTasks',
+                        'organizer',
+                        'curator',
+                        'leader'
+                    )
+                }
+            }), content_type='application/json')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):

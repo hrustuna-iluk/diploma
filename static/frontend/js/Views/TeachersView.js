@@ -21,7 +21,7 @@ var TeachersView = BaseView.extend({
         this.publisher.on('change:teacher', $.proxy(this._onTeacherChange, this));
         this.collection.reset().fetch({data: {
             department: this.department.get('id')
-        }});
+        }, processData: true});
     },
 
     _attachEvents: function() {
