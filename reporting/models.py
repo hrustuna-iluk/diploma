@@ -22,8 +22,8 @@ SEX = (
 )
 
 SUBJECT_TYPES = (
-    ('1', 'Лекція'),
-    ('2', 'Практика')
+    ('lecture', 'Лекція'),
+    ('practice', 'Практика')
 )
 
 TUITION_TYPES = (
@@ -104,6 +104,7 @@ class Department(models.Model):
 
 class Group(models.Model):
     number = models.CharField(max_length=25)
+    short_form = models.BooleanField(default=False)
     department = models.ForeignKey(Department, null=True, blank=True)
     leader = models.ForeignKey('Student', null=True, related_name='leader', blank=True)
     deputyHeadman = models.ForeignKey('Student', null=True, related_name='deputy', blank=True)
@@ -181,6 +182,9 @@ class Student(models.Model):
     def __str__(self):
         return self.firstName + ' ' + self.lastName
 
+    def full_name(self):
+        return self.lastName + ' ' + self.firstName + ' ' + self.middleName
+
 
 class Parents(models.Model):
     fullName = models.CharField(max_length=255)
@@ -196,6 +200,7 @@ class Parents(models.Model):
 
 class Class(models.Model):
     subject = models.CharField(max_length=25)
+    type = models.CharField(max_length=50, choices=SUBJECT_TYPES)
     teacher = models.ForeignKey(Teacher, null=True, blank=True)
     classroom = models.CharField(max_length=25)
     day = models.CharField(max_length=20, choices=DAYS)

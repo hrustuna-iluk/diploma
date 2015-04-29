@@ -4,8 +4,10 @@ from django.template.context import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse_lazy
-from reporting.excel_generator.excel_generator import *
+from reporting.excel_generator.group_reduction_excel_generator import generate_group_reduction
+from reporting.excel_generator.faculty_reduction_excel_generator import generate_faculty_reduction_per_month, generate_faculty_reduction_per_semester
 import json
+from datetime import date
 
 
 @login_required(login_url=reverse_lazy('login_user'))
@@ -38,15 +40,17 @@ def generate_reduction(request):
     if request.method == 'POST':
         filename = None
         type = request.POST.get('type')
-        group = request.POST.get('group')
-        year, month = request.POST.get('month').split('-')
-        semester = request.POST.get('semester')
         faculty = request.POST.get('faculty')
 
         if type == 'groupPerMonth':
-            filename = generate_group_reduction_per_month(group, month, year)
+            group = request.POST.get('group')
+            year, month = request.POST.get('month').split('-')
+            filename = generate_group_reduction(faculty, group, month, year)
         elif type == 'facultyPerMonth':
+            year, month = request.POST.get('month').split('-')
             filename = generate_faculty_reduction_per_month(faculty, month, year)
         elif type == 'facultyPerSemester':
-            filename = generate_faculty_reduction_per_semester(faculty, semester)
+            semester = request.POST.get('semester')
+            year = request.POST.get('year')
+            filename = generate_faculty_reduction_per_semester(faculty, semester, year)
     return HttpResponse(json.dumps({'url': filename}), content_type='application/json')

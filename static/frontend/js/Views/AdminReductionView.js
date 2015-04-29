@@ -6,6 +6,7 @@ var AdminReductionView = BaseView.extend({
         facultyPerMonth: '#faculty-per-month',
         facultyPerSemester: '#faculty-per-semester',
         month: '#month',
+        year: '#year',
         semester: '#semester',
         groupList: '#group-list',
         generateReductionButton: '.generate-reduction'
@@ -16,16 +17,19 @@ var AdminReductionView = BaseView.extend({
             this._showGroupList();
             this._showMonth();
             this._hideSemester();
+            this._hideYear();
         },
         facultyPerMonth: function () {
             this._showMonth();
             this._hideGroupList();
             this._hideSemester();
+            this._hideYear();
         },
         facultyPerSemester: function () {
             this._showSemester();
             this._hideMonth();
             this._hideGroupList();
+            this._showYear();
         }
     },
 
@@ -49,6 +53,14 @@ var AdminReductionView = BaseView.extend({
 
     _hideMonth: function () {
         this.$(this.selectors.month).parent().hide();
+    },
+
+    _showYear: function () {
+        this.$(this.selectors.year).parent().show();
+    },
+
+    _hideYear: function () {
+        this.$(this.selectors.year).parent().hide();
     },
 
     _renderGroupList: function () {
@@ -83,9 +95,10 @@ var AdminReductionView = BaseView.extend({
 
     _generateReduction: function () {
         var params = {
-            type: this.$('input[name="type"]').val(),
+            type: this.$('input[name="type"]:checked').val(),
             group: this.$(this.selectors.groupList).val(),
             month: this.$(this.selectors.month).val(),
+            year: this.$(this.selectors.year).val(),
             semester: this.$(this.selectors.semester).val(),
             faculty: this.faculty.get('id')
         };
