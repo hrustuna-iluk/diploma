@@ -2,9 +2,9 @@ var AdminUserAccessView = BaseView.extend({
 
     template: _.template($("#adminUserAccessTemplate").html()),
 
-    optionStudentUserTemplate: _.template($("#optionStudentUserTemplate").html()),
+    optionStudentUserTemplate: _.template('<option data-id="<%=id%>" value="<%=lastName%> <%=firstName%> <%=middleName%> <<%=email%>>">'),
 
-    optionTeacherUserTemplate: _.template($("#optionTeacherUserTemplate").html()),
+    optionTeacherUserTemplate: _.template('<option data-id="<%=id%>" value="<%=lastName%> <%=firstName%> <%=middleName%> <<%=email%>>">'),
 
     initialize: function(options) {
         this.studentsCollection = options.studentsCollection;
@@ -66,7 +66,7 @@ var AdminUserAccessView = BaseView.extend({
 
         teacher.save({
             success: $.proxy(function () {
-                    this._renderUser(teacher);
+                    this._renderTeachersUser();
             }, this)
         });
         this.$('#teacherUserSelect').val('');
@@ -97,7 +97,7 @@ var AdminUserAccessView = BaseView.extend({
         });
         student.save({
             success: $.proxy(function () {
-                    this._renderUser(student);
+                    this._renderStudentUser();
             }, this)
         });
         this.$('#studentUserSelect').val('');
@@ -105,40 +105,40 @@ var AdminUserAccessView = BaseView.extend({
         this.$('#studentUserPassword').val('');
     },
 
-    _renderUser: function(model) {
-        if (model && model.position) {
+    _renderTeachersUser: function() {
+        this.$("#userTeacherTable table tbody").empty();
+        this.teachersCollection.each($.proxy(function (model) {
+            if (!model.get('user')) return;
             this.$("#userTeacherTable table tbody").append(
                 new UserTableView({
                     model: model
                 }).render().el
             );
-        } else {
+        }, this));
+    },
+
+    _renderStudentUser: function () {
+        this.$("#userStudentTable table tbody").empty();
+        this.studentsCollection.each($.proxy(function (model) {
+            if (!model.get('user')) return;
             this.$("#userStudentTable table tbody").append(
                 new UserTableView({
                     model: model
                 }).render().el
             );
-        }
+        }, this));
     },
 
     _fillTeacherUserList: function() {
-        this.teachersCollection.reset().fetch({
-            success: $.proxy(function () {
-                this.teachersCollection.each(function(model) {
-                    this.$('#teacherUserSelect').append(this.optionTeacherUserTemplate(model.toJSON()));
-                }, this);
-        }, this)
-        });
+        this.teachersCollection.each(function(model) {
+            this.$('#teacherUserSelect').append(this.optionTeacherUserTemplate(model.toJSON()));
+        }, this);
     },
 
     _fillStudentUserList: function() {
-        this.studentsCollection.reset().fetch({
-            success: $.proxy(function () {
-                this.studentsCollection.each(function(model) {
-                    this.$('#studentUserSelect').append(this.optionStudentUserTemplate(model.toJSON()));
-                }, this);
-        }, this)
-        });
+        this.studentsCollection.each(function(model) {
+            this.$('#studentUserSelect').append(this.optionStudentUserTemplate(model.toJSON()));
+        }, this);
     },
 
     render: function() {
@@ -146,6 +146,8 @@ var AdminUserAccessView = BaseView.extend({
         this._fillStudentUserList();
         this._fillTeacherUserList();
         this._attachEvents();
+        this._renderStudentUser();
+        this._renderTeachersUser();
         return this;
     }
 

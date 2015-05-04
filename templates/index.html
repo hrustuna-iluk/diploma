@@ -1187,14 +1187,6 @@
             </form>
         </script>
 
-        <script type="text/template" id="optionStudentUserTemplate">
-            <option data-id="<%=id%>" value="<%=lastName%> <%=firstName%> <%=middleName%> <<%=email%>>">
-        </script>
-
-        <script type="text/template" id="optionTeacherUserTemplate">
-            <option data-id="<%=id%>" value="<%=lastName%> <%=firstName%> <%=middleName%> <<%=email%>>">
-        </script>
-
         <!--Reduction admin Template-->
         <script type="text/template" id="adminReductionTemplate">
              <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Зведення по факультету">
@@ -1208,10 +1200,10 @@
         <script type="text/template" id="userTableTemplate">
             <td></td>
             <td><%=lastName%> <%=firstName%> <%=middleName%></td>
-            <td><%=user.login%></td>
+            <td><%=user.username%></td>
             <td><%=email%></td>
             <td>
-                <input type="checkbox" id="userAccess" name="userAccess" class="checkbox">
+                <input type="checkbox" id="userAccess" name="userAccess" class="checkbox" <% if (user.is_active) { %> checked <% } %>>
             </td>
             <td>
                 <div class="toolbar transparent place-right">

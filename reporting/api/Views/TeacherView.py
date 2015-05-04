@@ -72,6 +72,7 @@ class TeacherView(APIView):
                     user = User.objects.get(id=data['user']['id'])
                     user.username = data['user']['username']
                     user.set_password(data['user']['password'])
+                    user.is_active = data['user']['is_active']
                     user.save()
                     data['user'] = user.id
                 teacher.save()
