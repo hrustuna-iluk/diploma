@@ -23,6 +23,7 @@ var PassView = BaseView.extend ({
         this.class = options.class;
         this.date = options.date;
         this.model = options.model;
+        this.passesCollection = options.passesCollection;
     },
 
     events: {
@@ -63,7 +64,8 @@ var PassView = BaseView.extend ({
         return false;
     },
 
-    _savedPass: function () {
+    _savedPass: function (model) {
+        this.passesCollection.add(model);
         this.$el.text('Н');
     },
 

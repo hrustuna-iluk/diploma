@@ -253,6 +253,7 @@ class Pass(models.Model):
 
     class Meta:
         verbose_name_plural = 'Passes'
+        unique_together = ('student', 'date', 'class_passed')
 
 
 #models views

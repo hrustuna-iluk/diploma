@@ -85,6 +85,7 @@ var PassesTableBodyView = BaseView.extend({
             $passes = $passes.append(
                 new PassView({
                     class: classModel,
+                    passesCollection: this.passesCollection,
                     student: student,
                     date: weekDate,
                     model: pass[0]

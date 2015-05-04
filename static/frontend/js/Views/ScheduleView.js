@@ -11,6 +11,7 @@ var ScheduleView = BaseView.extend({
         this.teachersCollection = options.teachersCollection;
         this.group = options.group;
         this.collection.reset().fetch({
+            data: {group: this.group.get('id')},
             success: $.proxy(this._buildScheduler, this)
         });
     },
@@ -42,7 +43,7 @@ var ScheduleView = BaseView.extend({
 
     _fillClassesCollection: function() {
          this.collection.each($.proxy(function(model) {
-             if(model.getNumberOfWeek() === this.$('select').val()){
+             if(model.getNumberOfWeek() == this.$('select').val()){
                  this.classes[model.getNumber()-1][this.days.indexOf(model.getDay())].setModel(model);
              }
          }, this), this);

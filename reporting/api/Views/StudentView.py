@@ -26,6 +26,7 @@ class StudentView(APIView):
             'benefits': {},
             'father': {},
             'mother': {},
+            'user': {},
             'group': {
                 'relations': ('department',
                               'editorialBoard',
@@ -60,6 +61,7 @@ class StudentView(APIView):
                 'benefits': {},
                 'mother': {},
                 'father': {},
+                'user': {},
                 'group': {
                     'relations': (
                         'department',
@@ -86,6 +88,7 @@ class StudentView(APIView):
             data['mother'] = data['mother']['id']
         if isinstance(data['father'], dict):
             data['father'] = data['father']['id']
+        data['benefits'] = [item['id'] for item in data['benefits'] if isinstance(item, dict)]
         snippet = get_object_or_404(Student, pk=request.data["id"])
         if not snippet.user and snippet.group.leader.id == snippet.id:
             user = create_user({
@@ -95,14 +98,22 @@ class StudentView(APIView):
             })
             add_permission(user, 'group_leader')
             snippet.user = user
+            data['user'] = user.id
+        elif data['user']:
+            user = User.objects.get(id=data['user']['id'])
+            user.username = data['user']['username']
+            user.set_password(data['user']['password'])
+            user.save()
+            data['user'] = user.id
         serializer = StudentSerializer(snippet, data=data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
-            return HttpResponse(serialize('json', [snippet], relations={
+            return HttpResponse(serialize('json', [serializer.instance], relations={
                 'language': {},
                 'benefits': {},
                 'mother': {},
                 'father': {},
+                'user': {},
                 'group': {
                     'relations': (
                         'department',

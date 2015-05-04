@@ -8,8 +8,9 @@ var GroupView = BaseView.extend({
     },
 
     _attachEvents: function() {
-        this.$(this.selectors.changeGroup).on("click", $.proxy(this._changeGroup, this));
-        this.$(this.selectors.deleteGroup).on("click", $.proxy(this._deleteGroup, this));
+        this.$(this.selectors.changeGroup).off().on("click", $.proxy(this._changeGroup, this));
+        this.$(this.selectors.deleteGroup).off().on("click", $.proxy(this._deleteGroup, this));
+        this.model.on('change', $.proxy(this.render, this));
     },
 
     _changeGroup: function() {

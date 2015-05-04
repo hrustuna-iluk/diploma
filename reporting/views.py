@@ -12,7 +12,7 @@ from datetime import date
 
 @login_required(login_url=reverse_lazy('login_user'))
 def index(request):
-    return render_to_response('index.html', {}, context_instance = RequestContext(request))
+    return render_to_response('index.html', {'request': request}, context_instance = RequestContext(request))
 
 
 def login_user(request):

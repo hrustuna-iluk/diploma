@@ -2,7 +2,7 @@ var PaginationView = BaseView.extend({
 
     tagName: 'li',
 
-    template: _.template('<a style="color:#337ab7;" href="javascript:void 0"><%=number%></a>'),
+    template: _.template('<a style="color:#337ab7;" href="javascript:void 0"><%=++number%></a>'),
 
     initialize: function(options) {
         this.collection = options.collection;

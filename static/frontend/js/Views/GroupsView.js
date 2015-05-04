@@ -2,7 +2,7 @@ var GroupsView = BaseView.extend({
 
     template: _.template($("#groupsTemplate").html()),
 
-    optionCuratorTemplate: _.template($("#optionCuratorTemplate").html()),
+    optionCuratorTemplate: _.template('<option value="<%=id%>"><%=lastName%> <%=firstName%> <%=middleName%></option>'),
 
     selectors: {
         createGroup: "#addGroup",
@@ -30,14 +30,14 @@ var GroupsView = BaseView.extend({
         this.$(this.selectors.createGroup).on('click', $.proxy(this._addGroup, this));
         this.$(this.selectors.changeGroup).on('click', $.proxy(this._changeGroup, this));
         this.$(this.selectors.addCurator).on('click', $.proxy(this._addCurator, this));
+        this.teachersCollection.on('add remove reset', $.proxy(this._fillCuratorList, this));
     },
 
     _addCurator: function(){
-        new AddTeacherModalView({
+        this.addTeacherModal = new AddTeacherModalView({
             department: this.department,
             collection: this.teachersCollection
         }).render().$el;
-        this._fillCuratorList();
     },
 
     _onGroupChange: function(model) {
@@ -92,16 +92,10 @@ var GroupsView = BaseView.extend({
 
 
     _fillCuratorList: function(model) {
-        this.teachersCollection.reset().fetch({
-            data: {
-                department: this.department.get('id')
-            },
-            success: $.proxy(function () {
-                this.teachersCollection.each(function(model) {
-                    this.$('#groupCurator').append(this.optionCuratorTemplate(model.toJSON()));
-                }, this);
-            }, this)
-        });
+        this.$('#groupCurator').empty();
+        this.teachersCollection.each(function(model) {
+            this.$('#groupCurator').append(this.optionCuratorTemplate(model.toJSON()));
+        }, this);
     },
 
     render: function() {

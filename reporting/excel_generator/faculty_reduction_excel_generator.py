@@ -44,37 +44,14 @@ def generate_faculty_reduction_per_month(faculty, month, year):
         students = Student.objects.filter(group__id__in=groups)
         classes = Class.objects.filter(group__id__in=groups)
         all_passes = Pass.objects.filter(student__id__in=students, date__year=year, date__gte=start_semester_date, date__lt=date(int(year), int(month) + 1, 1))
-        passes_by_type_pass = all_passes.filter(type='pass')
-        passes_not_by_type_pass = all_passes.exclude(type='pass')
-        ws['B' + str(start_index)] = department.title
-        ws['C' + str(start_index)] = classes.count() * 2
-        ws['D' + str(start_index)] = students.count()
-        ws['E' + str(start_index)] = all_passes.distinct('student').count()
-        ws['F' + str(start_index)] = ((all_passes.distinct('student').count() / students.count()) * 100) if students.count() > 0 else 0
-        ws['G' + str(start_index)] = passes_by_type_pass.distinct('student').count()
-        ws['H' + str(start_index)] = ((passes_by_type_pass.distinct('student').count() / students.count()) * 100) if students.count() > 0 else 0
-        ws['I' + str(start_index)] = passes_by_type_pass.count() * 2
-        ws['J' + str(start_index)] = all_passes.count() * 2
-        ws['K' + str(start_index)] = ((passes_by_type_pass.count() / classes.count()) * 100) if classes.count() > 0 else 0
-        ws['L' + str(start_index)] = ((all_passes.count() / classes.count()) * 100) if classes.count() > 0 else 0
+        fill_line(all_passes, students, classes, start_index, ws)
         for curs in range(1, 5):
             start_index += 1
             groups = department.group_set.filter(yearStudy=curs)
             classes = Class.objects.filter(group__id__in=groups)
             students = Student.objects.filter(group__id__in=groups)
             all_passes = Pass.objects.filter(student__id__in=students, date__year=year, date__gte=start_semester_date, date__lt=date(int(year), int(month) + 1, 1))
-            passes_by_type_pass = all_passes.filter(type='pass')
-            passes_not_by_type_pass = all_passes.exclude(type='pass')
-            ws['C' + str(start_index)] = classes.count() * 2
-            ws['D' + str(start_index)] = students.count()
-            ws['E' + str(start_index)] = all_passes.distinct('student').count()
-            ws['F' + str(start_index)] = ((all_passes.distinct('student').count() / students.count()) * 100) if students.count() > 0 else 0
-            ws['G' + str(start_index)] = passes_by_type_pass.distinct('student').count()
-            ws['H' + str(start_index)] = ((passes_by_type_pass.distinct('student').count() / students.count()) * 100) if students.count() > 0 else 0
-            ws['I' + str(start_index)] = passes_by_type_pass.count() * 2
-            ws['J' + str(start_index)] = all_passes.count() * 2
-            ws['K' + str(start_index)] = ((passes_by_type_pass.count() / classes.count()) * 100) if classes.count() > 0 else 0
-            ws['L' + str(start_index)] = ((all_passes.count() / classes.count()) * 100) if classes.count() > 0 else 0
+            fill_line(all_passes, students, classes, start_index, ws)
 
     workbook.save(FILE_NAME_DESTINATION + 'faculty_reduction_per_month.xlsx')
     return STATIC_URL + 'reductions/' + 'faculty_reduction_per_month.xlsx'
@@ -99,37 +76,30 @@ def generate_faculty_reduction_per_semester(faculty, semester, year):
         students = Student.objects.filter(group__id__in=groups)
         classes = Class.objects.filter(group__id__in=groups, semester=semester)
         all_passes = Pass.objects.filter(student__id__in=students, date__year=year, date__gte=start_semester_date, date__lte=end_semester_date)
-        passes_by_type_pass = all_passes.filter(type='pass')
-        passes_not_by_type_pass = all_passes.exclude(type='pass')
-        ws['B' + str(start_index)] = department.title
-        ws['C' + str(start_index)] = classes.count() * 2
-        ws['D' + str(start_index)] = students.count()
-        ws['E' + str(start_index)] = all_passes.distinct('student').count()
-        ws['F' + str(start_index)] = ((all_passes.distinct('student').count() / students.count()) * 100) if students.count() > 0 else 0
-        ws['G' + str(start_index)] = passes_by_type_pass.distinct('student').count()
-        ws['H' + str(start_index)] = ((passes_by_type_pass.distinct('student').count() / students.count()) * 100) if students.count() > 0 else 0
-        ws['I' + str(start_index)] = passes_by_type_pass.count() * 2
-        ws['J' + str(start_index)] = all_passes.count() * 2
-        ws['K' + str(start_index)] = ((passes_by_type_pass.count() / classes.count()) * 100) if classes.count() > 0 else 0
-        ws['L' + str(start_index)] = ((all_passes.count() / classes.count()) * 100) if classes.count() > 0 else 0
+        fill_line(all_passes, students, classes, start_index, ws)
         for curs in range(1, 5):
             start_index += 1
             groups = department.group_set.filter(yearStudy=curs)
             classes = Class.objects.filter(group__id__in=groups, semester=semester)
             students = Student.objects.filter(group__id__in=groups)
             all_passes = Pass.objects.filter(student__id__in=students, date__year=year, date__gte=start_semester_date, date__lte=end_semester_date)
-            passes_by_type_pass = all_passes.filter(type='pass')
-            passes_not_by_type_pass = all_passes.exclude(type='pass')
-            ws['C' + str(start_index)] = classes.count() * 2
-            ws['D' + str(start_index)] = students.count()
-            ws['E' + str(start_index)] = all_passes.distinct('student').count()
-            ws['F' + str(start_index)] = ((all_passes.distinct('student').count() / students.count()) * 100) if students.count() > 0 else 0
-            ws['G' + str(start_index)] = passes_by_type_pass.distinct('student').count()
-            ws['H' + str(start_index)] = ((passes_by_type_pass.distinct('student').count() / students.count()) * 100) if students.count() > 0 else 0
-            ws['I' + str(start_index)] = passes_by_type_pass.count() * 2
-            ws['J' + str(start_index)] = all_passes.count() * 2
-            ws['K' + str(start_index)] = ((passes_by_type_pass.count() / classes.count()) * 100) if classes.count() > 0 else 0
-            ws['L' + str(start_index)] = ((all_passes.count() / classes.count()) * 100) if classes.count() > 0 else 0
+            fill_line(all_passes, students, classes, start_index, ws)
 
     workbook.save(FILE_NAME_DESTINATION + 'faculty_reduction_per_semester.xlsx')
     return STATIC_URL + 'reductions/' + 'faculty_reduction_per_semester.xlsx'
+
+
+def fill_line(all_passes, students, classes, start_index, ws):
+    passes_by_type_pass = all_passes.filter(type='pass')
+    passes_not_by_type_pass = all_passes.exclude(type='pass')
+    ws['C' + str(start_index)] = classes.count() * 2
+    ws['D' + str(start_index)] = students.count()
+    ws['E' + str(start_index)] = all_passes.distinct('student').count()
+    ws['F' + str(start_index)] = ((all_passes.distinct('student').count() / students.count()) * 100) if students.count() > 0 else 0
+    ws['G' + str(start_index)] = passes_by_type_pass.distinct('student').count()
+    ws['H' + str(start_index)] = ((passes_by_type_pass.distinct('student').count() / students.count()) * 100) if students.count() > 0 else 0
+    ws['I' + str(start_index)] = passes_by_type_pass.count() * 2
+    ws['J' + str(start_index)] = all_passes.count() * 2
+    ws['K' + str(start_index)] = ((passes_by_type_pass.count() / classes.count()) * 100) if classes.count() > 0 else 0
+    ws['L' + str(start_index)] = ((all_passes.count() / classes.count()) * 100) if classes.count() > 0 else 0
+    return ws

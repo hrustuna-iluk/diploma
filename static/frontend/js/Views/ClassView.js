@@ -6,6 +6,7 @@ var ClassView = BaseView.extend ({
 
     initialize: function(options) {
         this.group = options.group;
+        this.classesCollection = options.classesCollection;
         this.teachersCollection = options.teachersCollection;
     },
 
@@ -26,11 +27,14 @@ var ClassView = BaseView.extend ({
     },
 
     _showModal: function() {
-        new ClassModalView ({
+        this.addClassModal = new ClassModalView ({
             group: this.group,
             model: this.model,
             teachersCollection: this.teachersCollection
-        }).render().el
+        }).render();
+        this.addClassModal.on('saved', $.proxy(function (model) {
+            this.classesCollection.add(model);
+        }, this))
     },
 
     render: function() {

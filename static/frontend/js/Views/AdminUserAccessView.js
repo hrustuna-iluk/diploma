@@ -14,25 +14,56 @@ var AdminUserAccessView = BaseView.extend({
     _attachEvents: function() {
         this.$('#addTeacherUser').on('click', $.proxy(this._addTeacherUser, this));
         this.$('#addStudentUser').on('click', $.proxy(this._addStudentUser, this));
+        this.$('[name=studentUserSelect]').on('change input', $.proxy(this._fillStudentUserData, this));
+        this.$('[name=teacherUserSelect]').on('change input', $.proxy(this._fillTeacherUserData, this));
+    },
+
+    _fillStudentUserData: function (evt) {
+        var value = this.$('[name=studentUserSelect]').val();
+        var studentId = this.$('#studentUserSelect').find('[value="' + value + '"]').data('id');
+        this.$('#studentUserLogin').val('');
+        if (!studentId) return;
+
+        var student = this.studentsCollection.findWhere({ id: studentId });
+        if (student.get('user')) {
+            this.$('#studentUserLogin').val(student.get('user').username);
+        }
+    },
+
+    _fillTeacherUserData: function (evt) {
+        var value = this.$('[name=teacherUserSelect]').val();
+        var teacherId = this.$('#teacherUserSelect').find('[value="' + value + '"]').data('id');
+        this.$('#teacherUserLogin').val('');
+        if (!teacherId) return;
+
+        var teacher = this.teachersCollection.findWhere({ id: teacherId });
+        if (teacher.get('user')) {
+            this.$('#teacherUserLogin').val(teacher.get('user').username);
+        }
     },
 
     _addTeacherUser: function() {
         var value = this.$('[name=teacherUserSelect]').val();
-        var userModel = new UserModel({
-            username: this.$('#teacherUserLogin').val(),
-            password: this.$('#teacherUserPassword').val()
-        });
         var teacherId = this.$('#teacherUserSelect').find('[value="' + value + '"]').data('id');
-
+        var userModel = new UserModel();
         if (!teacherId) {
             alert('Виберіть спочатку викладача');
             return;
         }
-
         var teacher = this.teachersCollection.findWhere({ id: teacherId });
+
+        if (_.isObject(teacher.get('user'))) {
+            userModel.set(teacher.get('user'));
+        }
+        userModel.set({
+            username: this.$('#teacherUserLogin').val(),
+            password: this.$('#teacherUserPassword').val()
+        });
+
         teacher.set({
             user: userModel
         });
+
         teacher.save({
             success: $.proxy(function () {
                     this._renderUser(teacher);
@@ -45,18 +76,22 @@ var AdminUserAccessView = BaseView.extend({
 
     _addStudentUser: function() {
         var value = this.$('[name=studentUserSelect]').val();
-        var userModel = new UserModel({
-            username: this.$('#studentUserLogin').val(),
-            password: this.$('#studentUserPassword').val()
-        });
         var studentId = this.$('#studentUserSelect').find('[value="' + value + '"]').data('id');
-
+        var userModel = new UserModel();
         if (!studentId) {
             alert('Виберіть спочатку студента');
             return;
         }
-
         var student = this.studentsCollection.findWhere({ id: studentId });
+
+        if (_.isObject(student.get('user'))) {
+            userModel.set(student.get('user'));
+        }
+
+        userModel.set({
+            username: this.$('#studentUserLogin').val(),
+            password: this.$('#studentUserPassword').val()
+        });
         student.set({
             user: userModel
         });

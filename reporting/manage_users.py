@@ -17,10 +17,11 @@ PERMISSIONS = {
 def create_user(user_data):
     user = User.objects.create(
         username=user_data['username'],
-        password=user_data['password'],
         email=user_data['email']
     )
-    return user.save()
+    user.set_password(user_data['password'])
+    user.save()
+    return user
 
 
 def get_person_by_user(user):

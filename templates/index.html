@@ -1,5 +1,4 @@
-{% load staticfiles %}
-{% load static %}
+{% load staticfiles static %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,7 +17,7 @@
     </div>
         <header>
         <nav style="text-align: right; margin-right: 30px; font-size: 12pt;">
-            <a style="color: white" href="#adminPage">Адмінка</a>&nbsp;|&nbsp;<a style="color: white" href="/app/logout">Вийти</a>
+            {% if request.user.is_superuser %}<a style="color: white" href="#adminPage">Адмінка</a>&nbsp;|&nbsp;{% endif %}<a style="color: white" href="/app/logout">Вийти</a>
         </nav>
     </header>
     <div id="main"></div>
@@ -243,13 +242,6 @@
                     </div>
                 </div>
             </div>
-        </script>
-
-        <!--Select option template for curator-->
-        <script type="text/template" id="optionCuratorTemplate">
-            <option value="<%=id%>">
-                <%=lastName%> <%=firstName%> <%=middleName%>
-            </option>
         </script>
 
         <!--Add Curator Modal Template-->
@@ -533,8 +525,8 @@
                             <input type="text" name="subjectTitle" class="subjectTitle form-control"
                                    placeholder="Назва предмету" value="<% if (subject) { %> <%=subject%> <% } %>">
                             <select class="typeClass form-control">
-                                <option selected value="1">Лекційне заняття</option>
-                                <option value="2">Практичне заняття</option>
+                                <option selected value="lecture">Лекційне заняття</option>
+                                <option value="practice">Практичне заняття</option>
                             </select>
                             <select class="classTeacher form-control"></select>
                             <input type="text" name="classNumber" class="classNumber form-control"
@@ -657,16 +649,16 @@
             <table class="table tabTable">
                 <tr><td>1.Курс</td><td><%=yearStudy%></td></tr>
                 <tr><td>2.Група</td><td><%=number%></td></tr>
-                <tr><td>3.Староста</td><td><%if(leader){ %> <%=leader.lastName%><%=leader.firstName%> <%}%></td></tr>
-                <tr><td>4.Заступник старости</td><td><%if(deputyHeadman){ %> <%=deputyHeadman.lastName%><%=deputyHeadman.firstName%> <%}%></td></tr>
-                <tr><td>5.Профгрупорг</td><td><%if(organizer){ %> <%=organizer.lastName%><%=organizer.firstName%> <%}%></td></tr>
-                <tr><td>6.Культурно-дозвіллєва робота</td><td><%if(culturalWork){ %> <%=culturalWork.lastName%><%=culturalWork.firstName%> <%}%></td></tr>
-                <tr><td>7.Спортивно-оздоровча робота</td><td><%if(healthWork){ %> <%=healthWork.lastName%><%=healthWork.firstName%> <%}%></td></tr>
+                <tr><td>3.Староста</td><td><%if(leader){ %> <%=leader.lastName%> <%=leader.firstName%> <%}%></td></tr>
+                <tr><td>4.Заступник старости</td><td><%if(deputyHeadman){ %> <%=deputyHeadman.lastName%> <%=deputyHeadman.firstName%> <%}%></td></tr>
+                <tr><td>5.Профгрупорг</td><td><%if(organizer){ %> <%=organizer.lastName%> <%=organizer.firstName%> <%}%></td></tr>
+                <tr><td>6.Культурно-дозвіллєва робота</td><td><%if(culturalWork){ %> <%=culturalWork.lastName%> <%=culturalWork.firstName%> <%}%></td></tr>
+                <tr><td>7.Спортивно-оздоровча робота</td><td><%if(healthWork){ %> <%=healthWork.lastName%> <%=healthWork.firstName%> <%}%></td></tr>
                 <tr><td>8.Редколегія</td><td>
                     <%if(editorialBoard){ %>
                         <% editorialBoard.forEach(function(item) { %>
                             <div>
-                                <%=item.lastName%><%=item.firstName%>
+                                <%=item.lastName%> <%=item.firstName%>
                             </div>
                         <% }) %>
                     <%}%>
@@ -675,7 +667,7 @@
                     <%if(otherTasks){ %>
                         <% otherTasks.forEach(function(item) { %>
                             <div>
-                                <%=item.lastName%><%=item.firstName%>
+                                <%=item.lastName%> <%=item.firstName%>
                             </div>
                         <% }) %>
                     <%}%>
@@ -1047,16 +1039,16 @@
         <script type="text/template" id="addPublicOrdersTableTemplate">
             <h3 class="tabTableHeader">РОЗПОДІЛ ГРОМАДСЬКИХ ДОРУЧЕНЬ</h3>
             <table class="table tabTable">
-                <tr><td>1.Староста</td><td><%if(leader){ %> <%=leader.lastName%><%=leader.firstName%> <%}%></td></tr>
-                <tr><td>2.Заступник старости</td><td><%if(deputyHeadman){ %> <%=deputyHeadman.lastName%><%=deputyHeadman.firstName%> <%}%></td></tr>
-                <tr><td>3.Профгрупорг</td><td><%if(organizer){ %> <%=organizer.lastName%><%=organizer.firstName%> <%}%></td></tr>
-                <tr><td>4.Культурно-дозвіллєва робота</td><td><%if(culturalWork){ %> <%=culturalWork.lastName%><%=culturalWork.firstName%> <%}%></td></tr>
-                <tr><td>5.Спортивно-оздоровча робота</td><td><%if(healthWork){ %> <%=healthWork.lastName%><%=healthWork.firstName%> <%}%></td></tr>
+                <tr><td>1.Староста</td><td><%if(leader){ %> <%=leader.lastName%> <%=leader.firstName%> <%}%></td></tr>
+                <tr><td>2.Заступник старости</td><td><%if(deputyHeadman){ %> <%=deputyHeadman.lastName%> <%=deputyHeadman.firstName%> <%}%></td></tr>
+                <tr><td>3.Профгрупорг</td><td><%if(organizer){ %> <%=organizer.lastName%> <%=organizer.firstName%> <%}%></td></tr>
+                <tr><td>4.Культурно-дозвіллєва робота</td><td><%if(culturalWork){ %> <%=culturalWork.lastName%> <%=culturalWork.firstName%> <%}%></td></tr>
+                <tr><td>5.Спортивно-оздоровча робота</td><td><%if(healthWork){ %> <%=healthWork.lastName%> <%=healthWork.firstName%> <%}%></td></tr>
                 <tr><td>6.Редколегія</td><td>
                     <%if (editorialBoard){ %>
                         <% editorialBoard.forEach(function(item) { %>
                             <div>
-                                <%=item.lastName%><%=item.firstName%>
+                                <%=item.lastName%> <%=item.firstName%>
                             </div>
                         <% }) %>
                     <%}%>
@@ -1065,7 +1057,7 @@
                     <%if (otherTasks){ %>
                         <% otherTasks.forEach(function(item) { %>
                             <div>
-                                <%=item.lastName%><%=item.firstName%>
+                                <%=item.lastName%> <%=item.firstName%>
                             </div>
                         <% }) %>
                     <%}%>
