@@ -430,16 +430,16 @@ li.list-group-item:hover {
     height: 150px;
 }
 .classes .class {
-    flex: 1 0 25px;
+    flex: 1 0 0;
     float: left;
     border: 1px solid #dbdbdb;
     word-wrap: break-word;
     text-align: center;
-    padding-top: 4px;
+    padding-top: 130px;
 }
 .classes .class span {
     display: block;
-    transform: rotate(90deg);
+    transform: rotate(-90deg);
     transform-origin: 10%;
     word-wrap: normal;
     width: 150px;
@@ -481,4 +481,19 @@ table.reduction tbody td.passes {
 
 table.reduction tbody td {
     height: 35px;
+}
+
+#students-search-list {
+    background: rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+    margin-top: 100px;
+    margin-left: 5px;
+}
+
+#students-search-list tbody {
+    height: 500px;
+    overflow: scroll;
+}
+#students-search-list td, #students-search-list th {
+    text-align: center;
 }

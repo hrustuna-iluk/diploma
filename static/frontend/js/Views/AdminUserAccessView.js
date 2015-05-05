@@ -119,11 +119,13 @@ var AdminUserAccessView = BaseView.extend({
 
     _renderStudentUser: function () {
         this.$("#userStudentTable table tbody").empty();
-        this.studentsCollection.each($.proxy(function (model) {
-            if (!model.get('user')) return;
+        this.studentsCollection.chain().filter(function (model) {
+            return model.get('user');
+        }).each($.proxy(function (model, index) {
             this.$("#userStudentTable table tbody").append(
                 new UserTableView({
-                    model: model
+                    model: model,
+                    index: index + 1
                 }).render().el
             );
         }, this));

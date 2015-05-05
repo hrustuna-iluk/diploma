@@ -8,6 +8,8 @@ from reporting.excel_generator.group_reduction_excel_generator import generate_g
 from reporting.excel_generator.faculty_reduction_excel_generator import generate_faculty_reduction_per_month, generate_faculty_reduction_per_semester
 import json
 from datetime import date
+from django.core.mail import send_mail, BadHeaderError
+from diplome.settings import EMAIL_HOST_USER
 
 
 @login_required(login_url=reverse_lazy('login_user'))
@@ -54,3 +56,17 @@ def generate_reduction(request):
             year = request.POST.get('year')
             filename = generate_faculty_reduction_per_semester(faculty, semester, year)
     return HttpResponse(json.dumps({'url': filename}), content_type='application/json')
+
+
+def send_email(request):
+    if request.method == 'POST':
+        from reporting.models import Student
+        student = Student.objects.get(id=request.POST.get('student'))
+        subject = 'Перевищено ліміт пропусків'
+        message = request.POST.get('message')
+        try:
+            send_mail(subject, message, EMAIL_HOST_USER, [student.email])
+        except BadHeaderError:
+            return HttpResponse(json.dumps({'error': 'Invalid header found.'}), content_type='application/json')
+        return HttpResponse(json.dumps({'success': True}), content_type='application/json')
+    return  HttpResponseBadRequest()

@@ -5,7 +5,8 @@ from django.http import HttpResponseForbidden
 
 DEPARTMENT_SCREENS = [
     'teachers',
-    'groups'
+    'groups',
+    'search'
 ]
 
 GROUP_SCREENS = [

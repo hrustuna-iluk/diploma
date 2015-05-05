@@ -10,7 +10,9 @@ var Route = Backbone.Router.extend({
         'scheduler/:groupId': 'scheduler',
         'journal/:groupId': 'journal',
         'publicOrders/:groupId': 'publicOrders',
-        'adminPage': 'adminPage'
+        'adminPage': 'adminPage',
+        'search': 'searchPage',
+        'search/:departmentId': 'searchPage'
     },
 
     currentView: null,
@@ -185,6 +187,23 @@ var Route = Backbone.Router.extend({
             this.routeChanged(publicOrdersView);
             publicOrdersView.renderForm();
             publicOrdersView.renderTable();
+        }, this));
+    },
+
+    searchPage: function (departmentId) {
+        $.when(
+            this.passesCollection.fetch({data: {screen: 'search'}, processData: true}),
+            this.studentsCollection.fetch({data: {screen: 'search'}, processData: true})
+        ).done($.proxy(function () {
+            var searchView = new SearchView({
+                departmentId: departmentId,
+                passesCollection: this.passesCollection,
+                studentsCollection: departmentId ?
+                    this.studentsCollection.filter(function (student) {
+                        return student.get('group').department.id === +departmentId;
+                    }) : this.studentsCollection
+            });
+            this.routeChanged(searchView);
         }, this));
     },
 

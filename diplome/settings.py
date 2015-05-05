@@ -136,3 +136,9 @@ TEMPLATES = [
         },
     },
 ]
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'info.dekanat@gmail.com'
+EMAIL_HOST_PASSWORD = 'dekanatadmin'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

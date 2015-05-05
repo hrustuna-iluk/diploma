@@ -4,15 +4,12 @@ var UserTableView = BaseView.extend({
 
     template: _.template($("#userTableTemplate").html()),
 
-    _attachEvents: function() {
-        this.$('.remove-user-data').off().on('click', $.proxy(this._removeUser, this));
-        this.$('#userAccess').off().on('click', $.proxy(this._changeActivity, this));
+    initialize: function (options) {
+        this.index = options.index;
     },
 
-    _removeUser: function() {
-        this.model.get('user').is_active = false;
-        this.model.save();
-        this.render();
+    _attachEvents: function() {
+        this.$('#userAccess').off().on('click', $.proxy(this._changeActivity, this));
     },
 
     _changeActivity: function() {
@@ -23,7 +20,7 @@ var UserTableView = BaseView.extend({
     },
 
     render: function() {
-        this.$el.html(this.template(this.model.toJSON()));
+        this.$el.html(this.template(_.extend(this.model.toJSON(), {index: this.index})));
         this._attachEvents();
         return this;
     }
