@@ -9,7 +9,7 @@ var SearchView = BaseView.extend({
         '<td><%=group.number%></td>' +
         '<td><%=email%></td>' +
         '<td><%=passesAmount%></td>' +
-        '<td><button data-id="<%=id%>" data-passes="<%=passesAmount%>" class="send-email bg-darkTransparent"><i class="icon-remove fg-white"></i></button></td>' +
+        '<td><button data-id="<%=id%>" data-passes="<%=passesAmount%>" class="send-email bg-darkTransparent"><i class="icon-mail fg-white"></i></button></td>' +
     '</tr>'),
 
     selectors: {
@@ -33,9 +33,10 @@ var SearchView = BaseView.extend({
             options.studentsCollection;
     },
 
-    _fillStudentsList: function () {
+    _fillStudentsList: function (studentsList) {
+        studentsList = studentsList ? new StudentsCollection(studentsList) : this.studentsCollection;
         this.$(this.selectors.studentsSearchList).empty();
-        this.studentsCollection.each($.proxy(function (student, index) {
+        studentsList.each($.proxy(function (student, index) {
             var passesAmount = this.passesCollection.filter(function (pass) {
                 return pass.get('student').id === +student.get('id');
             }).length;
@@ -52,11 +53,15 @@ var SearchView = BaseView.extend({
     },
 
     _onSearch: function () {
-        var query = this.$(this.selectors.searchField).val();
-        this.$(this.selectors.studentsSearchList).empty();
-        this.$('tr.student').each(function () {
-
+        var query = this.$(this.selectors.searchField).val().toLowerCase();
+        if (!query) {
+            this._fillStudentsList();
+            return
+        }
+        var studentsList = this.studentsCollection.filter(function (student) {
+            return student.getFullName().toLowerCase().indexOf(query) > -1;
         });
+        this._fillStudentsList(studentsList);
     },
 
     _onSendEmail: function (evt) {

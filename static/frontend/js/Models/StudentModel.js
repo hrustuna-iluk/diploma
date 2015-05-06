@@ -163,6 +163,10 @@ var StudentModel = Backbone.Model.extend ({
         return this.get('email');
     },
 
+    getFullName: function () {
+        return [this.get('lastName'), this.get('firstName'), this.get('middleName')].join(' ');
+    },
+
     parse: function(resp) {
         if (_.isArray(resp)) {
             return resp[0];
