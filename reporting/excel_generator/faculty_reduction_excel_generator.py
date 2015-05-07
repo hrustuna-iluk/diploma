@@ -40,18 +40,23 @@ def generate_faculty_reduction_per_month(faculty, month, year):
     start_index = START_LINE
     for index, department in enumerate(departments):
         start_index += 1
+        ws['A' + str(start_index)] = index + 1
+        ws['B' + str(start_index)] = department.title
         groups = department.group_set.all()
         students = Student.objects.filter(group__id__in=groups)
         classes = Class.objects.filter(group__id__in=groups)
         all_passes = Pass.objects.filter(student__id__in=students, date__year=year, date__gte=start_semester_date, date__lt=date(int(year), int(month) + 1, 1))
         fill_line(all_passes, students, classes, start_index, ws)
-        for curs in range(1, 5):
-            start_index += 1
-            groups = department.group_set.filter(yearStudy=curs)
-            classes = Class.objects.filter(group__id__in=groups)
-            students = Student.objects.filter(group__id__in=groups)
-            all_passes = Pass.objects.filter(student__id__in=students, date__year=year, date__gte=start_semester_date, date__lt=date(int(year), int(month) + 1, 1))
-            fill_line(all_passes, students, classes, start_index, ws)
+        start_index = fill_department(year, start_semester_date, date(int(year), int(month) + 1, 1), groups, start_index, ws)
+
+    groups = Group.objects.filter(department__faculty=faculty)
+    students = Student.objects.filter(group__id__in=groups)
+    classes = Class.objects.filter(group__id__in=groups)
+    all_passes = Pass.objects.filter(student__id__in=students, date__year=year, date__gte=start_semester_date, date__lt=date(int(year), int(month) + 1, 1))
+    start_index += 2
+    ws['B' + str(start_index)] = 'Всього по факультету:'
+    fill_line(all_passes, students, classes, start_index, ws)
+    fill_department(year, start_semester_date, date(int(year), int(month) + 1, 1), groups, start_index, ws)
 
     workbook.save(FILE_NAME_DESTINATION + 'faculty_reduction_per_month.xlsx')
     return STATIC_URL + 'reductions/' + 'faculty_reduction_per_month.xlsx'
@@ -72,18 +77,23 @@ def generate_faculty_reduction_per_semester(faculty, semester, year):
     start_index = START_LINE
     for index, department in enumerate(departments):
         start_index += 1
+        ws['A' + str(start_index)] = index + 1
+        ws['B' + str(start_index)] = department.title
         groups = department.group_set.all()
         students = Student.objects.filter(group__id__in=groups)
         classes = Class.objects.filter(group__id__in=groups, semester=semester)
         all_passes = Pass.objects.filter(student__id__in=students, date__year=year, date__gte=start_semester_date, date__lte=end_semester_date)
         fill_line(all_passes, students, classes, start_index, ws)
-        for curs in range(1, 5):
-            start_index += 1
-            groups = department.group_set.filter(yearStudy=curs)
-            classes = Class.objects.filter(group__id__in=groups, semester=semester)
-            students = Student.objects.filter(group__id__in=groups)
-            all_passes = Pass.objects.filter(student__id__in=students, date__year=year, date__gte=start_semester_date, date__lte=end_semester_date)
-            fill_line(all_passes, students, classes, start_index, ws)
+        start_index = fill_department(year, start_semester_date, end_semester_date, groups, start_index, ws)
+
+    groups = Group.objects.filter(department__faculty=faculty)
+    students = Student.objects.filter(group__id__in=groups)
+    classes = Class.objects.filter(group__id__in=groups)
+    all_passes = Pass.objects.filter(student__id__in=students, date__year=year, date__gte=start_semester_date, date__lt=end_semester_date)
+    start_index += 2
+    ws['B' + str(start_index)] = 'Всього по факультету:'
+    fill_line(all_passes, students, classes, start_index, ws)
+    start_index = fill_department(year, start_semester_date, end_semester_date, groups, start_index, ws)
 
     workbook.save(FILE_NAME_DESTINATION + 'faculty_reduction_per_semester.xlsx')
     return STATIC_URL + 'reductions/' + 'faculty_reduction_per_semester.xlsx'
@@ -103,3 +113,33 @@ def fill_line(all_passes, students, classes, start_index, ws):
     ws['K' + str(start_index)] = ((passes_by_type_pass.count() / classes.count()) * 100) if classes.count() > 0 else 0
     ws['L' + str(start_index)] = ((all_passes.count() / classes.count()) * 100) if classes.count() > 0 else 0
     return ws
+
+
+def fill_department(year, start_date, end_date, groups, start_index, ws):
+    for curs in range(1, 6):
+            start_index += 1
+            ws['B' + str(start_index)] = str(curs) + ' курс'
+            groups = groups.filter(yearStudy=curs)
+            classes = Class.objects.filter(group__id__in=groups)
+            students = Student.objects.filter(group__id__in=groups)
+            all_passes = Pass.objects.filter(student__id__in=students, date__year=year, date__gte=start_date, date__lt=end_date)
+            fill_line(all_passes, students, classes, start_index, ws)
+
+            if curs == 3 or curs == 4:
+                start_index += 1
+                ws['B' + str(start_index)] = str(curs) + ' курс (скор. форма)'
+                groups = groups.filter(yearStudy=curs, short_form=True)
+                classes = Class.objects.filter(group__id__in=groups)
+                students = Student.objects.filter(group__id__in=groups)
+                all_passes = Pass.objects.filter(student__id__in=students, date__year=year, date__gte=start_date, date__lt=end_date)
+                fill_line(all_passes, students, classes, start_index, ws)
+            if curs == 5:
+                start_index += 1
+                ws['B' + str(start_index)] = str(curs) + ' курс (М)'
+                groups = groups.filter(yearStudy=curs, master=True)
+                classes = Class.objects.filter(group__id__in=groups)
+                students = Student.objects.filter(group__id__in=groups)
+                all_passes = Pass.objects.filter(student__id__in=students, date__year=year, date__gte=start_date, date__lt=end_date)
+                fill_line(all_passes, students, classes, start_index, ws)
+
+    return start_index

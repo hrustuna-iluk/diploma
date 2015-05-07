@@ -105,6 +105,7 @@ class Department(models.Model):
 class Group(models.Model):
     number = models.CharField(max_length=25)
     short_form = models.BooleanField(default=False)
+    master = models.BooleanField(default=False)
     department = models.ForeignKey(Department, null=True, blank=True)
     leader = models.ForeignKey('Student', null=True, related_name='leader', blank=True)
     deputyHeadman = models.ForeignKey('Student', null=True, related_name='deputy', blank=True)

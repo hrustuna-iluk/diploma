@@ -248,12 +248,17 @@ var Route = Backbone.Router.extend({
 });
 
 $(document).bind("ajaxSend", function(){
-   $(".loading-container").show();
- }).bind("ajaxComplete", function(){
+    $(".loading-container").show();
+}).bind("ajaxComplete", function(evt, resp){
     if ($.active === 1) {
         $(".loading-container").hide();
+        if (resp.status === 403) {
+            alert('Доступ заборонено');
+            window.history.back();
+        }
     }
- });
+});
+
 
 var route = new Route;
 Backbone.history.start();
