@@ -58,7 +58,7 @@ var GroupsView = BaseView.extend({
         groupModel.setTuition(groupTuition);
         groupModel.setYearStudy(groupYear);
         groupModel.set('department', this.department.get('id'));
-        groupModel.set('curator', +this.$(this.selectors.groupCurator).val());
+        groupModel.set('curator', +this.$(this.selectors.groupCurator).val() || null);
         this.$(this.selectors.groupNumber).val("");
         this.$(this.selectors.groupTuition).val("");
         this.$(this.selectors.groupYear).val("");

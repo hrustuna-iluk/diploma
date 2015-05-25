@@ -31,7 +31,7 @@ class DepartmentView(APIView):
             return HttpResponse(serialize('json', [serializer.instance], relations=('headOfDepartment', )), content_type="application/json", status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def put(self, request, format=None):
+    def put(self, request, pk=None, format=None):
         data = request.data
         if isinstance(data['headOfDepartment'], dict):
             data['headOfDepartment'] = data['headOfDepartment']['id']

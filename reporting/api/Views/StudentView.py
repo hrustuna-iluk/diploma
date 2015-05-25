@@ -78,7 +78,7 @@ class StudentView(APIView):
             }), content_type='application/json')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def put(self, request, format=None):
+    def put(self, request, pk=None, format=None):
         data = request.data
         if isinstance(data['language'], dict):
             data['language'] = data['language']['id']
@@ -90,7 +90,7 @@ class StudentView(APIView):
             data['father'] = data['father']['id']
         data['benefits'] = [item['id'] for item in data['benefits'] if isinstance(item, dict)]
         snippet = get_object_or_404(Student, pk=request.data["id"])
-        if not snippet.user and snippet.group.leader.id == snippet.id:
+        if not snippet.user and snippet.group.leader and snippet.group.leader.id == snippet.id:
             user = create_user({
                 'username': data['user']['username'],
                 'password': data['user']['password'],
