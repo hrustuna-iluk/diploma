@@ -53,11 +53,15 @@ var ScheduleView = BaseView.extend({
         if(!confirm("Ви дійсно хочете видалити розклад?")) {
             return;
         }
+        this.collection.reset();
         this._deleteSchedule();
     },
 
     _deleteSchedule: function() {
-
+        $.post('/app/deleteSchedule/', {group: this.group.get('id')}, $.proxy(function (resp) {
+            alert(resp.message);
+            this._buildScheduler();
+        }, this));
     },
 
     render: function() {
