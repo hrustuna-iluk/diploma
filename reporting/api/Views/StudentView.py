@@ -99,7 +99,7 @@ class StudentView(APIView):
             add_permission(user, 'group_leader')
             snippet.user = user
             data['user'] = user.id
-        elif data['user']:
+        elif snippet.user and data['user']:
             user = User.objects.get(id=data['user']['id'])
             user.username = data['user']['username']
             user.set_password(data['user']['password'])

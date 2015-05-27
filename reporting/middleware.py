@@ -45,11 +45,15 @@ class CheckPermission(object):
                             request.session['permission_denied'] = True
                     else:
                         request.session['permission_denied'] = True
+                    request.session['department'] = department.id
                 elif screen in GROUP_SCREENS:
                     try:
                         group = Group.objects.get(id=params.get('group'))
                     except Group.DoesNotExist:
                         request.session['permission_denied'] = True
+                    if 'department' in request.session and request.session['department'] == group.department.id:
+                        request.session['permission_denied'] = False
+                        return
                     if isinstance(user, Student):
                         if user.id != group.leader.id:
                             request.session['permission_denied'] = True
