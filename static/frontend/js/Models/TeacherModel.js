@@ -43,6 +43,10 @@ var TeacherModel = Backbone.Model.extend ({
         this.set("position", value);
     },
 
+    getPosition: function() {
+        return this.get("position");
+    },
+
      getPhone: function() {
         return this.get("phone");
     },

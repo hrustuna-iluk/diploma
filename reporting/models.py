@@ -231,8 +231,8 @@ class PublicPlan(models.Model):
     date = models.CharField(max_length=100)
     responsive = models.CharField(max_length=255)
     description = models.CharField(max_length=255, null=True, blank=True)
-    amount_hours = models.FloatField(null=True, blank=True)
-    amount_present = models.IntegerField(null=True, blank=True)
+    amountHours = models.FloatField(null=True, blank=True)
+    amountPresent = models.IntegerField(null=True, blank=True)
     semester = models.IntegerField(null=True, blank=True)
     group = models.ForeignKey(Group, null=True, blank=True)
 
@@ -291,7 +291,7 @@ class ParentsAdminView(admin.ModelAdmin):
 
 
 class PublicPlanAdminView(admin.ModelAdmin):
-    list_display = ('description',)
+    list_display = ('event', 'description')
 
 
 class StudentAdminView(admin.ModelAdmin):

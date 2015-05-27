@@ -50,7 +50,7 @@ var PublicEventsTabFormView = BaseView.extend({
     },
 
     _createPublicEvent: function() {
-        var publicEventModel = this.collection.findWhere({id: this.$(this.selectors.publicEventSelect).val()});
+        var publicEventModel = this.collection.findWhere({id: +this.$(this.selectors.publicEventSelect).val()});
         this._publicEventData(publicEventModel);
         publicEventModel.save();
     },

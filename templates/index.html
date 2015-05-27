@@ -16,7 +16,7 @@
         <img class="loading" src="{% static 'images/loading.gif' %}" width="200" height="200">
     </div>
         <header>
-        <nav style="text-align: right; margin-right: 30px; font-size: 12pt;">
+        <nav style="text-align: right; margin-right: 30px; font-size: 12pt;"><i class="icon-profile"> </i>
             {% if request.user.is_superuser %}<a style="color: white" href="#adminPage">Адмінка</a>&nbsp;|&nbsp;{% endif %}<a style="color: white" href="/app/logout">Вийти</a>
         </nav>
     </header>
@@ -46,11 +46,7 @@
                                 </div>
                             </div>
                             <div class="span2" >
-                                <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Динаміка відвідувань студентів факультету">
-                                    <div class="tile-content icon">
-                                        <i class="icon-stats-up"></i>
-                                    </div>
-                                </div>
+
 
                                  <a href="#search">
                                     <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Пошук студента">
@@ -226,12 +222,14 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="span2" >
-                                <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Динаміка відвідувань студентів кафедри">
-                                    <div class="tile-content icon">
-                                        <i class="icon-stats-up"></i>
+                            <div class="span2">
+                                <a href="#teachers/<%=id%>">
+                                    <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Викладачі">
+                                        <div class="tile-content icon">
+                                            <i class="icon-user"></i>
+                                        </div>
                                     </div>
-                                </div>
+                                </a>
                                 <a href="#search/<%=id%>">
                                     <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Пошук студента">
                                         <div class="tile-content icon">
@@ -774,6 +772,7 @@
                         <th>Відповідальний</th>
                         <th>Примітка</th>
                         <th>&nbsp;</th>
+                        <th>&nbsp;</th>
                     </tr>
                     <tr>
                         <th>1</th>
@@ -781,6 +780,7 @@
                         <th>3</th>
                         <th>4</th>
                         <th>5</th>
+                        <th>&nbsp;</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
@@ -831,6 +831,7 @@
                 <td><%=date%></td>
                 <td><%=event%></td>
                 <td><%=amountHours%></td>
+                <td><%=amountPresent%></td>
                 <td><%=description%></td>
                 <td>
                     <div class="toolbar transparent place-right">
@@ -856,6 +857,8 @@
                             <th>Подія</th>
                             <th>Кількість годин</th>
                             <th>Кількість присутніх</th>
+                            <th>Опис</th>
+                            <th>&nbsp;</th>
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
@@ -872,6 +875,8 @@
                             <th>Подія</th>
                             <th>Кількість годин</th>
                             <th>Кількість присутніх</th>
+                            <th>Опис</th>
+                            <th>&nbsp;</th>
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
@@ -1206,7 +1211,7 @@
             <td><%=user.username%></td>
             <td><%=email%></td>
             <td>
-                <input type="checkbox" id="userAccess" name="userAccess" class="checkbox" <% if (user.is_active) { %> checked <% } %>>
+                <input type="checkbox" id="userAccess" name="userAccess" class="checkbox" <% if (user.is_active) { %> checked <% } %> >
             </td>
         </script>
 
