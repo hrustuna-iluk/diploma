@@ -38,8 +38,9 @@ def get_person_by_user(user):
 
 def add_permission(user, role):
     user.user_permissions.clear()
-    for permission in PERMISSIONS[role]:
-        user.user_permissions.add(permission)
+    if PERMISSIONS[role]:
+        for permission in PERMISSIONS[role]:
+            user.user_permissions.add(permission)
     return user
 
 

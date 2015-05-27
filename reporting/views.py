@@ -10,6 +10,7 @@ import json
 from datetime import date
 from django.core.mail import send_mail, BadHeaderError
 from diplome.settings import EMAIL_HOST_USER
+from reporting.models import Group, Department
 
 
 @login_required(login_url=reverse_lazy('login_user'))
@@ -20,16 +21,33 @@ def index(request):
 def login_user(request):
     logout(request)
     username = password = ''
+    start_page = '#'
     if request.POST:
         username = request.POST['username']
         password = request.POST['password']
 
         user = authenticate(username=username, password=password)
+        if user.student_set.all().first():
+            persona = user.student_set.all().first()
+            group = Group.objects.filter(leader=persona)
+            if group.count():
+                start_page += 'reduction/' + str(group.first().id)
+        elif user.teacher_set.all().first():
+            persona = user.teacher_set.all().first()
+            if persona.position == 'Head of Department':
+                department = Department.objects.filter(headOfDepartment=persona)
+                if department.count():
+                    start_page += 'groups/' + str(department.first().id)
+            elif persona.position == 'teacher':
+                group = Group.objects.filter(curator=persona)
+                if group.count():
+                    start_page += 'reduction/' + str(group.first().id)
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return HttpResponseRedirect(reverse_lazy('index'))
+                return HttpResponseRedirect(reverse_lazy('index') + start_page)
     return render_to_response('login.html', context_instance=RequestContext(request))
+
 
 @login_required
 def logout_user(request):
