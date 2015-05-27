@@ -16,7 +16,7 @@
                         </div>
 
                         <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Студенти">
-                            <a href="#students/<%=id%>">
+                            <a href="#students/<%=id%>" style="display: {% if role == 'student' or role == 'teacher'%} block {% else %} none {% endif %}">
                                 <div class="tile-content icon">
                                     <i class="icon-user"></i>
                                 </div>

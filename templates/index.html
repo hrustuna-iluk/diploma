@@ -223,7 +223,7 @@
                                 </div>
                             </div>
                             <div class="span2">
-                                <a href="#teachers/<%=id%>">
+                                <a href="#teachers/<%=id%>" style="display: {% if role == 'Head of Department' %} block {% else %} none {% endif %}">
                                     <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Викладачі">
                                         <div class="tile-content icon">
                                             <i class="icon-user"></i>
@@ -317,7 +317,7 @@
                         <span class="title-page">Система контролю відвідувань</span>
                         <div class="row">
                             <div class="span4" >
-                                <div class="add-student-form" style="display: {% if role == 'student' or role == 'teacher' %} block {% else %} none {% endif %}">
+                                <div class="add-student-form" style="display: {% if role == 'student' or role == 'teacher' or role == 'admin' %} block {% else %} none {% endif %}">
                                     <form role="form" id="addStudentForm" onsubmit="return false;">
                                         <div class="form-group">
                                             <input type="text" placeholder="Прізвище" name="studentSurname" id="studentSurname" class="form-control">
@@ -809,7 +809,7 @@
 
         <!--Public Plan Tab Form-->
         <script type="text/template" id="publicPlanTabFormTemplate">
-            <div class="add-publicPlan-form" style="display: {% if role == 'student' or role == 'teacher' %} block {% else %} none {% endif %}">
+            <div class="add-publicPlan-form" style="display: {% if role == 'student' or role == 'teacher' or role == 'admin' %} block {% else %} none {% endif %}">
                 <form role="form" id="addPublicPlanForm" onsubmit="return false;">
                     <div class="form-group">
                         <input type="text" placeholder="Захід" name="publicPlanEvent" id="publicPlanEvent" class="form-control">
@@ -887,7 +887,7 @@
 
          <!--Public Events Tab Form Template-->
         <script type="text/template" id="publicEventsTabFormTemplate">
-            <div class="add-publicEvent-form" style="display: {% if role == 'student' or role == 'teacher' %} block {% else %} none {% endif %}">
+            <div class="add-publicEvent-form" style="display: {% if role == 'student' or role == 'teacher' or role == 'admin' %} block {% else %} none {% endif %}">
                 <form role="form" id="addPublicEventForm" onsubmit="return false;">
                     <div class="form-group">
                         <select id="publicEvent" class="form-control">
@@ -955,7 +955,7 @@
 
          <!--Individual Work Tab Form Template-->
         <script type="text/template" id="individualWorkTabFormTemplate">
-            <div class="add-individualWork-form" style="display: {% if role == 'student' or role == 'teacher' %} block {% else %} none {% endif %}">
+            <div class="add-individualWork-form" style="display: {% if role == 'student' or role == 'teacher' or role == 'admin' %} block {% else %} none {% endif %}">
                 <form role="form" id="addIndividualWorkForm" onsubmit="return false;">
                     <div class="form-group">
                         <input type="text" placeholder='Назва роботи' name="individualWorkTitle" id="individualWorkTitle" class="form-control">
@@ -1006,7 +1006,7 @@
 
         <!--Add Public Orders Form Template-->
         <script type="text/template" id="addPublicOrdersFormTemplate">
-            <div class="add-publicOrders-form" style="display: {% if role == 'student' or role == 'teacher' %} block {% else %} none {% endif %}">
+            <div class="add-publicOrders-form" style="display: {% if role == 'student' or role == 'teacher' or role == 'admin' %} block {% else %} none {% endif %}">
                 <form role="form" id="addPublicOrdersForm" onsubmit="return false;">
                     <div class="form-group">
                         <select id="groupLeaderSelect" class="form-control">
