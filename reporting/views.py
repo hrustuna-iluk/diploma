@@ -34,22 +34,22 @@ def login_user(request):
         password = request.POST['password']
 
         user = authenticate(username=username, password=password)
-        if user.student_set.all().first():
-            persona = user.student_set.all().first()
-            group = Group.objects.filter(leader=persona)
-            if group.count():
-                start_page += 'reduction/' + str(group.first().id)
-        elif user.teacher_set.all().first():
-            persona = user.teacher_set.all().first()
-            if persona.position == 'Head of Department':
-                department = Department.objects.filter(headOfDepartment=persona)
-                if department.count():
-                    start_page += 'groups/' + str(department.first().id)
-            elif persona.position == 'teacher':
-                group = Group.objects.filter(curator=persona)
+        if user is not None:
+            if user.student_set and user.student_set.all().first():
+                persona = user.student_set.all().first()
+                group = Group.objects.filter(leader=persona)
                 if group.count():
                     start_page += 'reduction/' + str(group.first().id)
-        if user is not None:
+            elif user.teacher_set and user.teacher_set.all().first():
+                persona = user.teacher_set.all().first()
+                if persona.position == 'Head of Department':
+                    department = Department.objects.filter(headOfDepartment=persona)
+                    if department.count():
+                        start_page += 'groups/' + str(department.first().id)
+                elif persona.position == 'teacher':
+                    group = Group.objects.filter(curator=persona)
+                    if group.count():
+                        start_page += 'reduction/' + str(group.first().id)
             if user.is_active:
                 login(request, user)
                 return HttpResponseRedirect(reverse_lazy('index') + start_page)
