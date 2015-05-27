@@ -15,6 +15,7 @@ var AdminPageView = BaseView.extend({
         this.$('.adminInformationAboutFaculty').on('click', $.proxy(this._addFacultyInformation, this));
         this.$('.adminReduction').on('click', $.proxy(this._adminReduction, this));
         this.$('.adminUserAccess').on('click', $.proxy(this._addUser, this));
+        this.$('.deletePasses').on('click', $.proxy(this._deletePasses, this));
     },
 
     _addFacultyInformation: function() {
@@ -46,6 +47,14 @@ var AdminPageView = BaseView.extend({
         }
         $('#adminContent').html( view.render().el );
         this.currentView = view;
+    },
+
+    _deletePasses: function() {
+        if (confirm('Ви справді хочете видалити пропуски?')) {
+            $.post('/app/deletePasses/', $.proxy(function (resp) {
+            alert(resp.message);
+        }, this));
+        }
     },
 
     render: function() {

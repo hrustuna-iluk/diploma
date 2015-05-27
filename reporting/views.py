@@ -10,7 +10,7 @@ import json
 from datetime import date
 from django.core.mail import send_mail, BadHeaderError
 from diplome.settings import EMAIL_HOST_USER
-from reporting.models import Group, Department
+from reporting.models import Group, Department, Class, Pass
 
 
 @login_required(login_url=reverse_lazy('login_user'))
@@ -94,4 +94,20 @@ def send_email(request):
         except BadHeaderError:
             return HttpResponse(json.dumps({'error': 'Invalid header found.'}), content_type='application/json')
         return HttpResponse(json.dumps({'success': True}), content_type='application/json')
-    return  HttpResponseBadRequest()
+    return HttpResponseBadRequest()
+
+@login_required
+def delete_schedule(request):
+    if request.method == 'POST':
+        group = request.POST.get('group')
+        Class.objects.filter(group__id=group).delete()
+        return HttpResponse(json.dumps({'message': 'Розклад видалено'}), content_type='application/json')
+    return HttpResponse(json.dumps({'message': 'Розклад не видалено'}), content_type='application/json')
+
+
+@login_required
+def delete_passes(request):
+    if request.method == 'POST':
+        Pass.objects.all().delete()
+        return HttpResponse(json.dumps({'message': 'Пропуски видалено'}), content_type='application/json')
+    return HttpResponse(json.dumps({'message': 'Пропуски не видалено'}), content_type='application/json')
