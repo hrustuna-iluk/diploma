@@ -18,6 +18,7 @@ var GroupView = BaseView.extend({
     },
 
     _deleteGroup: function() {
+        this.model.destroy();
         this.remove();
     },
 

@@ -23,6 +23,7 @@ var TeacherView = BaseView.extend({
     },
 
     _deleteTeacherData: function() {
+        this.model.destroy();
         this.remove();
     },
 

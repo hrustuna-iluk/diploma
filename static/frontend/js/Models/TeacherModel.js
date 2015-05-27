@@ -59,6 +59,10 @@ var TeacherModel = Backbone.Model.extend ({
         return this.get("email");
     },
 
+    getPosition: function () {
+        return this.get("position");
+    },
+
     setEmail: function(value) {
         this.set("email", value);
     },

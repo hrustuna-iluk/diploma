@@ -33,7 +33,7 @@ class PassView(APIView):
             return HttpResponse(serialize('json', [serializer.instance], relations=('student', 'class_passed')), content_type='application/json', status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def put(self, request, format=None):
+    def put(self, request, pk=None, format=None):
         data = request.data
         if isinstance(data['class_passed'], dict):
             data['class_passed'] = data['class_passed']['id']

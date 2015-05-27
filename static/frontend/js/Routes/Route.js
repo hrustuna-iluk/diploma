@@ -79,6 +79,7 @@ var Route = Backbone.Router.extend({
             var department = this.departmentsCollection.findWhere({id: +departmentId});
             var teachersView = new TeachersView({
                 department: department,
+                faculty: this.facultyCollection.models[0],
                 collection: this.teachersCollection
             });
             this.routeChanged(teachersView);

@@ -34,7 +34,7 @@ class ClassView(APIView):
                                 status=status.HTTP_201_CREATED, content_type='application/json')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def put(self, request, format=None):
+    def put(self, request, pk=None, format=None):
         data = request.data
         if isinstance(data['teacher'], dict):
             data['teacher'] = data['teacher']['id']

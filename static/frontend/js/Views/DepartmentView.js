@@ -21,6 +21,7 @@ var DepartmentView = BaseView.extend ({
     },
 
     _deleteDepartment: function() {
+        this.model.destroy();
         this.remove();
     },
 
