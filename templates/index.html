@@ -30,7 +30,7 @@
                         <span class="title-page">Система контролю відвідувань</span>
                         <div class="row">
                             <div class="span4" >
-                                <div class="add-department-form">
+                                <div class="add-department-form" style="display: {% if role == 'admin' %} block {% else %} none {% endif %}">
                                     <form role="form" id="addDepartmentForm" onsubmit="return false;">
                                         <div class="form-group">
                                             <input type="text" placeholder="Назва кафедри" name="departmentName" id="departmentName" class="form-control">
@@ -103,7 +103,7 @@
                         <span class="title-page">Система контролю відвідувань</span>
                         <div class="row">
                             <div class="span4" >
-                                <div class="add-teacher-form">
+                                <div class="add-teacher-form" style="display: {% if role == 'admin' %} block {% else %} none {% endif %}">
                                     <form role="form" id="addTeacherForm" onsubmit="return false;">
                                         <div class="form-group">
                                             <input type="text" placeholder="Прізвище" name="teacherSurname" id="teacherSurname" class="form-control">
@@ -200,7 +200,7 @@
                         <h3 class="department-title"><%=title%></h3>
                         <div class="row">
                             <div class="span4" >
-                                <div class="add-group-form">
+                                <div class="add-group-form" style="display: {% if role == 'admin' %} block {% else %} none {% endif %}">
                                     <form role="form" id="addGroupForm" onsubmit="return false;">
                                         <div class="form-group">
                                             <input type="text" placeholder="Номер групи" name="groupNumber" id="groupNumber" class="form-control">
@@ -319,7 +319,7 @@
                         <span class="title-page">Система контролю відвідувань</span>
                         <div class="row">
                             <div class="span4" >
-                                <div class="add-student-form">
+                                <div class="add-student-form" style="display: {% if role == 'student' or role == 'teacher' %} block {% else %} none {% endif %}">
                                     <form role="form" id="addStudentForm" onsubmit="return false;">
                                         <div class="form-group">
                                             <input type="text" placeholder="Прізвище" name="studentSurname" id="studentSurname" class="form-control">
@@ -809,7 +809,7 @@
 
         <!--Public Plan Tab Form-->
         <script type="text/template" id="publicPlanTabFormTemplate">
-            <div class="add-publicPlan-form">
+            <div class="add-publicPlan-form" style="display: {% if role == 'student' or role == 'teacher' %} block {% else %} none {% endif %}">
                 <form role="form" id="addPublicPlanForm" onsubmit="return false;">
                     <div class="form-group">
                         <input type="text" placeholder="Захід" name="publicPlanEvent" id="publicPlanEvent" class="form-control">
@@ -882,7 +882,7 @@
 
          <!--Public Events Tab Form Template-->
         <script type="text/template" id="publicEventsTabFormTemplate">
-            <div class="add-publicEvent-form">
+            <div class="add-publicEvent-form" style="display: {% if role == 'student' or role == 'teacher' %} block {% else %} none {% endif %}">
                 <form role="form" id="addPublicEventForm" onsubmit="return false;">
                     <div class="form-group">
                         <select id="publicEvent" class="form-control">
@@ -950,7 +950,7 @@
 
          <!--Individual Work Tab Form Template-->
         <script type="text/template" id="individualWorkTabFormTemplate">
-            <div class="add-individualWork-form">
+            <div class="add-individualWork-form" style="display: {% if role == 'student' or role == 'teacher' %} block {% else %} none {% endif %}">
                 <form role="form" id="addIndividualWorkForm" onsubmit="return false;">
                     <div class="form-group">
                         <input type="text" placeholder='Назва роботи' name="individualWorkTitle" id="individualWorkTitle" class="form-control">
@@ -1001,7 +1001,7 @@
 
         <!--Add Public Orders Form Template-->
         <script type="text/template" id="addPublicOrdersFormTemplate">
-            <div class="add-publicOrders-form">
+            <div class="add-publicOrders-form" style="display: {% if role == 'student' or role == 'teacher' %} block {% else %} none {% endif %}">
                 <form role="form" id="addPublicOrdersForm" onsubmit="return false;">
                     <div class="form-group">
                         <select id="groupLeaderSelect" class="form-control">

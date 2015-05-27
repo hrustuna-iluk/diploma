@@ -15,7 +15,14 @@ from reporting.models import Group, Department
 
 @login_required(login_url=reverse_lazy('login_user'))
 def index(request):
-    return render_to_response('index.html', {'request': request}, context_instance = RequestContext(request))
+    role = ''
+    if request.user.student_set.all().first():
+        role = 'student'
+    elif request.user.teacher_set.all().first():
+        role = request.user.teacher_set.all().first().position
+    elif request.user.is_superuser:
+        role = 'admin'
+    return render_to_response('index.html', {'request': request, 'role': role}, context_instance = RequestContext(request))
 
 
 def login_user(request):
