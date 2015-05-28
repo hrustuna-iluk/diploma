@@ -12,7 +12,7 @@ var PassesTableHeadView = BaseView.extend({
         "</td>"
     ),
 
-    classTemplate: _.template("<div class='class'><span><%=subject%></span></div>"),
+    classTemplate: _.template("<div class='class'><span class='ellipsis'><%=subject%></span></div>"),
 
     days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
 

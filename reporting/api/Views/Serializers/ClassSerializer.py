@@ -17,6 +17,7 @@ class ClassSerializer(serializers.ModelSerializer):
         class_instance.classRoom = validated_data.get('classRoom')
         class_instance.day = validated_data.get('day')
         class_instance.number_of_week = validated_data.get('number_of_week')
+        class_instance.semester = validated_data.get('semester')
         class_instance.number = validated_data.get('number')
         class_instance.save()
         return class_instance

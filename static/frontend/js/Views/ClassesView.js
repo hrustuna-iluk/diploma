@@ -7,6 +7,7 @@ var ClassesView = BaseView.extend ({
     initialize: function(options) {
         this.numberOfClass = options.numberOfClass;
         this.group = options.group;
+        this.semester = options.semester;
         this.collection = options.collection;
         this.numberOfWeek = options.numberOfWeek;
         this.scheduleModel = options.scheduleModel;
@@ -22,6 +23,7 @@ var ClassesView = BaseView.extend ({
                    day: weekDay,
                    number: this.numberOfClass,
                    numberOfWeek: this.numberOfWeek,
+                   semester: this.semester,
                    schedule: this.scheduleModel
                });
                var classView = new ClassView({
