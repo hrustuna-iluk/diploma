@@ -1,0 +1,41 @@
+ <script type="text/template" id="startPageTemplate">
+            <div class="grid">
+                <div class="row">
+                    <div class="span20" id="page-content">
+                        <span class="title-page">Система контролю відвідувань</span>
+                        <div class="row">
+                            <div class="span4" >
+                                <div class="add-department-form">
+                                    <form role="form" id="addDepartmentForm" onsubmit="return false;">
+                                        <div class="form-group">
+                                            <input type="text" placeholder="Назва кафедри" name="departmentName" id="departmentName" class="form-control">
+                                            <input type="text" placeholder="Спеціальність,напрям" name="departmentSpecialization" id="departmentSpecialization" class="form-control">
+                                             <select id="headOfDepartment" class="form-control no-display">
+                                                    <option disabled>Завідувач кафедри</option>
+                                             </select>
+                                        </div>
+
+                                         <button  class="no-display btn btn-primary" name="changeDepartment" id="changeDepartment">Змінити</button>
+                                         <button  class="btn btn-default" name="addDepartment" id="addDepartment">Додати</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="span2" >
+                                <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Динаміка відвідувань студентів факультету">
+                                    <div class="tile-content icon">
+                                        <i class="icon-stats-up"></i>
+                                    </div>
+                                </div>
+
+                                <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Зведення по факультету">
+                                    <div class="tile-content icon">
+                                        <i class="icon-file"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="span11" id="departments" ></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
