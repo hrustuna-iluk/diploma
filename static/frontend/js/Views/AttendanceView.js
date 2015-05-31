@@ -1,1 +1,0 @@
-var AttendanceView = BaseView.extend({});
