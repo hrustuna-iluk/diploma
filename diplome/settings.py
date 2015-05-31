@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 import os
 import dj_database_url
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 
 # Quick-start development settings - unsuitable for production
@@ -102,6 +103,8 @@ STATIC_URL = '/static/'
 
 
 STATICFILES_DIRS = (
+	'static',
+	os.path.join(PROJECT_ROOT, 'static'),
     os.path.join(BASE_DIR, "static"),
 )
 
