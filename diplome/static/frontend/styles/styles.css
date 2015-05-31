@@ -1,0 +1,501 @@
+body {
+    background-image: url("../images/background.jpg") ;
+    min-height: 100%;
+    min-width: 100%;
+}
+
+.no-display {
+    display: none;
+}
+.ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.loading-container {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+.loading {
+    display: block;
+    border: none;
+}
+#header {
+    height: 300px;
+    text-align: center;
+    padding: 20px;
+}
+
+.white {
+    color: #ffffff;
+}
+
+.text-style {
+    font-family: freight-sans-pro, sans-serif;
+    font-weight: 900;
+    color: rgba(0, 15, 139, 0.30);
+    font-size: 35pt;
+    text-shadow:
+        0 1px #808d93,
+        -1px 0 #cdd2d5,
+        -1px 2px #808d93,
+        -2px 1px #cdd2d5,
+        -2px 3px #808d93,
+        -3px 2px #cdd2d5,
+        -3px 4px #808d93,
+        -4px 3px #cdd2d5,
+        -4px 5px #808d93,
+        -5px 4px #cdd2d5,
+        -5px 6px #808d93,
+        -5px 5px #cdd2d5,
+        -5px 7px #808d93,
+        -7px 6px #cdd2d5,
+        -7px 8px #808d93,
+        -8px 7px #cdd2d5;
+}
+
+#login-form {
+    background-color: rgba(139, 139, 139, 0.30);
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    margin: auto;
+    margin-top: -50px;
+    width: 350px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    -webkit-box-shadow:  0px 10px 20px 0px rgba(0, 0, 0, 0.3);
+    box-shadow:  0px 10px 20px 0px rgba(0, 0, 0, 0.3);
+
+}
+
+#login-form h1 {
+    background-color: rgba(53, 69, 134, 0.46);
+    border-radius: 5px 5px 0px 0px;
+    -moz-border-radius: 5px 5px 0px 0px;
+    -webkit-border-radius: 5px 5px 0px 0px;
+    color: #fff;
+    padding: 20px;
+    font-weight: bolder;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+}
+
+#login-form fieldset {
+    border: none;
+    padding: 20px;
+    position: relative;
+}
+
+
+#login-form fieldset form {
+    width: 310px;
+}
+
+#login-form fieldset form input {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    outline: none;
+    -webkit-appearance:none;
+    width: 310px;
+    margin-top: 1px;
+    text-align: center;
+}
+
+#login-form fieldset form input[type="email"] {
+    border: 1px solid #fffaff;
+    border-radius: 3px 3px 0px 0px;
+    -moz-border-radius: 3px 3px 0px 0px;
+    -webkit-border-radius: 3px 3px 0px 0px;
+    padding: 12px 10px;
+    width: 310px;
+    -webkit-appearance:none;
+}
+
+#login-form fieldset form input[type="password"] {
+    border: 1px solid #fff8ff;
+    border-top: none;
+    border-radius: 0px 0px 3px 3px;
+    -moz-border-radius: 0px 0px 3px 3px;
+    -webkit-border-radius: 0px 0px 3px 3px;
+    padding: 12px 10px;
+    width: 310px;
+    -webkit-appearance:none;
+}
+
+#login-form fieldset form input[type="submit"] {
+    background-color: #ebebeb;
+    border: none;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    color: #404040;
+    cursor: pointer;
+    float: none;
+    font-weight: bold;
+    margin-top: 20px;
+    padding: 12px 12px;
+    -webkit-appearance: none;
+}
+
+#login-form fieldset form input[type="submit"]:hover {
+    background-color: #e0e0e0;
+}
+
+#login-form fieldset form span:before {
+    background-color: #c9c9c9;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    content: "?";
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 10px;
+    text-align: center;
+    width: 20px;
+}
+
+#login-form fieldset form span {
+    font-size: 12px;
+    margin-top: 40px;
+}
+
+#login-form fieldset form span a{
+    color: #eb6d1a;
+    text-decoration: none;
+}
+
+#login-form fieldset form span a:hover {
+    color: #eb6d1a;
+}
+
+.navigation-bar{
+    opacity: 0.7;
+}
+
+.icons {
+    margin: 10px;
+}
+
+.icons span {
+    margin: 3px;
+}
+
+main{
+    margin-top: 50px;
+    margin-left: 150px;
+
+}
+
+header div {
+    font-size: 32pt;
+    color: #ffffff;
+    height: 50px;
+    width: 800px;
+    margin-left: 150px;
+    margin-top: 100px;
+
+}
+
+.button-content {
+    border: solid black 2px;
+}
+
+#page-content .title-page {
+    font-size: 38pt;
+    font-style: italic;
+    color: #ffffff;
+}
+
+.metro .grid .row [class*="span"] {
+    margin-left: 10px !important;
+}
+
+#page-content {
+    margin-top: 40px;
+    margin-left: 50px !important;
+}
+
+#departments, #groups {
+    width: 785px !important;
+}
+/*
+.content .input-block {
+    margin-top: 60px;
+}
+
+.content .add-teacher {
+    margin-top: 20px;
+}
+
+.add-teacher input,
+.add-teacher select {
+    margin-top: 10px;
+}
+
+.content .input-block input,
+.content .input-block select {
+    width: 90%;
+    margin-left: 15px;
+}
+.content .input-block button {
+    float: right;
+    margin: 15px 13px 0 0;
+}
+*/
+.department-content, .group-content {
+    margin-top: 40px;
+    word-spacing: 20px;
+}
+a.department-links, a.group-links  {
+    text-decoration: underline;
+    color: #ffffff;
+}
+a.department-links:hover, a.group-links:hover{
+    color: rgba(25, 161, 226, 1);
+}
+
+.bg-darkTransparent {
+    background-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.fg-active-darkTransparent:hover {
+    background-color: rgba(0, 0, 0, 0.9) !important;
+}
+
+.add-department-form, .add-teacher-form, .add-group-form {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 51px 20px 51px 20px;
+}
+
+.add-student-form {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 50px 20px 50px 20px;
+}
+
+#teachers table {
+    background: rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+    margin: 0px 1px 0px 1px;
+    min-width: 800px;
+    max-width: 1000px;
+    float: right;
+}
+
+#students {
+    max-height: 500px;
+    overflow: auto;
+}
+
+#students .table {
+    background: rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+    min-width: 300px;
+}
+
+.row .span4 form button.button {
+    padding: 10px 16px;
+    width: 100px;
+    font-size: 14px;
+    line-height: 1.33;
+    border-radius: 6px;
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+#scheduleTable .scheduler {
+    background: rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+    width: 900px;
+}
+
+#scheduleTable .scheduler td {
+    width: 150px;
+    max-width: 150px;
+    padding: 3px;
+    height: 80px;
+    max-height: 80px;
+    vertical-align: top;
+}
+
+div.scheduleClassTitle {
+    width: 120px;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+#numberOfWeek, #semester {
+    max-width: 120px;
+    padding: 1px;
+    margin: 0 0 5px 0;
+}
+
+.form-control {
+    margin: 4px;
+}
+
+.scheduleClassTitle {
+    font-size: 14pt;
+}
+
+.scheduleClassNumber, .scheduleClassTeacher {
+    font-size: 8pt;
+}
+
+#attendanceTable ul li a, #addUserForm ul li a, #journalTable ul li a, h3.tabTableHeader, .label-information{
+    color: white;
+}
+
+#attendanceTable ul li a:hover, #journalTable ul li a:hover, table.tabTable, #addUserForm ul li a:hover {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#wrapTab {
+    text-align: center;
+}
+
+#journalTable ul li.active a, #attendanceTable ul li.active a,  #addUserForm ul li.active a{
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.groupCurator {
+    width: 212px;
+    display: inline-block;
+}
+
+#addCurator {
+    height: 35px;
+    border-radius: 4px;
+}
+
+.buttons, form .btn {
+    margin: 5px;
+}
+
+#addPublicPlanForm, #addPublicEventForm, #addIndividualWorkForm {
+    margin-top: 130px;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 50px 20px 50px 20px;
+}
+
+.firstTable, .secondTable {
+    height: 300px;
+    overflow-y: auto;
+}
+
+#addPublicOrdersForm .add-publicOrders-form{
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 50px 20px 50px 20px;
+}
+
+.span20 .department-title {
+    color: #ffffff;
+    font-style: italic;
+}
+
+li.list-group-item {
+   color: #ffffff;
+   background-color: rgba(0, 0, 0, 0.7);
+}
+
+li.list-group-item:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+    cursor: pointer;
+}
+
+#userStudentTable, #userTeacherTable {
+    height: 200px;
+    overflow-y: auto;
+}
+
+#userTeacherForm, #userStudentForm, #addFacultyInfo {
+    padding: 50px;
+}
+.classes {
+    display: flex;
+    height: 150px;
+}
+.classes .class {
+    flex: 1 0 0;
+    float: left;
+    border: 1px solid #dbdbdb;
+    word-wrap: break-word;
+    text-align: center;
+    padding-top: 130px;
+}
+.classes .class span {
+    display: block;
+    transform: rotate(-90deg);
+    transform-origin: 10%;
+    word-wrap: normal;
+    width: 140px;
+    margin-top: -10px;
+}
+table.reduction {
+    background: rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+    width: 900px;
+}
+
+table.reduction thead td {
+    width: 150px;
+    max-width: 150px;
+    padding: 0 !important;
+    height: 80px;
+    max-height: 80px;
+    vertical-align: top;
+    border: 1px solid #ffffff;
+}
+
+table.reduction td .date,
+table.reduction td .day {
+    padding-left: 5px;
+}
+
+table.reduction tbody td.passes {
+    display: flex;
+    padding: 0 !important;
+    border: none;
+}
+
+.pass {
+    flex: 1 0 25px;
+    float: left;
+    border: 1px solid #dbdbdb;
+    word-wrap: break-word;
+    text-align: center;
+}
+
+table.reduction tbody td {
+    height: 35px;
+}
+
+#students-search-list {
+    background: rgba(0, 0, 0, 0.7);
+    color: #ffffff;
+    margin-top: 100px;
+    margin-left: 5px;
+}
+
+#students-search-list tbody {
+    height: 500px;
+    overflow: scroll;
+}
+#students-search-list td, #students-search-list th {
+    text-align: center;
+}
