@@ -70,7 +70,7 @@ REST_FRAMEWORK = {
 }
 
 SERIALIZATION_MODULES = {
-    'json': 'wadofstuff.django.serializers.json_reloaded'
+    'json': 'diplome.wadofstuff.django.serializers.json_reloaded'
 }
 
 
