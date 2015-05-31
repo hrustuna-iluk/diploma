@@ -1,0 +1,39 @@
+<script type="text/template" id="generateReductionTemplate">
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="group_per_month" class="white">Для групи за місяць</label>
+            <input type="radio" name="type" value="groupPerMonth" id="group-per-month" checked>
+        </div><span>&nbsp;&nbsp;&nbsp;</span>
+        <div class="form-group">
+            <label for="faculty_per_month" class="white">Для факультету за місяць</label>
+            <input type="radio" name="type" value="facultyPerMonth" id="faculty-per-month">
+        </div><span>&nbsp;&nbsp;&nbsp;</span>
+        <div class="form-group">
+            <label for="faculty_per_semester" class="white">Для факультету за семестер</label>
+            <input type="radio" name="type" value="facultyPerSemester" id="faculty-per-semester">
+        </div>
+    </form>
+    <div class="additional-reduction-info month-container">
+        <div class="form-group">
+            <label for="month" class="white">Виберіть місяць</label>
+            <input type="month" name="month" id="month"><br>
+        </div>
+        <div class="form-group">
+            <label for="year" class="white">Введіть рік</label>
+            <input type="text" name="year" id="year"><br>
+        </div>
+        <div class="form-group semester-container">
+            <label for="semester" class="white">Виберіть семестер</label>
+            <select id="semester" name="semester" style="width: 200px">
+                <option value="1">I</option>
+                <option value="2">II</option>
+            </select>
+        </div>
+        <div class="form-group group-list-container">
+            <label for="group-list" class="white">Виберіть групу</label>
+            <select id="group-list" name="group" style="width: 200px"></select>
+        </div>
+    </div>
+    <hr>
+    <button class="btn generate-reduction">Сформувати зведення</button>
+</script>
