@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = '!+9_molb==ppd7mt7kb#f(07^+zah6vgmol-k&hkg_y+&2*^_#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 TEMPLATE_DEBUG = True
 
@@ -93,7 +93,7 @@ USE_TZ = True
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-
+"""
 if DEBUG:
 	DATABASES = {
 		'default': {
@@ -105,9 +105,9 @@ if DEBUG:
 			'PORT': '',
 		}
 	}
-else:
-	DATABASES = {}
-	DATABASES['default'] =  dj_database_url.config()
+else:"""
+DATABASES = {}
+DATABASES['default'] =  dj_database_url.config()
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
