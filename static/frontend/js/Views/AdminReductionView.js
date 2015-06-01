@@ -99,7 +99,7 @@ var AdminReductionView = BaseView.extend({
 
     _sendData: function (params, additionalParams) {
         additionalParams = additionalParams || {};
-        $.post('/app/reduction/', _.extend({}, params, additionalParams)).done(function (resp) {
+        $.post('/app/reduction/', {data: JSON.stringify(_.extend({}, params, additionalParams))}).done(function (resp) {
             var a = document.createElement('a');
             var event = document.createEvent('Event');
             a.href = resp.url;

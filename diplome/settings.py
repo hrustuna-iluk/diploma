@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = '!+9_molb==ppd7mt7kb#f(07^+zah6vgmol-k&hkg_y+&2*^_#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = True
 
@@ -44,7 +44,9 @@ INSTALLED_APPS = (
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
     #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
@@ -74,11 +76,7 @@ SERIALIZATION_MODULES = {
 }
 
 
-# Database
-# https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
-DATABASES = {}
-DATABASES['default'] =  dj_database_url.config()
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
@@ -93,6 +91,23 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Database
+# https://docs.djangoproject.com/en/1.7/ref/settings/#databases
+
+if DEBUG:
+	DATABASES = {
+		'default': {
+			'ENGINE': 'django.db.backends.postgresql_psycopg2',
+			'NAME': 'reporting',
+			'USER': 'developer',
+			'PASSWORD': 'developer',
+			'HOST': 'localhost',
+			'PORT': '',
+		}
+	}
+else:
+	DATABASES = {}
+	DATABASES['default'] =  dj_database_url.config()
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
@@ -136,6 +151,17 @@ TEMPLATES = [
         },
     },
 ]
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(BASE_DIR,  'cache'),
+        'TIMEOUT': 60,
+        'OPTIONS': {
+            'MAX_ENTRIES': 1000
+        }
+    }
+}
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'info.dekanat@gmail.com'

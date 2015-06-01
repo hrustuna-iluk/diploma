@@ -19,8 +19,16 @@ var ReductionParamsModalView = BaseView.extend({
     },
 
     _saveData: function () {
+        var form = this.$(this.selectors.reductionParamsForm).get(0).elements;
         var data = {};
+        for (var i = 0; i < form.length; i++) {
+            if (!data[form[i].dataset.department]) {
+                data[form[i].dataset.department] = {};
+            }
+            data[form[i].dataset.department][form[i].name] = form[i].value;
+        }
         this.trigger('params', data);
+        this.hide();
     },
 
     _renderFields: function () {

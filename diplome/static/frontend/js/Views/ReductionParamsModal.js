@@ -19,7 +19,11 @@ var ReductionParamsModalView = BaseView.extend({
     },
 
     _saveData: function () {
+        var form = this.$(this.selectors.reductionParamsForm).get(0).elements;
         var data = {};
+        for (var i = 0; i < form.length; i++) {
+            data[form[i].name] = form[i].value;
+        }
         this.trigger('params', data);
     },
 
