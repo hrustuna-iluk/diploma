@@ -12,13 +12,15 @@ var IndividualWorkTabElementView = BaseView.extend({
     _attachEvents: function() {
         this.$(this.selectors.changeIndividualWorkButton).on("click", $.proxy(this._changeIndividualWork, this));
         this.$(this.selectors.deleteIndividualWorkButton).on("click", $.proxy(this._deleteIndividualWork, this));
+        this.model.on('change', $.proxy(this.render, this));
     },
 
     _changeIndividualWork: function() {
-        this.publisher.trigger('change:individual:work', this.model);
+        this.publisher.trigger('change:individualWork', this.model);
     },
 
     _deleteIndividualWork: function() {
+        this.model.destroy();
         this.remove();
     },
 

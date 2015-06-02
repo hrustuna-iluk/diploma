@@ -343,10 +343,15 @@ div.scheduleClassTitle {
     text-overflow: ellipsis
 }
 
-#numberOfWeek, #semesterNumber, #semester {
+#numberOfWeek, #semesterNumber {
     max-width: 120px;
     padding: 1px;
     margin: 0 0 5px 0;
+}
+
+#semester {
+    max-width: 120px;
+    padding: 1px;
 }
 
 .form-control {

@@ -14,7 +14,7 @@ var PublicPlanTabFormView = BaseView.extend({
     initialize: function(options) {
         this.collection = options.publicPlanCollection;
         this.group = options.group;
-        this.publisher.on('change:public:plan', $.proxy(this._onPublicPlanChange, this));
+        this.publisher.on('change:publicPlan', $.proxy(this._onPublicPlanChange, this));
     },
 
     _attachEvents: function() {

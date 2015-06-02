@@ -2,6 +2,8 @@ var PublicPlanTabView = BaseView.extend({
 
     template: _.template($("#publicPlanTabTemplate").html()),
 
+    collectionLen: 0,
+
     initialize: function(options) {
         this.collection = options.publicPlanCollection;
         this.group = options.group;
@@ -17,6 +19,7 @@ var PublicPlanTabView = BaseView.extend({
                 model: model
             }).render().el
         )
+        this.$("table tbody tr:last td:first").text(++this.collectionLen);
     },
 
     render: function() {

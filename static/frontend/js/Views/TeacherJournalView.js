@@ -7,6 +7,7 @@ var TeacherJournalView = BaseView.extend({
     currentForm: null,
 
     initialize: function(options) {
+        this.faculty = options.faculty;
         this.group = options.group;
         this.studentsCollection = options.studentsCollection;
         this.publicPlanCollection = options.publicPlanCollection;
@@ -27,7 +28,8 @@ var TeacherJournalView = BaseView.extend({
 
     _wrapTab: function(){
         var wrapTabView = new WrapTabView({
-            group: this.group
+            group: this.group,
+            faculty: this.faculty
         });
         this._tabChanged('wrapTab', wrapTabView);
         this._formChanged();

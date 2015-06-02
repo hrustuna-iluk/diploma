@@ -658,9 +658,8 @@
                 <tr><td>ЖУРНАЛ</td></tr>
                 <tr><td>планування та обліку</td></tr>
                 <tr><td>громадсько-виховної роботи</td></tr>
-                <tr><td>Факультет: </td></tr>
                 <tr><td>Куратор: <%if(curator){ %><%=curator.lastName%> <%=curator.firstName%> <%=curator.middleName%> <%}%></td></tr>
-                <tr><td>Староста: </td></tr>
+                <tr><td>Староста: <%if(leader){ %><%=leader.lastName%> <%=leader.firstName%> <%=leader.middleName%> <%}%></td></tr>
                 <tr><td>Чернівці</td></tr>
             </table>
         </script>
@@ -957,6 +956,7 @@
                         <th>Рік</th>
                         <th>Група</th>
                         <th>&nbsp;</th>
+                        <th>&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -1109,7 +1109,7 @@
         <!--Select Public Orders Student Template-->
         <script type="text/template" id="optionPublicOrdersStudentTemplate">
             <option value="<%=id%>">
-                <%=lastName%><%=firstName%>
+                <%=lastName%> <%=firstName%>
             </option>
         </script>
 
