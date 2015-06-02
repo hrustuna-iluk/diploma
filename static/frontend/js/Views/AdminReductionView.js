@@ -35,6 +35,10 @@ var AdminReductionView = BaseView.extend({
 
     initialize: function (options) {
         this.groupsCollection = options.groupsCollection;
+        this.departmentsCollection = options.departmentsCollection;
+        this.reductionParamsModalView = new ReductionParamsModalView({
+            departmentsCollection: this.departmentsCollection
+        }).render();
         this.faculty = options.faculty
     },
 
@@ -93,6 +97,19 @@ var AdminReductionView = BaseView.extend({
         this.$(this.selectors.semester).parent().hide();
     },
 
+    _sendData: function (params, additionalParams) {
+        additionalParams = additionalParams || {};
+        $.post('/app/reduction/', {data: JSON.stringify(_.extend({}, params, additionalParams))}).done(function (resp) {
+            var a = document.createElement('a');
+            var event = document.createEvent('Event');
+            a.href = resp.url;
+            a.download = _.last(resp.url.split('/'));
+            a.target = '_blank';
+            event.initEvent('click', true, true);
+            a.dispatchEvent(event);
+        });
+    },
+
     _generateReduction: function () {
         var params = {
             type: this.$('input[name="type"]:checked').val(),
@@ -102,15 +119,14 @@ var AdminReductionView = BaseView.extend({
             semester: this.$(this.selectors.semester).val(),
             faculty: this.faculty.get('id')
         };
-        $.post('/app/reduction/', params).done(function (resp) {
-            var a = document.createElement('a');
-            var event = document.createEvent('Event');
-            a.href = resp.url;
-            a.download = _.last(resp.url.split('/'));
-            a.target = '_blank';
-            event.initEvent('click', true, true);
-            a.dispatchEvent(event);
-        });
+        if (params.type !== 'groupPerMonth') {
+            this.reductionParamsModalView.show().off('params').on('params', $.proxy(function (additionalParams) {
+                this._sendData(params, additionalParams)
+            }, this));
+        } else {
+            this._sendData(params);
+        }
+
     },
 
     render: function () {

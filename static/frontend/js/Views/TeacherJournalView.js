@@ -24,6 +24,7 @@ var TeacherJournalView = BaseView.extend({
         this.$('.educationalEventsTab').on('click', $.proxy(this._educationalEventsTab, this));
         this.$('.individualWorkTab').on('click', $.proxy(this._individualWorkTab, this));
         this.$('.reportTab').on('click', $.proxy(this._reportTab, this));
+        this.$('.downloadJournal').on('click', $.proxy(this._downloadJournal, this));
     },
 
     _wrapTab: function(){
@@ -129,6 +130,18 @@ var TeacherJournalView = BaseView.extend({
         }
         $('#'+ div_id).html( tab.render().el );
         this.currentTab = tab;
+    },
+
+    _downloadJournal: function () {
+        $.post('/app/journal/', {group: this.group.get('id')}).done(function (resp) {
+            var a = document.createElement('a');
+            var event = document.createEvent('Event');
+            a.href = resp.url;
+            a.download = _.last(resp.url.split('/'));
+            a.target = '_blank';
+            event.initEvent('click', true, true);
+            a.dispatchEvent(event);
+        });
     },
 
     render: function() {

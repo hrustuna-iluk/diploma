@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse_lazy
 from reporting.excel_generator.group_reduction_excel_generator import generate_group_reduction
 from reporting.excel_generator.faculty_reduction_excel_generator import generate_faculty_reduction_per_month, generate_faculty_reduction_per_semester
+from reporting.excel_generator.journal_excel_generator import generate_journal_excel
 import json
 from datetime import date
 from django.core.mail import send_mail, BadHeaderError
@@ -65,21 +66,22 @@ def logout_user(request):
 @login_required
 def generate_reduction(request):
     if request.method == 'POST':
+        data = json.loads(request.POST.get('data'))
         filename = None
-        type = request.POST.get('type')
-        faculty = request.POST.get('faculty')
+        type = data.get('type')
+        faculty = data.get('faculty')
 
         if type == 'groupPerMonth':
-            group = request.POST.get('group')
-            year, month = request.POST.get('month').split('-')
+            group = data.get('group')
+            year, month = data.get('month').split('-')
             filename = generate_group_reduction(faculty, group, month, year)
         elif type == 'facultyPerMonth':
-            year, month = request.POST.get('month').split('-')
-            filename = generate_faculty_reduction_per_month(faculty, month, year)
+            year, month = data.get('month').split('-')
+            filename = generate_faculty_reduction_per_month(faculty, month, year, data)
         elif type == 'facultyPerSemester':
-            semester = request.POST.get('semester')
-            year = request.POST.get('year')
-            filename = generate_faculty_reduction_per_semester(faculty, semester, year)
+            semester = data.get('semester')
+            year = data.get('year')
+            filename = generate_faculty_reduction_per_semester(faculty, semester, year, data)
     return HttpResponse(json.dumps({'url': filename}), content_type='application/json')
 
 
@@ -111,3 +113,12 @@ def delete_passes(request):
         Pass.objects.all().delete()
         return HttpResponse(json.dumps({'message': 'Пропуски видалено'}), content_type='application/json')
     return HttpResponse(json.dumps({'message': 'Пропуски не видалено'}), content_type='application/json')
+
+
+@login_required
+def generate_journal(request):
+    if request.method == 'POST':
+        group = request.POST.get('group')
+        filename = generate_journal_excel(group)
+        return HttpResponse(json.dumps({'url': filename}), content_type='application/json')
+    return HttpResponseBadRequest()

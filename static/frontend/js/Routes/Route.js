@@ -12,7 +12,7 @@ var Route = Backbone.Router.extend({
         'publicOrders/:groupId': 'publicOrders',
         'adminPage': 'adminPage',
         'search': 'searchPage',
-        'search/:departmentId': 'searchPage',
+        'search/:departmentId': 'searchPage',        
         'search/:departmentId/:groupId': 'searchPage'
     },
 

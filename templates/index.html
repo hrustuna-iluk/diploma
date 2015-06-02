@@ -201,8 +201,8 @@
                         <h3 class="department-title">Кафедра</h3>
                         <h3 class="department-title"><%=title%></h3>
                         <div class="row">
-                            <div class="span4" style="display: {% if role == 'admin' %} block {% else %} none {% endif %}">
-                                <div class="add-group-form">
+                            <div class="span4" >
+                                <div class="add-group-form" style="display: {% if role == 'admin' %} block {% else %} none {% endif %}">
                                     <form role="form" id="addGroupForm" onsubmit="return false;">
                                         <div class="form-group">
                                             <input type="text" placeholder="Номер групи" name="groupNumber" id="groupNumber" class="form-control">
@@ -566,8 +566,8 @@
         </script>
 
         <!--Select option template for teachers-->
-        <script type="text/template" id="classInformation">
-            {% if role == 'admin' or role == 'student' %}
+        <script type="text/template" id="classInformation">            
+            {% if role == 'admin' or role == 'student' or role == 'teacher' %}
                 <div class="toolbar transparent place-right">
                     <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white deleteClass"></i></button>
                 </div>
@@ -1258,6 +1258,7 @@
         {% include 'view-templates/SendMailPopupTemplate.html' %}
         {% include 'view-templates/SearchTemplate.html' %}
         {% include 'view-templates/StudentPassInfoTemplate.html' %}
+        {% include 'view-templates/ReductionParamsTemplate.html' %}
 
         <!--Frameworks-->
         <script src="{% static 'frameworks/Metro-UI-CSS-master/docs/js/jquery/jquery.min.js' %}"></script>
@@ -1343,13 +1344,14 @@
         <script src="{% static 'frontend/js/Views/AddPublicOrdersTableView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/AddPublicOrdersOfGroupFormView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/AddPublicOrdersOfGroupView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/ReductionParamsModal.js' %}"></script>
         <script src="{% static 'frontend/js/Views/AdminInformationAboutFacultyView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/AdminReductionView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/UserTableView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/AdminUserAccessView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/AdminPageView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/PaginationView.js' %}"></script>
-        <script src="{% static 'frontend/js/Views/PaginationsView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/PaginationsView.js' %}"></script>        
         <script src="{% static 'frontend/js/Views/PassesTableHeadView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/PassesTableBodyView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/PassesTableView.js' %}"></script>

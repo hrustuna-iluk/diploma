@@ -9,6 +9,7 @@ var AdminPageView = BaseView.extend({
         this.teachersCollection = options.teachersCollection;
         this.studentsCollection = options.studentsCollection;
         this.groupsCollection = options.groupsCollection;
+        this.departmentsCollection = options.departmentsCollection;
     },
 
     _attachEvents: function(){
@@ -28,6 +29,7 @@ var AdminPageView = BaseView.extend({
     _adminReduction: function() {
         var reductionView = new AdminReductionView({
             groupsCollection: this.groupsCollection,
+            departmentsCollection: this.departmentsCollection,
             faculty: this.faculty
         });
         this._viewChanged(reductionView);
