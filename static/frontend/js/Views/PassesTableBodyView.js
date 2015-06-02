@@ -8,7 +8,7 @@ var PassesTableBodyView = BaseView.extend({
 
     days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
 
-    studentTemplate: _.template("<td><span><%=lastName%>&nbsp;<%=firstName%>&nbsp;<%=middleName%></span></td>"),
+    studentTemplate: _.template("<td style='max-width:200px' class='ellipsis'><%=lastName%>&nbsp;<%=firstName%>&nbsp;<%=middleName%></td>"),
 
     initialize: function (options) {
         this.week = options.week;

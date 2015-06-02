@@ -7,6 +7,11 @@ body {
 .no-display {
     display: none;
 }
+.ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
 .loading-container {
     width: 100%;
     height: 100%;
@@ -333,7 +338,7 @@ div.scheduleClassTitle {
     text-overflow: ellipsis
 }
 
-#numberOfWeek, #semesterNumber {
+#numberOfWeek, #semesterNumber, #semester {
     max-width: 120px;
     padding: 1px;
     margin: 0 0 5px 0;
@@ -438,7 +443,8 @@ li.list-group-item:hover {
     transform: rotate(-90deg);
     transform-origin: 10%;
     word-wrap: normal;
-    width: 150px;
+    width: 140px;
+    margin-top: -10px;
 }
 table.reduction {
     background: rgba(0, 0, 0, 0.7);

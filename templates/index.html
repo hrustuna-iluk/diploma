@@ -72,11 +72,13 @@
         <!--New department template-->
         <script type="text/template" id="newDepartmentTemplate">
             <div class="tile double bg-darkTransparent fg-active-darkTransparent text-center">
-                <div class="toolbar transparent place-right">
+                {% if role == 'admin' or role == 'student' %}
+                    <div class="toolbar transparent place-right">
                     <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-department"></i></button>
                     <span class="divider"></span>
                     <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white remove-department"></i></button>
-                </div>
+                    </div>
+                {% endif %};
                 <div class="content department-content">
                     <a href="#teachers/<%=id%>" class="department-links">Викладачі</a>
                     <a href="#groups/<%=id%>" class="department-links">Групи</a>
@@ -155,22 +157,26 @@
             </td>
             <td><%if(department){ %><%=department.title%><%}%></td>
             <td colspan="2">
-                <div class="toolbar transparent place-right">
-                    <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-teacher-data"></i></button>
-                    <span class="divider"></span>
-                    <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white remove-teacher-data"></i></button>
-                </div>
+                {% if role == 'admin' or role == 'student' %}
+                    <div class="toolbar transparent place-right">
+                        <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-teacher-data"></i></button>
+                        <span class="divider"></span>
+                        <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white remove-teacher-data"></i></button>
+                    </div>
+                {% endif %}
             </td>
         </script>
 
         <!--Group Template-->
         <script type="text/template" id="groupTemplate">
             <div class="tile double bg-darkTransparent fg-active-darkTransparent text-center">
-                <div class="toolbar transparent place-right">
-                    <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-group"></i></button>
-                    <span class="divider"></span>
-                    <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white remove-group"></i></button>
-                </div>
+                {% if role == 'admin' or role == 'student' %}
+                    <div class="toolbar transparent place-right">
+                        <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-group"></i></button>
+                        <span class="divider"></span>
+                        <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white remove-group"></i></button>
+                    </div>
+                {% endif %}
                 <div class="content group-content">
                     <a href="#reduction/<%=id%>" class="group-links">Зведення</a>
                     <a href="#students/<%=id%>" class="group-links">Студенти</a>
@@ -298,14 +304,18 @@
             <td><% if(benefits){ %> <%=benefits.type%> <%}%></td>
             <td><% if(additional){ %> <%=additional%> <%}%></td>
             <td>
-                <div class="toolbar transparent place-right">
-                    <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-student-data"></i></button>
-                </div>
+                {% if role == 'admin' or role == 'student' %}
+                    <div class="toolbar transparent place-right">
+                        <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-student-data"></i></button>
+                    </div>
+                {% endif %}
             </td>
             <td>
-                <div class="toolbar transparent place-right">
-                    <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white remove-student-data"></i></button>
-                </div>
+                {% if role == 'admin' or role == 'student' %}
+                    <div class="toolbar transparent place-right">
+                        <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white remove-student-data"></i></button>
+                    </div>
+                {% endif %}
             </td>
         </script>
 
@@ -458,8 +468,13 @@
                         <h3 class="department-title">Група <%=number%></h3>
                         <div class="row">
                             <div class="span2" >
-
+                                <h4 style="color: #ffffff">Номер тижня</h4>
                                 <select id="numberOfWeek" class="form-control">
+                                    <option value="1" selected>I</option>
+                                    <option value="2">II</option>
+                                </select>
+                                <h4 style="color: #ffffff">Семестер</h4>
+                                <select id="semester" class="form-control">
                                     <option value="1" selected>I</option>
                                     <option value="2">II</option>
                                 </select>
@@ -552,6 +567,11 @@
 
         <!--Select option template for teachers-->
         <script type="text/template" id="classInformation">
+            {% if role == 'admin' or role == 'student' %}
+                <div class="toolbar transparent place-right">
+                    <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white deleteClass"></i></button>
+                </div>
+            {% endif %}
             <div class="scheduleClassTitle"><%=subject%></div>
             <div class="scheduleClassNumber">Аудиторія: <%=classroom%></div>
             <div class="scheduleClassTeacher">Викладач: <%=teacher.lastName%> <%=teacher.firstName%> <%=teacher.middleName%></div>
@@ -797,14 +817,18 @@
                 <td><%=responsive%></td>
                 <td><%=description%></td>
                 <td>
-                    <div class="toolbar transparent place-right">
-                        <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-publicPlan"></i></button>
-                    </div>
+                    {% if role == 'admin' or role == 'student' or role == 'teacher' %}
+                        <div class="toolbar transparent place-right">
+                            <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-publicPlan"></i></button>
+                        </div>
+                    {% endif %}
                 </td>
                 <td>
-                    <div class="toolbar transparent place-right">
-                        <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white remove-publicPlan"></i></button>
-                    </div>
+                    {% if role == 'admin' or role == 'student' or role == 'teacher' %}
+                        <div class="toolbar transparent place-right">
+                            <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white remove-publicPlan"></i></button>
+                        </div>
+                    {% endif %}
                 </td>
         </script>
 
@@ -835,14 +859,18 @@
                 <td><%=amountPresent%></td>
                 <td><%=description%></td>
                 <td>
-                    <div class="toolbar transparent place-right">
-                        <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-publicEvent"></i></button>
-                    </div>
+                    {% if role == 'admin' or role == 'student' or role == 'teacher' %}
+                        <div class="toolbar transparent place-right">
+                            <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-publicEvent"></i></button>
+                        </div>
+                    {% endif %}
                 </td>
                 <td>
-                    <div class="toolbar transparent place-right">
-                        <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white remove-publicEvent"></i></button>
-                    </div>
+                    {% if role == 'admin' or role == 'student' or role == 'teacher' %}
+                        <div class="toolbar transparent place-right">
+                            <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white remove-publicEvent"></i></button>
+                        </div>
+                    {% endif %}
                 </td>
         </script>
 
@@ -942,14 +970,18 @@
                <td><%=year%></td>
                <td><%=group.number%></td>
                <td>
-                    <div class="toolbar transparent place-right">
-                        <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-individualWork"></i></button>
-                    </div>
+                   {% if role == 'admin' or role == 'student' or role == 'teacher' %}
+                        <div class="toolbar transparent place-right">
+                            <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-individualWork"></i></button>
+                        </div>
+                   {% endif %}
                 </td>
                 <td>
-                    <div class="toolbar transparent place-right">
-                        <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white remove-individualWork"></i></button>
-                    </div>
+                    {% if role == 'admin' or role == 'student' or role == 'teacher' %}
+                        <div class="toolbar transparent place-right">
+                            <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white remove-individualWork"></i></button>
+                        </div>
+                    {% endif %}
                 </td>
 
         </script>

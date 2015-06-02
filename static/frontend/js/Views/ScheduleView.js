@@ -18,7 +18,7 @@ var ScheduleView = BaseView.extend({
 
     _attachEvents: function() {
         this.$('.deleteSchedule').on('click', $.proxy(this._wantDeleteSchedule, this));
-        this.$('select').on('change', $.proxy(this._buildScheduler, this));
+        this.$('#numberOfWeek, #semester').on('change', $.proxy(this._buildScheduler, this));
     },
 
     _buildScheduler: function () {
@@ -30,7 +30,8 @@ var ScheduleView = BaseView.extend({
                 new ClassesView({
                     parentView: this,
                     numberOfClass: numberOfClass,
-                    numberOfWeek: this.$('select').val(),
+                    numberOfWeek: this.$('#numberOfWeek').val(),
+                    semester: this.$('#semester').val(),
                     group: this.group,
                     collection: this.collection,
                     teachersCollection: this.teachersCollection
@@ -43,7 +44,7 @@ var ScheduleView = BaseView.extend({
 
     _fillClassesCollection: function() {
          this.collection.each($.proxy(function(model) {
-             if(model.getNumberOfWeek() == this.$('select').val()){
+             if(model.getNumberOfWeek() == this.$('#numberOfWeek').val() && model.get('semester') == this.$('#semester').val()){
                  this.classes[model.getNumber()-1][this.days.indexOf(model.getDay())].setModel(model);
              }
          }, this), this);
