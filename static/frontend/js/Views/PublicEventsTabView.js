@@ -14,7 +14,7 @@ var PublicEventsTabView = BaseView.extend({
     _renderTr: function(model) {
         this.$('.secondTable tbody').add('.firstTable tbody').empty();
 
-        function render(model) {
+        var render = (function (model) {
             if(model.getSemester() === 1) {
             this.$('.firstTable tbody').append(
                 new PublicEventsTabElementView({
@@ -30,7 +30,7 @@ var PublicEventsTabView = BaseView.extend({
         } else if(model.getSemester() === 0) {
             return;
         }
-        }
+        }).bind(this);
         if (_.isArray(model.models)) {
             model.each($.proxy(function (model) {
                 render(model);

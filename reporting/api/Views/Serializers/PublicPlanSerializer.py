@@ -17,6 +17,7 @@ class PublicPlanSerializer(serializers.ModelSerializer):
         public_plan.description = validated_data.get('description')
         public_plan.amountHours = validated_data.get('amountHours')
         public_plan.amountPresent = validated_data.get('amountPresent')
+        public_plan.semester = validated_data.get('semester')
         public_plan.save()
         return public_plan
 

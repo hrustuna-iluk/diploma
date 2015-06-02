@@ -30,7 +30,7 @@ var PublicEventsTabFormView = BaseView.extend({
     },
 
     _onPublicEventChange: function(model) {
-        $(this.selectors.publicEventSelect).val(model.getEvent());
+        $(this.selectors.publicEventSelect).val(model.get('id'));
         $(this.selectors.publicSemesterSelect).val(model.getSemester());
         $(this.selectors.publicAmountHours).val(model.getAmountHours());
         $(this.selectors.publicAmountPresent).val(model.getAmountPresent());
@@ -55,7 +55,7 @@ var PublicEventsTabFormView = BaseView.extend({
         publicEventModel.save();
     },
 
-    _changePublicPlan: function() {
+    _changePublicEvent: function() {
         var publicEventModel = this.$(this.selectors.changeEventButton).data('model');
         this._publicEventData(publicEventModel);
         publicEventModel.save();
