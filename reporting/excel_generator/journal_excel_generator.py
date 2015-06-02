@@ -80,6 +80,7 @@ def fill_news(ws, group):
         ws['F' + str(start_index)] = student.id
         ws['G' + str(start_index)] = ' '.join([student.address, 'тел.', student.phone])
         ws['H' + str(start_index)] = ' '.join([student.father.fullName, student.father.position + ',', student.mother.fullName, student.mother.position ])
+        start_index += 1
 
 
 def fill_info_for_me(ws, group):
@@ -97,10 +98,22 @@ def fill_info_for_me(ws, group):
         ws['H' + str(start_index)] = '\n'.join([student.father.phone, student.mother.phone])
         ws['I' + str(start_index)] = ''
         ws['J' + str(start_index)] = student.school
+        start_index += 1
 
 
 def fill_plan(ws, group):
-    pass
+    start_index = 9
+    public_plans = PublicPlan.objects.filter(group=group)
+    ws['C2'] = 'Завідувач кафедри ' + group.department.headOfDepartment.lastName + ' ' + group.department.headOfDepartment.firstName + ' ' + group.department.headOfDepartment.middleName if group.department.headOfDepartment else ''
+
+    for index, plan in enumerate(public_plans):
+        ws['A' + str(start_index)] = index + 1
+        ws['B' + str(start_index)] = plan.event
+        ws['C' + str(start_index)] = plan.date
+        ws['D' + str(start_index)] = plan.responsive
+        ws['E' + str(start_index)] = plan.description
+        start_index += 1
+    ws['C54'] = group.curator.lastName + ' ' + group.curator.firstName + ' ' + group.curator.middleName if group.curator else ''
 
 
 def fill_accounting(ws, group):
@@ -112,11 +125,19 @@ def fill_public_attitude(ws, group):
 
 
 def fill_individual_work(ws, group):
-    pass
+    works = StudentWork.objects.filter(group=group)
+    start_index = 2
+
+    for index, work in enumerate(works):
+        ws['A' + str(start_index)] = work.text
 
 
 def fill_report(ws, group):
-    pass
+    plans = PublicPlan.objects.filter(group=group)
+    start_index = 5
+
+    for index, plan in enumerate(plans):
+        ws['A' + str(start_index)] = plan.event + ' (' + plan.date + ')'
 
 
 
