@@ -15,7 +15,7 @@ var ReportTabView = BaseView.extend({
             success: $.proxy(function () {
                 this.collection.each($.proxy (function(item, index, array) {
                     this.$('tbody').append(
-                        new AllInformationTabElementView ({
+                        new ReportTabElementView ({
                             model: item
                         }).render().el
                     )

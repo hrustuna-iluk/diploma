@@ -2,6 +2,8 @@ var DataTabView = BaseView.extend({
 
     template: _.template($("#dataTabTemplate").html()),
 
+    collectionLen: 0,
+
     initialize: function(options) {
         this.group = options.group;
         this.collection = options.collection;
@@ -18,6 +20,7 @@ var DataTabView = BaseView.extend({
                             model: item
                         }).render().el
                     )
+                    this.$("table tbody tr:last td:first").text(++this.collectionLen);
                 }, this));
             }, this)
         });

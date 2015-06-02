@@ -13,6 +13,7 @@ class PublicPlanSerializer(serializers.ModelSerializer):
     def update(self, public_plan, validated_data):
         public_plan.teacher = validated_data.get('teacher')
         public_plan.event = validated_data.get('event')
+        public_plan.responsive = validated_data.get('responsive')
         public_plan.date = validated_data.get('date')
         public_plan.description = validated_data.get('description')
         public_plan.amountHours = validated_data.get('amountHours')

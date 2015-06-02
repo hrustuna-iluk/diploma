@@ -12,13 +12,15 @@ var PublicPlanTabElementView = BaseView.extend({
     _attachEvents: function() {
         this.$(this.selectors.changePublicPlanButton).on("click", $.proxy(this._changePublicPlan, this));
         this.$(this.selectors.deletePublicPlanButton).on("click", $.proxy(this._deletePublicPlan, this));
+        this.model.on('change', $.proxy(this.render, this));
     },
 
     _changePublicPlan: function() {
-        this.publisher.trigger('change:public:plan', this.model);
+        this.publisher.trigger('change:publicPlan', this.model);
     },
 
     _deletePublicPlan: function() {
+        this.model.destroy();
         this.remove();
     },
 

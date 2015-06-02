@@ -170,6 +170,7 @@ var Route = Backbone.Router.extend({
         ).done($.proxy(function () {
             var group = this.groupsCollection.findWhere({id: +groupId});
             var teacherJournalView = new TeacherJournalView({
+                faculty: this.facultyCollection.models[0],
                 group: group,
                 studentsCollection: this.studentsCollection,
                 publicPlanCollection: this.publicPlanCollection,

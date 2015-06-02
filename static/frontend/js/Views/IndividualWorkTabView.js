@@ -2,6 +2,8 @@ var IndividualWorkTabView = BaseView.extend({
 
     template: _.template($("#individualWorkTabTemplate").html()),
 
+    collectionLen: 0,
+
     initialize: function(options) {
         this.collection = options.workWithStudentCollection;
         this.group = options.group;
@@ -17,6 +19,7 @@ var IndividualWorkTabView = BaseView.extend({
                 model: model
             }).render().el
         )
+        this.$("table tbody tr:last td:first").text(++this.collectionLen);
     },
 
     render: function() {
