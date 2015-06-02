@@ -15,22 +15,42 @@ var StudentFiltersView  = BaseView.extend({
         this.$('#filterButton').on("click", $.proxy(this._filterPasses,this));
     },
 
-    _filterPasses: function() {
+    _filterPasses: function(evt) {
+        evt.preventDefault();
         var passes = 0;
         if(this.$('#filterByDate').is(':checked')) {
-
+            this._filterByDate(passes);
         }else if(this.$('#filterByClass').is(':checked')) {
-            this.passesCollection.each(function(model) {
-                if(model.get('class_passed').subject === this.$('#studentPassClass').val() &&
-                    this.studentId === model.get('student').id) {
-                    passes++;
-                } else {
-                   return;
-                }
-
-            }, this);
-            this.$('.modal-body').append("<div>"+"Кількість пропусків - "+ passes + " з дисципліни " + "'" + this.$('#studentPassClass').val()+ "'" +"</div>")
+            this._filterByClass(passes);
         }
+    },
+
+    _filterByDate: function(passes) {
+        var start = this.$('#startPassDate').val(),
+            end = this.$('#endPassDate').val();
+        this.passesCollection.each(function(model) {
+            if(Date.parse(model.get('date')) >= Date.parse(start) &&
+                Date.parse(model.get('date')) <= Date.parse(end) &&
+                this.studentId === model.get('student').id) {
+                passes++;
+            } else {
+                return;
+            }
+        }, this);
+        this.$('.modal-body').append("<div>"+"Кількість пропусків - "+ passes + " з " + "'" + start
+            + "'"+ " по "+ "'" + end + "'" +"</div>")
+    },
+
+    _filterByClass: function(passes) {
+        this.passesCollection.each(function(model) {
+            if(model.get('class_passed').subject === this.$('#studentPassClass').val() &&
+                this.studentId === model.get('student').id) {
+                passes++;
+            } else {
+               return;
+            }
+        }, this);
+        this.$('.modal-body').append("<div>"+"Кількість пропусків - "+ passes + " з дисципліни " + "'" + this.$('#studentPassClass').val()+ "'" +"</div>")
     },
 
     _closeModal: function() {

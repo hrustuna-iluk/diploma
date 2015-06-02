@@ -48,6 +48,10 @@ var GroupModel = Backbone.Model.extend ({
         return this.get('curator');
     },
 
+    getDepartment: function() {
+        return this.get('department');
+    },
+
     parse: function(resp) {
         if (_.isArray(resp)) {
             return resp[0];

@@ -83,11 +83,13 @@ var GroupsView = BaseView.extend({
     },
 
     _renderGroup: function(model) {
-        this.$("#groups").append(
-            new GroupView({
-                model: model
-            }).render().el
-        );
+        if(model.getDepartment().id === this.department.get('id')) {
+            this.$("#groups").append(
+                new GroupView({
+                    model: model
+                }).render().el
+            );
+        }
     },
 
 

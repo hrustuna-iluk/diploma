@@ -255,10 +255,15 @@ header div {
     margin: 15px 13px 0 0;
 }
 */
-.department-content, .group-content {
+.department-content {
+    margin-top: 20px;
+    word-spacing: 20px;
+}
+.group-content {
     margin-top: 40px;
     word-spacing: 20px;
 }
+
 a.department-links, a.group-links  {
     text-decoration: underline;
     color: #ffffff;
