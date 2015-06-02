@@ -12,7 +12,8 @@ var Route = Backbone.Router.extend({
         'publicOrders/:groupId': 'publicOrders',
         'adminPage': 'adminPage',
         'search': 'searchPage',
-        'search/:departmentId': 'searchPage'
+        'search/:departmentId': 'searchPage',
+        'search/:departmentId/:groupId': 'searchPage'
     },
 
     currentView: null,
@@ -31,6 +32,10 @@ var Route = Backbone.Router.extend({
         this.workWithStudentCollection = new WorkWithStudentCollection();
         this.facultyCollection.fetch({ async: false });
         //this._initializeEvents();
+
+        this.on('route', function () {
+            $('.modal:visible').modal('hide');
+        });
 
     },
 
@@ -53,8 +58,8 @@ var Route = Backbone.Router.extend({
 
         $.when(
             facultyReady,
-            this.departmentsCollection.fetch(),
-            this.teachersCollection.fetch()
+            this.departmentsCollection.fetch({data: {screen: 'departments'}, processData: true}),
+            this.teachersCollection.fetch({data: {screen: 'departments'}, processData: true})
         ).done($.proxy(function () {
             var startPageView = new StartPageView({
                 collection: this.departmentsCollection,
@@ -191,16 +196,21 @@ var Route = Backbone.Router.extend({
         }, this));
     },
 
-    searchPage: function (departmentId) {
+    searchPage: function (departmentId, groupId) {
         $.when(
             this.passesCollection.fetch({data: {screen: 'search'}, processData: true}),
-            this.studentsCollection.fetch({data: {screen: 'search'}, processData: true})
+            this.studentsCollection.fetch({data: {screen: 'search'}, processData: true}),
+            this.classesCollection.fetch({data: {screen: 'search'}, processData: true})
         ).done($.proxy(function () {
             var searchView = new SearchView({
                 departmentId: departmentId,
+                classesCollection: this.classesCollection,
                 passesCollection: this.passesCollection,
                 studentsCollection: departmentId ?
                     this.studentsCollection.filter(function (student) {
+                        if (groupId) {
+                            return student.get('group').id == groupId;
+                        }
                         return student.get('group').department.id === +departmentId;
                     }) : this.studentsCollection
             });

@@ -30,16 +30,23 @@ class CheckPermission(object):
             if user and screen:
                 department = None
                 group = None
-                if screen in DEPARTMENT_SCREENS:
+                if screen == 'departments':
+                    if isinstance(user, Teacher):
+                        if user.position != 'dean' or user.position != 'Deputy Dean':
+                            request.session['permission_denied'] = True
+                    else:
+                        request.session['permission_denied'] = True
+                elif screen in DEPARTMENT_SCREENS:
                     try:
                         department = Department.objects.get(id=params.get('department'))
                     except Department.DoesNotExist:
                         request.session['permission_denied'] = True
+                        return
                     if isinstance(user, Teacher):
                         if user.position in ['dean', 'Deputy Dean']:
                             pass
                         elif user.position == 'Head of Department':
-                            if user.id != department.headOfDepartment.id:
+                            if not department.headOfDepartment or user.id != department.headOfDepartment.id:
                                 request.session['permission_denied'] = True
                         else:
                             request.session['permission_denied'] = True
@@ -51,6 +58,7 @@ class CheckPermission(object):
                         group = Group.objects.get(id=params.get('group'))
                     except Group.DoesNotExist:
                         request.session['permission_denied'] = True
+                        return
                     if 'department' in request.session and request.session['department'] == group.department.id:
                         request.session['permission_denied'] = False
                         return

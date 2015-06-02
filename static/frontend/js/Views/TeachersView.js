@@ -2,6 +2,8 @@ var TeachersView = BaseView.extend({
 
     template: _.template($("#teachersTemplate").html()),
 
+    collectionLen: 0,
+
     selectors: {
         createTeacher: "#addTeacher",
         changeTeacherData: "#changeTeacherData",
@@ -82,6 +84,8 @@ var TeachersView = BaseView.extend({
                 model: model
             }).render().el
         );
+
+        this.$("#teachers table tbody tr:last td:first").text(++this.collectionLen);
     },
 
     render: function() {

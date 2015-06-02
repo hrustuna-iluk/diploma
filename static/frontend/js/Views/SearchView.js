@@ -1,7 +1,7 @@
 var SearchView = BaseView.extend({
     template: _.template($('#searchPage').html()),
 
-    studentUserTemplate: _.template('<tr class="student" data-query="<%=lastName%> <%=firstName%> <%=middleName%>">' +
+    studentUserTemplate: _.template('<tr class="student" data-id="<%=id%>" data-query="<%=lastName%> <%=firstName%> <%=middleName%>">' +
         '<td><%=index%></td>' +
         '<td><%=lastName%></td>' +
         '<td><%=firstName%></td>' +
@@ -21,13 +21,15 @@ var SearchView = BaseView.extend({
     events: function () {
         return _.invert({
             '_onSearch': 'input ' + this.selectors.searchField,
-            '_onSendEmail': 'click ' + this.selectors.sendEmail
+            '_onSendEmail': 'click ' + this.selectors.sendEmail,
+            '_onClick': 'click tr'
         });
     },
 
     initialize: function (options) {
         this.departmentId = options.departmentId;
         this.passesCollection = options.passesCollection;
+        this.classesCollection = options.classesCollection;
         this.studentsCollection = _.isArray(options.studentsCollection) ?
             new StudentsCollection(options.studentsCollection):
             options.studentsCollection;
@@ -52,6 +54,12 @@ var SearchView = BaseView.extend({
         return this;
     },
 
+    _closeModal: function() {
+        this.remove();
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').hide();
+    },
+
     _onSearch: function () {
         var query = this.$(this.selectors.searchField).val().toLowerCase();
         if (!query) {
@@ -65,11 +73,21 @@ var SearchView = BaseView.extend({
     },
 
     _onSendEmail: function (evt) {
+        evt.stopPropagation();
         var student = this.studentsCollection.findWhere({ id: +$(evt.target).closest('button').data('id') });
         var passesAmount = $(evt.target).closest('button').data('passes');
         this.sendEmailModal = new SendMailPopupView({
             student: student,
             passesAmount: passesAmount
         }).render();
+    },
+
+    _onClick: function (evt) {
+        var studId = $(evt.currentTarget).data('id');
+        new StudentFiltersView({
+            passesCollection: this.passesCollection,
+            classesCollection: this.classesCollection,
+            studentId: studId
+        }).render().el;
     }
 });

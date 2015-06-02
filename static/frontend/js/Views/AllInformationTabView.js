@@ -7,6 +7,8 @@ var AllInformationTabView = BaseView.extend({
         this.group = options.group;
     },
 
+    collectionLen: 0,
+
     _buildTable: function() {
         this.collection.reset().fetch({data: {
             group: this.group.get('id')
@@ -18,6 +20,7 @@ var AllInformationTabView = BaseView.extend({
                             model: item
                         }).render().el
                     )
+                    this.$('tbody tr:last td:first').text(++this.collectionLen);
                 }, this));
             }, this)
         });

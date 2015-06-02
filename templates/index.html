@@ -36,7 +36,7 @@
                                             <input type="text" placeholder="Назва кафедри" name="departmentName" id="departmentName" class="form-control">
                                             <input type="text" placeholder="Спеціальність,напрям" name="departmentSpecialization" id="departmentSpecialization" class="form-control">
                                              <select id="headOfDepartment" class="form-control no-display">
-                                                    <option disabled>Завідувач кафедри</option>
+                                                    <option disabled selected>Завідувач кафедри</option>
                                              </select>
                                         </div>
 
@@ -180,7 +180,7 @@
                         Група№ <%=number%>
                          <br/>
                          Куратор: <%if(curator){ %>
-                         <%=curator.lastName%> <%=curator.firstName%> <%=curator.middleName%><%}%>
+                         <%=curator.firstName%> <%=curator.lastName%> <%=curator.middleName%><%}%>
                       </span>
                 </div>
             </div>
@@ -195,22 +195,22 @@
                         <h3 class="department-title">Кафедра</h3>
                         <h3 class="department-title"><%=title%></h3>
                         <div class="row">
-                            <div class="span4" >
-                                <div class="add-group-form" style="display: {% if role == 'admin' %} block {% else %} none {% endif %}">
+                            <div class="span4" style="display: {% if role == 'admin' %} block {% else %} none {% endif %}">
+                                <div class="add-group-form">
                                     <form role="form" id="addGroupForm" onsubmit="return false;">
                                         <div class="form-group">
                                             <input type="text" placeholder="Номер групи" name="groupNumber" id="groupNumber" class="form-control">
                                             <input type="text" placeholder="Курс" name="groupYear" id="groupYear" class="form-control">
 
                                             <select id="groupTuition" class="form-control">
-                                                <option disabled>Форма навчання</option>
+                                                <option disabled selected>Форма навчання</option>
                                                 <option value="stationary">Стаціонарна форма</option>
                                                 <option value="extramural">Заочна форма</option>
                                             </select>
 
                                             <div>
                                                 <select id="groupCurator" class="form-control groupCurator">
-                                                    <option disabled>Куратор</option>
+
                                                 </select>
                                                 <button id="addCurator">+</button>
                                             </div>
@@ -333,23 +333,23 @@
                                             <input type="text" placeholder="Бали ЗНО, математика" name="studentAdditional" id="studentAdditional" class="form-control">
 
                                             <select id="sex" class="form-control">
-                                                <option disabled>Стать</option>
+                                                <option disabled selected>Стать</option>
                                                 <option value="female">Ж</option>
                                                 <option value="male">Ч</option>
                                             </select>
 
                                             <select id="maritalStatus" class="form-control">
-                                                <option disabled>Сімейний статус</option>
+                                                <option disabled selected>Сімейний статус</option>
                                                 <option value="single">Неодружений</option>
                                                 <option value="married">Одружений</option>
                                             </select>
 
                                             <select id="learnLanguage" class="form-control">
-                                                <option disabled>Мова яку вивчає</option>
+                                                <option disabled selected>Мова яку вивчає</option>
                                             </select>
 
                                             <select id="studentBenefits" multiple class="form-control">
-                                                <option disabled>Пільги</option>
+                                                <option disabled selected>Пільги</option>
                                             </select>
 
                                             <div>
@@ -389,6 +389,7 @@
                                             <th>Школа</th>
                                             <th>Пільги</th>
                                             <th>Бали: ЗНО, Математика</th>
+                                            <th>&nbsp;</th>
                                             <th>&nbsp;</th>
                                         </tr>
                                     </thead>
@@ -648,14 +649,14 @@
         <script type="text/template" id="publicOrdersTabTemplate">
             <h3 class="tabTableHeader">РОЗПОДІЛ ГРОМАДСЬКИХ ДОРУЧЕНЬ У ГРУПІ</h3>
             <table class="table tabTable">
-                <tr><td>1.Курс</td><td><%=yearStudy%></td></tr>
-                <tr><td>2.Група</td><td><%=number%></td></tr>
-                <tr><td>3.Староста</td><td><%if(leader){ %> <%=leader.lastName%> <%=leader.firstName%> <%}%></td></tr>
-                <tr><td>4.Заступник старости</td><td><%if(deputyHeadman){ %> <%=deputyHeadman.lastName%> <%=deputyHeadman.firstName%> <%}%></td></tr>
-                <tr><td>5.Профгрупорг</td><td><%if(organizer){ %> <%=organizer.lastName%> <%=organizer.firstName%> <%}%></td></tr>
-                <tr><td>6.Культурно-дозвіллєва робота</td><td><%if(culturalWork){ %> <%=culturalWork.lastName%> <%=culturalWork.firstName%> <%}%></td></tr>
-                <tr><td>7.Спортивно-оздоровча робота</td><td><%if(healthWork){ %> <%=healthWork.lastName%> <%=healthWork.firstName%> <%}%></td></tr>
-                <tr><td>8.Редколегія</td><td>
+                <tr><td>1. Курс</td><td><%=yearStudy%></td></tr>
+                <tr><td>2. Група</td><td><%=number%></td></tr>
+                <tr><td>3. Староста</td><td><%if(leader){ %> <%=leader.lastName%> <%=leader.firstName%> <%}%></td></tr>
+                <tr><td>4. Заступник старости</td><td><%if(deputyHeadman){ %> <%=deputyHeadman.lastName%> <%=deputyHeadman.firstName%> <%}%></td></tr>
+                <tr><td>5. Профгрупорг</td><td><%if(organizer){ %> <%=organizer.lastName%> <%=organizer.firstName%> <%}%></td></tr>
+                <tr><td>6. Культурно-дозвіллєва робота</td><td><%if(culturalWork){ %> <%=culturalWork.lastName%> <%=culturalWork.firstName%> <%}%></td></tr>
+                <tr><td>7. Спортивно-оздоровча робота</td><td><%if(healthWork){ %> <%=healthWork.lastName%> <%=healthWork.firstName%> <%}%></td></tr>
+                <tr><td>8. Редколегія</td><td>
                     <%if(editorialBoard){ %>
                         <% editorialBoard.forEach(function(item) { %>
                             <div>
@@ -664,7 +665,7 @@
                         <% }) %>
                     <%}%>
                 </td></tr>
-                <tr><td>9.Інші доручення</td><td>
+                <tr><td>9. Інші доручення</td><td>
                     <%if(otherTasks){ %>
                         <% otherTasks.forEach(function(item) { %>
                             <div>
@@ -1216,10 +1217,15 @@
             </td>
         </script>
 
+         <script type="text/template" id="optionStudentPassClassTemplate">
+            <option value="<%=subject%>"> <%=subject%> </option>
+        </script>
+
         {% include 'view-templates/ReductionTemplate.html' %}
         {% include 'view-templates/GenerateReductionTemplate.html' %}
         {% include 'view-templates/SendMailPopupTemplate.html' %}
         {% include 'view-templates/SearchTemplate.html' %}
+        {% include 'view-templates/StudentPassInfoTemplate.html' %}
 
         <!--Frameworks-->
         <script src="{% static 'frameworks/Metro-UI-CSS-master/docs/js/jquery/jquery.min.js' %}"></script>
@@ -1312,12 +1318,12 @@
         <script src="{% static 'frontend/js/Views/AdminPageView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/PaginationView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/PaginationsView.js' %}"></script>
-        <script src="{% static 'frontend/js/Views/StudentJournalView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/PassesTableHeadView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/PassesTableBodyView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/PassesTableView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/SendEmailPopup.js' %}"></script>
         <script src="{% static 'frontend/js/Views/SearchView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/StudentFiltersView.js' %}"></script>
 
         <!--Routes-->
         <script src="{% static 'frontend/js/Routes/Route.js' %}"></script>

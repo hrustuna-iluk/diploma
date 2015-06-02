@@ -42,7 +42,7 @@ var GroupsView = BaseView.extend({
 
     _onGroupChange: function(model) {
         $(this.selectors.groupNumber).val(model.getNumber());
-        $(this.selectors.groupTuition).val(model.getTuition());
+        $(this.selectors.groupTuition).val((_.isObject(model.getTuition()) ? model.getTuition().id : model.getTuition()));
         $(this.selectors.groupYear).val(model.getYearStudy());
         $(this.selectors.groupCurator).val(_.isObject(model.getCurator()) ? model.getCurator().id : model.getCurator());
         this.$(this.selectors.changeGroup).data('model', model);
@@ -60,7 +60,7 @@ var GroupsView = BaseView.extend({
         groupModel.set('department', this.department.get('id'));
         groupModel.set('curator', +this.$(this.selectors.groupCurator).val() || null);
         this.$(this.selectors.groupNumber).val("");
-        this.$(this.selectors.groupTuition).val("");
+        this.$(this.selectors.groupTuition).find('option:first').attr('selected', true);
         this.$(this.selectors.groupYear).val("");
         this.$(this.selectors.groupCurator).find('option:first').attr('selected', true);
 
@@ -93,6 +93,7 @@ var GroupsView = BaseView.extend({
 
     _fillCuratorList: function(model) {
         this.$('#groupCurator').empty();
+        this.$('#groupCurator').append("<option disabled selected>Куратор</option>");
         this.teachersCollection.each(function(model) {
             this.$('#groupCurator').append(this.optionCuratorTemplate(model.toJSON()));
         }, this);

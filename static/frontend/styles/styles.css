@@ -333,7 +333,7 @@ div.scheduleClassTitle {
     text-overflow: ellipsis
 }
 
-#numberOfWeek {
+#numberOfWeek, #semesterNumber {
     max-width: 120px;
     padding: 1px;
     margin: 0 0 5px 0;

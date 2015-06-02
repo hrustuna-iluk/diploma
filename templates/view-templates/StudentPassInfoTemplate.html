@@ -1,0 +1,36 @@
+<script type="text/template" id="studentPassInfo">
+    <div class="modal studentPassInfoModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class = "filterForm" style="height: 200px; width: 100%; padding: 20px">
+                        <form>
+                            <div style="display: block; float: left">
+                                <label for="filterByDate" style="display: inline; margin: 5px">Фільтрувати за датою</label>
+                                <input type="radio" id="filterByDate" name="filterRadio" checked>
+                                <label for="startPassDate">З</label>
+                                <input type="date" id="startPassDate" class="form-control">
+                                <label for="endPassDate">по</label>
+                                <input type="date" id="endPassDate" class="form-control">
+                            </div>
+                            <div style="display: block; float: right">
+                                <label for="filterByClass" style="display: inline; margin: 5px">Фільтрувати за парою</label>
+                                <input type="radio" id="filterByClass" name="filterRadio">
+                                <select id="studentPassClass" class="form-control">
+                                    <option disabled selected>Пара</option>
+                                </select>
+                            </div>
+                            <button class="form-control btn btn-info" id="filterButton" name="filterButton">Фільтрувати</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default closeModal" data-dismiss="modal">Закрити</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
