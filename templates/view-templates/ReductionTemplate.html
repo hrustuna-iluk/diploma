@@ -31,6 +31,17 @@
                             </a>
                         </div>
 
+
+                        <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Пошук студента"
+                                style="display: {% if role == 'teacher' or role == 'admin' %} block {% else %} none {% endif %}">
+                            <a href="#search/<%=department.id%>/<%=id%>">
+                                <div class="tile-content icon">
+                                    <i class="icon-search"></i>
+                                </div>
+                            </a>
+                        </div>
+
+
                         <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Громадські доручення">
                             <a href="#publicOrders/<%=id%>">
                                 <div class="tile-content icon">

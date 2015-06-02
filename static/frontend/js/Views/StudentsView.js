@@ -6,6 +6,8 @@ var StudentsView = BaseView.extend({
 
     optionBenefitTemplate: _.template($("#optionBenefitsTemplate").html()),
 
+    collectionLen: 0,
+
     selectors: {
         createStudent: "#addStudent",
         changeStudentData: "#changeStudentData",
@@ -98,6 +100,10 @@ var StudentsView = BaseView.extend({
             email: this.$(this.selectors.studentEmail).val(),
             additional: this.$(this.selectors.studentAdditionalInput).val()
         });
+
+    },
+
+    _clearAllFields: function() {
         this.$(this.selectors.studentSurnameInput).val("");
         this.$(this.selectors.studentNameInput).val("");
         this.$(this.selectors.studentMiddleNameInput).val("");
@@ -107,10 +113,13 @@ var StudentsView = BaseView.extend({
         this.$(this.selectors.studentNationalityInput).val("");
         this.$(this.selectors.studentSchoolInput).val("");
         this.$(this.selectors.studentEmail).val("");
+        this.$(this.selectors.studentDateBirthInput).val("");
+        this.$(this.selectors.studentSexInput).find('option:first').attr('selected', true);
+        this.$(this.selectors.studentMaritalStatusSelect).find('option:first').attr('selected', true);
         this.$(this.selectors.studentBenefitsSelect).find('option:first').attr('selected', true);
         this.$(this.selectors.studentStudyLanguageSelect).find('option:first').attr('selected', true);
         this.$(this.selectors.studentAdditionalInput).val("");
-
+        this.$(this.selectors.isProcurement).removeAttr("checked");
     },
 
     _addStudent: function() {
@@ -121,6 +130,7 @@ var StudentsView = BaseView.extend({
         this.model.save({wait: true}, {success: $.proxy(function() {
                     this.collection.add(this.model);
                     this.model = new StudentModel();
+                    this._clearAllFields();
                 }, this)});
     },
 
@@ -138,6 +148,7 @@ var StudentsView = BaseView.extend({
                 model: model
             }).render().el
         );
+        this.$("#students table tbody tr:last td:first").text(++this.collectionLen);
     },
 
      _fillBenefitsList: function() {
