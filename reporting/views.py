@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse_lazy
 from reporting.excel_generator.group_reduction_excel_generator import generate_group_reduction
 from reporting.excel_generator.faculty_reduction_excel_generator import generate_faculty_reduction_per_month, generate_faculty_reduction_per_semester
+from reporting.excel_generator.journal_excel_generator import generate_journal_excel
 import json
 from datetime import date
 from django.core.mail import send_mail, BadHeaderError
@@ -112,3 +113,12 @@ def delete_passes(request):
         Pass.objects.all().delete()
         return HttpResponse(json.dumps({'message': 'Пропуски видалено'}), content_type='application/json')
     return HttpResponse(json.dumps({'message': 'Пропуски не видалено'}), content_type='application/json')
+
+
+@login_required
+def generate_journal(request):
+    if request.method == 'POST':
+        group = request.POST.get('group')
+        filename = generate_journal_excel(group)
+        return HttpResponse(json.dumps({'url': filename}), content_type='application/json')
+    return HttpResponseBadRequest()

@@ -1,3 +1,0 @@
-var PublicOrdersView = BaseView.extend({
-
-});
