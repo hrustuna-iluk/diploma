@@ -222,13 +222,15 @@ var Route = Backbone.Router.extend({
         $.when(
             this.teachersCollection.fetch({data: {screen: 'admin'}, processData: true}),
             this.studentsCollection.fetch({data: {screen: 'admin'}, processData: true}),
-            this.groupsCollection.fetch({data: {screen: 'admin'}, processData: true})
+            this.groupsCollection.fetch({data: {screen: 'admin'}, processData: true}),
+            this.departmentsCollection.fetch({data: {screen: 'admin'}, processData: true})
         ).done($.proxy(function () {
             var adminView = new AdminPageView({
                 faculty: this.facultyCollection.models[0],
                 teachersCollection: this.teachersCollection,
                 studentsCollection: this.studentsCollection,
-                groupsCollection: this.groupsCollection
+                groupsCollection: this.groupsCollection,
+                departmentsCollection: this.departmentsCollection
             });
             this.routeChanged(adminView);
             adminView._addFacultyInformation();
