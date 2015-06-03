@@ -10,7 +10,8 @@ PERMISSIONS = {
     'Deputy Dean': None,
     'Head of Department': None,
     'group_leader': Permission.objects.all(),
-    'curator': Permission.objects.all()
+    'curator': Permission.objects.all(),
+    'teacher': Permission.objects.all()
 }
 
 

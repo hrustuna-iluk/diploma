@@ -44,9 +44,9 @@ INSTALLED_APPS = (
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.cache.UpdateCacheMiddleware',
+    #'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
+    #'django.middleware.cache.FetchFromCacheMiddleware',
     #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
@@ -151,7 +151,7 @@ TEMPLATES = [
         },
     },
 ]
-
+"""
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
@@ -162,7 +162,7 @@ CACHES = {
         }
     }
 }
-
+"""
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'info.dekanat@gmail.com'
 EMAIL_HOST_PASSWORD = 'dekanatadmin'

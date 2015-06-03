@@ -38,7 +38,8 @@ var AdminPageView = BaseView.extend({
     _addUser: function() {
         var userView = new AdminUserAccessView({
             teachersCollection: this.teachersCollection,
-            studentsCollection: this.studentsCollection
+            studentsCollection: this.studentsCollection,
+            groupsCollection: this.groupsCollection
         });
         this._viewChanged(userView);
     },

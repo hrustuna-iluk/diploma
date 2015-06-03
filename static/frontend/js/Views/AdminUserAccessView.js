@@ -9,6 +9,7 @@ var AdminUserAccessView = BaseView.extend({
     initialize: function(options) {
         this.studentsCollection = options.studentsCollection;
         this.teachersCollection = options.teachersCollection;
+        this.groupsCollection = options.groupsCollection;
     },
 
     _attachEvents: function() {
@@ -52,6 +53,12 @@ var AdminUserAccessView = BaseView.extend({
         }
         var teacher = this.teachersCollection.findWhere({ id: teacherId });
 
+       /* if (teacher.get('position') == 'teacher' && !this.groupsCollection.filter(function (group) {
+            return group.get('curator') && group.get('curator').id == teacherId;
+        }).length) {
+            alert('Отримати доступ має можливість лише декан, завідувач кафедри, заступник декана та куратор.');
+            return;
+        }*/
         if (_.isObject(teacher.get('user'))) {
             userModel.set(teacher.get('user'));
         }
@@ -64,7 +71,7 @@ var AdminUserAccessView = BaseView.extend({
             user: userModel
         });
 
-        teacher.save({
+        teacher.save({}, {
             success: $.proxy(function () {
                     this._renderTeachersUser();
             }, this)
@@ -84,6 +91,12 @@ var AdminUserAccessView = BaseView.extend({
         }
         var student = this.studentsCollection.findWhere({ id: studentId });
 
+        if (!this.groupsCollection.filter(function (group) {
+            return group.get('leader') && group.get('leader').id == studentId;
+        }).length) {
+            alert('Отримати доступ має можливість лише староста групи.');
+            return;
+        }
         if (_.isObject(student.get('user'))) {
             userModel.set(student.get('user'));
         }
@@ -95,7 +108,7 @@ var AdminUserAccessView = BaseView.extend({
         student.set({
             user: userModel
         });
-        student.save({
+        student.save({}, {
             success: $.proxy(function () {
                     this._renderStudentUser();
             }, this)

@@ -41,12 +41,16 @@ var PassView = BaseView.extend ({
             trigger: 'click'
         });
         this.$el.on('change', '.pass_type', $.proxy(this._passTypeChanged, this));
+        this.$el.on('click', '.pass_type', $.proxy(function () {
+            $('.popover').addClass('in');
+            return false;
+        }, this));
     },
 
     _attachEvents: function() {},
 
     _onClick: function() {
-        $('.popover').popover('hide');
+        $('.popover').not(this.$el.find('.popover')).popover('hide');
     },
 
     _passTypeChanged: function (evt) {
@@ -66,11 +70,21 @@ var PassView = BaseView.extend ({
 
     _savedPass: function (model) {
         this.passesCollection.add(model);
+        if (this.model.get('type') == 'pass') {
+            this.$el.css({color: 'red'});
+        } else {
+            this.$el.css({color: 'white'});
+        }
         this.$el.text('Н');
     },
 
     render: function() {
         if (this.model) {
+            if (this.model.get('type') == 'pass') {
+                this.$el.css({color: 'red'});
+            } else {
+                this.$el.css({color: 'white'});
+            }
             this.$el.text('Н');
         }
         this._initWidgets();
