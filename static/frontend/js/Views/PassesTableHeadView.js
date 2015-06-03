@@ -14,7 +14,7 @@ var PassesTableHeadView = BaseView.extend({
 
     classTemplate: _.template("<div class='class'><span class='ellipsis'><%=subject%></span></div>"),
 
-    days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    days: ['Понеділок', 'Вівторок', 'Середа', 'Четвер', "П'ятниця", 'Субота'],
 
     initialize: function (options) {
         this.week = options.week;

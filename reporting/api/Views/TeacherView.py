@@ -51,35 +51,28 @@ class TeacherView(APIView):
         if isinstance(data['department'], dict):
             data['department'] = data['department']["id"]
 
-        if data['position'] != 'teacher':
-            try:
-                teacher = None
-                if data['position'] == 'Deputy Dean' or data['position'] == 'dean':
-                    teacher = Teacher.objects.get(position=data['position'])
-                elif data['position'] == 'Head of Department':
-                    teacher = Teacher.objects.get(department=data['department'], position=data['position'])
-                teacher.position = 'teacher'
-                if not teacher.user:
-                    user = create_user({
-                        'username': data['user']['username'],
-                        'password': data['user']['password'],
-                        'email': teacher.email
-                    })
-                    add_permission(user, data['position'])
-                    teacher.user = user
-                    data['user'] = user.id
-                else:
-                    user = User.objects.get(id=data['user']['id'])
-                    user.username = data['user']['username']
-                    user.set_password(data['user']['password'])
-                    user.is_active = data['user']['is_active']
-                    user.save()
-                    data['user'] = user.id
-                teacher.save()
-            except Teacher.DoesNotExist:
-                pass
-        else:
-            data['user'] = None
+        try:
+            teacher = get_object_or_404(Teacher, pk=request.data["id"])
+            teacher.position = 'teacher'
+            if not teacher.user:
+                user = create_user({
+                    'username': data['user']['username'],
+                    'password': data['user']['password'],
+                    'email': teacher.email
+                })
+                add_permission(user, data['position'])
+                teacher.user = user
+                data['user'] = user.id
+            else:
+                user = User.objects.get(id=data['user']['id'])
+                user.username = data['user']['username']
+                user.set_password(data['user']['password'])
+                user.is_active = data['user']['is_active']
+                user.save()
+                data['user'] = user.id
+            teacher.save()
+        except Teacher.DoesNotExist:
+            pass
         snippet = get_object_or_404(Teacher, pk=request.data["id"])
         serializer = TeacherSerializer(snippet, data=data, context=RequestContext(request))
         if serializer.is_valid():

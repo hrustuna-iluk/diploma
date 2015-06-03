@@ -106,6 +106,8 @@ class StudentView(APIView):
             user.is_active = data['user']['is_active']
             user.save()
             data['user'] = user.id
+        else:
+            data['user'] = None
         serializer = StudentSerializer(snippet, data=data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
