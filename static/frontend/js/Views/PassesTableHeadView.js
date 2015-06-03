@@ -14,7 +14,15 @@ var PassesTableHeadView = BaseView.extend({
 
     classTemplate: _.template("<div class='class'><span class='ellipsis'><%=subject%></span></div>"),
 
-    days: ['Понеділок', 'Вівторок', 'Середа', 'Четвер', "П'ятниця", 'Субота'],
+    days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    daysUkraine: {
+        Monday: 'Понеділок',
+        Tuesday: 'Вівторок',
+        Wednesday: 'Середа',
+        Thursday: 'Четвер',
+        Friday: "П'ятниця",
+        Saturday: 'Субота'
+    },
 
     initialize: function (options) {
         this.week = options.week;
@@ -62,7 +70,7 @@ var PassesTableHeadView = BaseView.extend({
 
         return this.dayTemplate({
             classes: $('<div>').append($el).html(),
-            day: day,
+            day: this.daysUkraine[day],
             date: date.toLocaleString().split(',')[0]
         });
     },
@@ -77,7 +85,7 @@ var PassesTableHeadView = BaseView.extend({
         }
         return this.dayTemplate({
             classes: $('<div>').append($classes).html(),
-            day: day,
+            day: this.daysUkraine[day],
             date: date.toLocaleString().split(',')[0]
         });
     },
