@@ -93,7 +93,7 @@ USE_TZ = True
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-"""
+
 if DEBUG:
 	DATABASES = {
 		'default': {
@@ -105,9 +105,9 @@ if DEBUG:
 			'PORT': '',
 		}
 	}
-else:"""
-DATABASES = {}
-DATABASES['default'] =  dj_database_url.config()
+else:
+    DATABASES = {}
+    DATABASES['default'] =  dj_database_url.config()
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
