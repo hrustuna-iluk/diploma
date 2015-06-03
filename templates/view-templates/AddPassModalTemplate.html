@@ -1,0 +1,31 @@
+<script type="text/template" id="addPassModalTemplate">
+    <div class="modal fade addPassModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Додати пропуск</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="addPassForm">
+                        <label>Заняття</label>
+                        <select class="class_passed" name="class_passed" class="form-control"></select>
+                        <label>Студент</label><select class="student" name="student" class="form-control"></select>
+                        <label>Дата</label><input type="date" class="pass_date" name="date">
+                        <label>Причина пропуску</label>
+                        <select class="pass_type" name="type" class="form-control">
+                            <option value="" disabled="" selected="">Виберіть причину пропуску</option>
+                            <option value="pass">Без поважної причини</option>
+                            <option value="sickness">По хворобі</option>
+                            <option value="statement">Заява</option>
+                            <option value="watch">Чергування</option>
+                        </select>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default closeModal" data-dismiss="modal">Закрити</button>
+                    <button type="button" class="btn btn-primary addPass">Додати</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

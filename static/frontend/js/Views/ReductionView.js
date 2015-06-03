@@ -8,6 +8,11 @@ var ReductionView = BaseView.extend ({
         this.passesCollection = options.passesCollection;
         this.studentsCollection = options.studentsCollection;
         this.classesCollection = options.classesCollection;
+
+        this.addPassModal = new AddPassModalView({
+            classesCollection: this.classesCollection,
+            studentsCollection: this.studentsCollection
+        }).render();
     },
 
     _renderSubViews: function () {
@@ -36,6 +41,10 @@ var ReductionView = BaseView.extend ({
                 classesCollection: this.classesCollection.where({ semester: semester.toString() }),
                 container: container
             }).render();
+        }, this));
+        this.$('.addAdditionalPass').on('click', $.proxy(function () {
+            this.addPassModal.show();
+            return false;
         }, this));
     },
 
