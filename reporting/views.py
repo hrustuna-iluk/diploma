@@ -11,7 +11,7 @@ import json
 from datetime import date
 from django.core.mail import send_mail, BadHeaderError
 from diplome.settings import EMAIL_HOST_USER
-from reporting.models import Group, Department, Class, Pass
+from reporting.models import Group, Department, Class, Pass, PublicPlan, StudentWork
 
 
 @login_required(login_url=reverse_lazy('login_user'))
@@ -122,3 +122,13 @@ def generate_journal(request):
         filename = generate_journal_excel(group)
         return HttpResponse(json.dumps({'url': filename}), content_type='application/json')
     return HttpResponseBadRequest()
+
+
+@login_required
+def remove_journal(request):
+    if request.method == 'POST':
+        group = request.POST.get('group')
+        PublicPlan.objects.filter(group=group).delete()
+        StudentWork.objects.filter(group=group).delete()
+        return HttpResponse(json.dumps({'message': 'Журнал очищено'}), content_type='application/json')
+    return HttpResponse(json.dumps({'message': 'Журнал не очищено'}), content_type='application/json')

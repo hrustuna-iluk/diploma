@@ -25,6 +25,7 @@ var TeacherJournalView = BaseView.extend({
         this.$('.individualWorkTab').on('click', $.proxy(this._individualWorkTab, this));
         this.$('.reportTab').on('click', $.proxy(this._reportTab, this));
         this.$('.downloadJournal').on('click', $.proxy(this._downloadJournal, this));
+        this.$('.deleteJournal').on('click', $.proxy(this._removeJournal, this));
     },
 
     _wrapTab: function(){
@@ -141,6 +142,12 @@ var TeacherJournalView = BaseView.extend({
             a.target = '_blank';
             event.initEvent('click', true, true);
             a.dispatchEvent(event);
+        });
+    },
+
+    _removeJournal: function () {
+        $.post('/app/journal/remove/', {group: this.group.get('id')}).done(function (resp) {
+            alert(resp.message);
         });
     },
 

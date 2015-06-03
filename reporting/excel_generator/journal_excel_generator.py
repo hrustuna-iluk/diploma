@@ -111,7 +111,7 @@ def fill_info_for_me(ws, group):
         ws['F' + str(start_index)] = student.email
         ws['G' + str(start_index)] = student.address
         ws['H' + str(start_index)] = '\n'.join([student.father.phone, student.mother.phone])
-        ws['I' + str(start_index)] = ''
+        ws['I' + str(start_index)] = student.address
         ws['J' + str(start_index)] = student.school
         start_index += 1
 
