@@ -273,6 +273,8 @@ $(document).bind("ajaxSend", function(){
             window.history.back();
         }
     }
+}).bind('ajaxError', function() {
+  alert('Ой сталася помилка повідомте адміністратора');
 });
 
 
