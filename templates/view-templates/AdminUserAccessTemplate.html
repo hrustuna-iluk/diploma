@@ -1,0 +1,70 @@
+<script type="text/template" id="adminUserAccessTemplate">
+    <form role="form" id="addUserForm" onsubmit="return false;">
+        <div role="tabpanel">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#teacherUserTab" aria-controls="teacherUserTab" role="tab" data-toggle="tab">Викладачі</a></li>
+                <li role="presentation"><a href="#studentUserTab" aria-controls="studentUserTab" role="tab" data-toggle="tab">Студенти</a></li>
+
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="teacherUserTab">
+                    <div id="userTeacher">
+                        <div id="userTeacherForm">
+                            <input list="teacherUserSelect" name="teacherUserSelect" class="form-control" placeholder="Викладачі">
+                            <datalist id="teacherUserSelect">
+                            </datalist>
+                            <input type="text" placeholder="Логін" name="teacherUserLogin" id="teacherUserLogin" class="form-control">
+                            <input type="password" placeholder="Пароль" name="teacherUserPassword" id="teacherUserPassword" class="form-control">
+                            <button  class="btn btn-default" name="addTeacherUser" id="addTeacherUser">Додати</button>
+                        </div>
+
+                        <div id="userTeacherTable">
+                            <table class="table tabTable">
+                                <thead>
+                                    <tr>
+                                        <th>№</th>
+                                        <th>ПІБ</th>
+                                        <th>Логін</th>
+                                        <th>Email</th>
+                                        <th>Активний</th>
+                                        <th>&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="studentUserTab">
+                    <div id="userStudent">
+                        <div id="userStudentForm">
+                            <input list="studentUserSelect" name="studentUserSelect" class="form-control" placeholder="Студенти">
+                            <datalist id="studentUserSelect">
+                            </datalist>
+                            <input type="text" placeholder="Логін" name="studentUserLogin" id="studentUserLogin" class="form-control">
+                            <input type="password" placeholder="Пароль" name="studentUserPassword" id="studentUserPassword" class="form-control">
+                            <button  class="btn btn-default" name="addStudentUser" id="addStudentUser">Додати</button>
+                        </div>
+
+                        <div id="userStudentTable">
+                            <table class="table tabTable">
+                                <thead>
+                                    <tr>
+                                        <th>№</th>
+                                        <th>ПІБ</th>
+                                        <th>Логін</th>
+                                        <th>Email</th>
+                                        <th>Активний</th>
+                                        <th>&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                           </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</script>

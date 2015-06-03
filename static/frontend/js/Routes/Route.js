@@ -163,6 +163,7 @@ var Route = Backbone.Router.extend({
 
     journal: function(groupId) {
         $.when(
+            this.passesCollection.fetch({data: {screen: 'journal', group: groupId}, processData: true}),
             this.groupsCollection.fetch({data: {screen: 'journal', group: groupId}, processData: true}),
             this.studentsCollection.fetch({data: {screen: 'journal', group: groupId}, processData: true}),
             this.publicPlanCollection.fetch({data: {screen: 'journal', group: groupId}, processData: true}),
@@ -172,6 +173,7 @@ var Route = Backbone.Router.extend({
             var teacherJournalView = new TeacherJournalView({
                 faculty: this.facultyCollection.models[0],
                 group: group,
+                passesCollection: this.passesCollection,
                 studentsCollection: this.studentsCollection,
                 publicPlanCollection: this.publicPlanCollection,
                 workWithStudentCollection: this.workWithStudentCollection

@@ -1,0 +1,9 @@
+<script type="text/template" id="userTableTemplate">
+    <td><%=index%></td>
+    <td><%=lastName%> <%=firstName%> <%=middleName%></td>
+    <td><%=user.username%></td>
+    <td><%=email%></td>
+    <td>
+        <input type="checkbox" id="userAccess" name="userAccess" class="checkbox" <% if (user.is_active) { %> checked <% } %> >
+    </td>
+</script>

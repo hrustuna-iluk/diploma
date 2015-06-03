@@ -27,7 +27,7 @@ var AllInformationTabView = BaseView.extend({
     },
 
     render: function() {
-        this.$el.html(this.template);
+        this.$el.html(this.template());
         this._buildTable();
         return this;
     }

@@ -851,7 +851,6 @@
 
          <!--Public Events Tab Element Template-->
         <script type="text/template" id="publicEventTabElementTemplate">
-                <td></td>
                 <td><%=date%></td>
                 <td><%=event%></td>
                 <td><%=amountHours%></td>
@@ -880,7 +879,6 @@
                 <table class="table tabTable">
                     <thead>
                         <tr>
-                            <th>№</th>
                             <th>Дата</th>
                             <th>Подія</th>
                             <th>Кількість годин</th>
@@ -898,7 +896,6 @@
                 <table class="table tabTable ">
                    <thead>
                         <tr>
-                            <th>№</th>
                             <th>Дата</th>
                             <th>Подія</th>
                             <th>Кількість годин</th>
@@ -1113,152 +1110,21 @@
             </option>
         </script>
 
-        <!--Admin page-->
-        <script type="text/template" id="adminPage">
-            <div class="grid">
-                <div class="row">
-                    <div class="span20" id="page-content">
-                        <span class="title-page">Система контролю відвідувань</span>
 
-                        <div class="row">
-                            <div class="span4">
-                                <ul class="list-group">
-                                    <li class="list-group-item adminInformationAboutFaculty">Дані про факультет</li>
-                                    <li class="list-group-item adminReduction">Зведення</li>
-                                    <li class="list-group-item adminUserAccess">Надання доступу користувачам</li>
-                                    <li class="list-group-item deletePasses">Видалення пропусків</li>
-                                </ul>
-                            </div>
-
-                            <div class="span11" id="adminContent" >
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </script>
-
-        <!--Admin all information about faculty-->
-        <script type="text/template" id="adminAllFacultyInfoTemplate">
-            <form role="form" id="addFacultyInfo" onsubmit="return false;">
-                <div class="form-group">
-                    <input type="text" placeholder="Назва факультету" name="facultyTitle" id="facultyTitle" class="form-control">
-                    <label for="firstSemesterStart" class="label-information">Початок першого семестру</label>
-                    <input type="date" name="firstSemesterStart" id="firstSemesterStart" class="form-control">
-                    <label for="firstSemesterEnd" class="label-information">Кінець першого семестру</label>
-                    <input type="date" name="firstSemesterEnd" id="firstSemesterEnd" class="form-control">
-                    <label for="secondSemesterStart" class="label-information">Початок другого семестру</label>
-                    <input type="date" name="secondSemesterStart" id="secondSemesterStart" class="form-control">
-                    <label for="secondSemesterEnd" class="label-information">Кінець другого семестру</label>
-                    <input type="date" name="secondSemesterEnd" id="secondSemesterEnd" class="form-control">
-                </div>
-
-                  <button  class="btn btn-default" name="addGroup" id="saveFacultyInformation">Зберегти</button>
-            </form>
-        </script>
-
-         <!--Admin user access-->
-        <script type="text/template" id="adminUserAccessTemplate">
-            <form role="form" id="addUserForm" onsubmit="return false;">
-                <div role="tabpanel">
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#teacherUserTab" aria-controls="teacherUserTab" role="tab" data-toggle="tab">Викладачі</a></li>
-                        <li role="presentation"><a href="#studentUserTab" aria-controls="studentUserTab" role="tab" data-toggle="tab">Студенти</a></li>
-
-                    </ul>
-                    <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="teacherUserTab">
-                            <div id="userTeacher">
-                                <div id="userTeacherForm">
-                                    <input list="teacherUserSelect" name="teacherUserSelect" class="form-control" placeholder="Викладачі">
-                                    <datalist id="teacherUserSelect">
-                                    </datalist>
-                                    <input type="text" placeholder="Логін" name="teacherUserLogin" id="teacherUserLogin" class="form-control">
-                                    <input type="password" placeholder="Пароль" name="teacherUserPassword" id="teacherUserPassword" class="form-control">
-                                    <button  class="btn btn-default" name="addTeacherUser" id="addTeacherUser">Додати</button>
-                                </div>
-
-                                <div id="userTeacherTable">
-                                    <table class="table tabTable">
-                                        <thead>
-                                            <tr>
-                                                <th>№</th>
-                                                <th>ПІБ</th>
-                                                <th>Логін</th>
-                                                <th>Email</th>
-                                                <th>Активний</th>
-                                                <th>&nbsp;</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody></tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="studentUserTab">
-                            <div id="userStudent">
-                                <div id="userStudentForm">
-                                    <input list="studentUserSelect" name="studentUserSelect" class="form-control" placeholder="Студенти">
-                                    <datalist id="studentUserSelect">
-                                    </datalist>
-                                    <input type="text" placeholder="Логін" name="studentUserLogin" id="studentUserLogin" class="form-control">
-                                    <input type="password" placeholder="Пароль" name="studentUserPassword" id="studentUserPassword" class="form-control">
-                                    <button  class="btn btn-default" name="addStudentUser" id="addStudentUser">Додати</button>
-                                </div>
-
-                                <div id="userStudentTable">
-                                    <table class="table tabTable">
-                                        <thead>
-                                            <tr>
-                                                <th>№</th>
-                                                <th>ПІБ</th>
-                                                <th>Логін</th>
-                                                <th>Email</th>
-                                                <th>Активний</th>
-                                                <th>&nbsp;</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody></tbody>
-                                   </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </form>
-        </script>
-
-        <!--Reduction admin Template-->
-        <script type="text/template" id="adminReductionTemplate">
-             <div class="tile  bg-darkTransparent fg-active-darkTransparent text-center" title="Зведення по факультету">
-                 <div class="tile-content icon">
-                     <i class="icon-file"></i>
-                 </div>
-             </div>
-        </script>
-
-          <!--User table Template-->
-        <script type="text/template" id="userTableTemplate">
-            <td><%=index%></td>
-            <td><%=lastName%> <%=firstName%> <%=middleName%></td>
-            <td><%=user.username%></td>
-            <td><%=email%></td>
-            <td>
-                <input type="checkbox" id="userAccess" name="userAccess" class="checkbox" <% if (user.is_active) { %> checked <% } %> >
-            </td>
-        </script>
-
-         <script type="text/template" id="optionStudentPassClassTemplate">
-            <option value="<%=subject%>"> <%=subject%> </option>
-        </script>
-
+        {% include 'view-templates/AdminPageTemplate.html' %}
+        {% include 'view-templates/AdminAllFacultyInfoTemplate.html' %}
+        {% include 'view-templates/AdminUserAccessTemplate.html' %}
+        {% include 'view-templates/AdminReductionTemplate.html' %}
+        {% include 'view-templates/UserTableTemplate.html' %}
+        {% include 'view-templates/OptionStudentPassClassTemplate.html' %}
         {% include 'view-templates/ReductionTemplate.html' %}
         {% include 'view-templates/GenerateReductionTemplate.html' %}
         {% include 'view-templates/SendMailPopupTemplate.html' %}
         {% include 'view-templates/SearchTemplate.html' %}
         {% include 'view-templates/StudentPassInfoTemplate.html' %}
         {% include 'view-templates/ReductionParamsTemplate.html' %}
+        {% include 'view-templates/AttendanceElementTabTemplate.html' %}
+        {% include 'view-templates/AttendanceTabTemplate.html' %}
 
         <!--Frameworks-->
         <script src="{% static 'frameworks/Metro-UI-CSS-master/docs/js/jquery/jquery.min.js' %}"></script>
@@ -1318,6 +1184,7 @@
         <script src="{% static 'frontend/js/Views/ScheduleView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/PassView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/PassesView.js' %}"></script>
+        <script src="{% static 'frontend/js/Views/AttendanceElementTabView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/AttendanceView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/ReductionHeaderView.js' %}"></script>
         <script src="{% static 'frontend/js/Views/ReductionView.js' %}"></script>

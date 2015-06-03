@@ -7,6 +7,7 @@ var TeacherJournalView = BaseView.extend({
     currentForm: null,
 
     initialize: function(options) {
+        this.passesCollection = options.passesCollection;
         this.faculty = options.faculty;
         this.group = options.group;
         this.studentsCollection = options.studentsCollection;
@@ -76,7 +77,12 @@ var TeacherJournalView = BaseView.extend({
     },
 
     _attendanceTab: function(){
-        this._tabChanged();
+         var attendanceView = new AttendanceView({
+            studentsCollection: this.studentsCollection,
+            passesCollection: this.passesCollection
+        });
+        this._tabChanged('attendanceTab',attendanceView );
+        this._formChanged();
     },
 
     _educationalEventsTab: function(){

@@ -19,6 +19,7 @@ var PublicEventsTabElementView = BaseView.extend({
     },
 
     _deletePublicEvent: function() {
+        this.model.destroy();
         this.remove();
     },
 
