@@ -44,9 +44,9 @@ INSTALLED_APPS = (
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.cache.UpdateCacheMiddleware',
+    #'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
+    #'django.middleware.cache.FetchFromCacheMiddleware',
     #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
@@ -93,7 +93,7 @@ USE_TZ = True
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-"""
+
 if DEBUG:
 	DATABASES = {
 		'default': {
@@ -105,9 +105,9 @@ if DEBUG:
 			'PORT': '',
 		}
 	}
-else:"""
-DATABASES = {}
-DATABASES['default'] =  dj_database_url.config()
+else:
+    DATABASES = {}
+    DATABASES['default'] =  dj_database_url.config()
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
@@ -151,7 +151,7 @@ TEMPLATES = [
         },
     },
 ]
-
+"""
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
@@ -162,7 +162,7 @@ CACHES = {
         }
     }
 }
-
+"""
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'info.dekanat@gmail.com'
 EMAIL_HOST_PASSWORD = 'dekanatadmin'

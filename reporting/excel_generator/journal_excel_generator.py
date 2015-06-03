@@ -11,6 +11,21 @@ MARITAL_STATUSES = {
     'single': 'Не одружений',
     'married': 'Одружений'
 }
+MONTHS = {
+    '01': 'Січень',
+    '02': 'Лютий',
+    '03': 'Березень',
+    '04': 'Квітень',
+    '05': 'Травень',
+    '06': 'Червень',
+    '07': 'Липень',
+    '08': 'Серпень',
+    '09': 'Вересень',
+    '10': 'Жовтень',
+    '11': 'Листопад',
+    '12': 'Грудень',
+}
+
 
 def generate_journal_excel(group):
     sheets = {
@@ -91,7 +106,7 @@ def fill_info_for_me(ws, group):
         ws['A' + str(start_index)] = index + 1
         ws['B' + str(start_index)] = ' '.join([student.lastName, student.firstName, student.middleName])
         ws['C' + str(start_index)] = student.additional
-        ws['D' + str(start_index)] = ''
+        ws['D' + str(start_index)] = student.additional
         ws['E' + str(start_index)] = student.phone
         ws['F' + str(start_index)] = student.email
         ws['G' + str(start_index)] = student.address
@@ -117,11 +132,90 @@ def fill_plan(ws, group):
 
 
 def fill_accounting(ws, group):
-    pass
+    start_index = 5
+    students = Student.objects.filter(group=group)
+
+    for index, student in enumerate(students):
+        passes_first_semester = student.pass_set.filter(class_passed__semester=1)
+        ws['A' + str(start_index)] = index + 1
+        ws['B' + str(start_index)] = ' '.join([student.lastName, student.firstName, student.middleName])
+
+        cells = {
+            'pass': {
+                9: 'D',
+                10: 'F',
+                11: 'H',
+                12: 'J',
+                1: 'L'
+            },
+            'other': {
+                9: 'C',
+                10: 'E',
+                11: 'G',
+                12: 'I',
+                1: 'K'
+            },
+        }
+
+        for month in [9, 10, 11, 12, 1]:
+            passes_no_reason = passes_first_semester.filter(date__month=month, type='pass')
+            passes_others = passes_first_semester.filter(date__month=month).exclude(type='pass')
+            ws[cells['pass'][month] + str(start_index)] = passes_no_reason.count() * 2
+            ws[cells['other'][month] + str(start_index)] = passes_others.count() * 2
+        start_index += 1
+
+    start_index = 5
+    for index, student in enumerate(students):
+        passes_second_semester = student.pass_set.filter(class_passed__semester=2)
+        ws['M' + str(start_index)] = index + 1
+        ws['N' + str(start_index)] = ' '.join([student.lastName, student.firstName, student.middleName])
+
+        cells = {
+            'pass': {
+                2: 'P',
+                3: 'R',
+                4: 'T',
+                5: 'V',
+                6: 'X'
+            },
+            'other': {
+                2: 'O',
+                3: 'Q',
+                4: 'S',
+                5: 'U',
+                6: 'W'
+            }
+        }
+
+        for month in [2, 3, 4, 5, 6]:
+            passes_no_reason = passes_second_semester.filter(date__month=month, type='pass')
+            passes_others = passes_second_semester.filter(date__month=month).exclude(type='pass')
+            ws[cells['pass'][month] + str(start_index)] = passes_no_reason.count() * 2
+            ws[cells['other'][month] + str(start_index)] = passes_others.count() * 2
+        start_index += 1
 
 
 def fill_public_attitude(ws, group):
-    pass
+    start_index = 3
+    public_plans_first_semester = PublicPlan.objects.filter(semester=1)
+    public_plans_second_semester = PublicPlan.objects.filter(semester=2)
+
+    for index, plan in enumerate(public_plans_first_semester):
+        ws['A' + str(start_index)] = index + 1
+        ws['B' + str(start_index)] = plan.date
+        ws['C' + str(start_index)] = plan.event
+        ws['D' + str(start_index)] = plan.amountHours
+        ws['E' + str(start_index)] = plan.amountPresent
+        start_index += 1
+
+    start_index = 3
+    for index, plan in enumerate(public_plans_second_semester):
+        ws['F' + str(start_index)] = index + 1
+        ws['G' + str(start_index)] = plan.date
+        ws['H' + str(start_index)] = plan.event
+        ws['I' + str(start_index)] = plan.amountHours
+        ws['J' + str(start_index)] = plan.amountPresent
+        start_index += 1
 
 
 def fill_individual_work(ws, group):
