@@ -86,7 +86,15 @@ class Faculty(models.Model):
             ).isocalendar()[1]
 
             self.amountOfWeekInFirstSemester = endWeekFirst - startWeekFirst
-            self.amountOfWeekInSecondSemester = endWeekSecond - startWeekSecond
+
+            if self.amountOfWeekInFirstSemester < 0:
+                endWeekFirst = datetime.date(
+                    self.endFirstSemester.year,
+                    self.endFirstSemester.month,
+                    self.endFirstSemester.day - 7
+                ).isocalendar()[1]
+                self.amountOfWeekInFirstSemester = (endWeekFirst - startWeekFirst) + 2
+            self.amountOfWeekInSecondSemester = (endWeekSecond - startWeekSecond) + 1
         except AttributeError:
             pass
         super(Faculty, self).save(*args, **kwargs)

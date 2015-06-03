@@ -36,7 +36,7 @@ class FacultyView(APIView):
         serializer = FacultySerializer(snippet, data=request.data, context=RequestContext(request))
         if serializer.is_valid():
             serializer.save()
-            return HttpResponse(serialize('json', [snippet], relations=('dean', )), content_type='application/json')
+            return HttpResponse(serialize('json', [serializer.instance], relations=('dean', )), content_type='application/json')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
