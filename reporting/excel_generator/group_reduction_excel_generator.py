@@ -100,8 +100,8 @@ def generate_group_reduction(faculty, group, month, year):
             ws[PASSES_PER_SEMESTER_BY_CLASS_TYPE_CELLS[passItem['class_passed__type']] + str(start_index)] = passItem['count'] * 2
             ws[PASSES_PER_SEMESTER_BY_CLASS_TYPE_CELLS[passItem['class_passed__type'] + '_' + 'total'] + str(start_index)] = passes_per_semester.filter(class_passed__type=passItem['class_passed__type']).count() * 2
 
-    passes_per_month = Pass.objects.filter(date__year=year, date__month=month)
-    passes_per_semester = Pass.objects.filter(date__year=year, date__gte=start_semester_date, date__lt=date(int(year), int(month) + 1, 1))
+    passes_per_month = Pass.objects.filter(date__year=year, date__month=month, student__id__in=students)
+    passes_per_semester = Pass.objects.filter(date__year=year, date__gte=start_semester_date, date__lt=date(int(year), int(month) + 1, 1), student__id__in=students)
     ws['L51'] = passes_per_month.distinct('student').count()
     ws['L52'] = passes_per_month.filter(type='pass').distinct('student').count()
     ws['L53'] = passes_per_month.filter(type='pass').count() * 2
