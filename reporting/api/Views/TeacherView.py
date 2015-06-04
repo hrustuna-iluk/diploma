@@ -54,23 +54,24 @@ class TeacherView(APIView):
         try:
             teacher = get_object_or_404(Teacher, pk=request.data["id"])
             teacher.position = 'teacher'
-            if not teacher.user:
-                user = create_user({
-                    'username': data['user']['username'],
-                    'password': data['user']['password'],
-                    'email': teacher.email
-                })
-                add_permission(user, data['position'])
-                teacher.user = user
-                data['user'] = user.id
-            else:
-                user = User.objects.get(id=data['user']['id'])
-                user.username = data['user']['username']
-                user.set_password(data['user']['password'])
-                user.is_active = data['user']['is_active']
-                user.save()
-                data['user'] = user.id
-            teacher.save()
+            if data['user'] and isinstance(data['user'], dict):
+                if not teacher.user:
+                    user = create_user({
+                        'username': data['user']['username'],
+                        'password': data['user']['password'],
+                        'email': teacher.email
+                    })
+                    add_permission(user, data['position'])
+                    teacher.user = user
+                    data['user'] = user.id
+                else:
+                    user = User.objects.get(id=data['user']['id'])
+                    user.username = data['user']['username']
+                    user.set_password(data['user']['password'])
+                    user.is_active = data['user']['is_active']
+                    user.save()
+                    data['user'] = user.id
+                teacher.save()
         except Teacher.DoesNotExist:
             pass
         snippet = get_object_or_404(Teacher, pk=request.data["id"])
