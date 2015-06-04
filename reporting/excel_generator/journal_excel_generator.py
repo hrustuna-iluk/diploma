@@ -53,8 +53,8 @@ def generate_journal_excel(group):
 
 def fill_start_page(ws, group):
     ws['B6'] = ' '.join(['Факультет:', group.department.title])
-    ws['B7'] = ' '.join(['Куратор:', group.curator.lastName, group.curator.firstName, group.curator.middleName])
-    ws['B8'] = ' '.join(['Староста:', group.leader.lastName, group.leader.firstName])
+    ws['B7'] = ' '.join(['Куратор:', group.curator.lastName, group.curator.firstName, group.curator.middleName]) if group.curator else ''
+    ws['B8'] = ' '.join(['Староста:', group.leader.lastName, group.leader.firstName]) if group.leader else ''
 
 
 def fill_public_orders(ws, group):
