@@ -197,8 +197,8 @@ def fill_accounting(ws, group):
 
 def fill_public_attitude(ws, group):
     start_index = 3
-    public_plans_first_semester = PublicPlan.objects.filter(semester=1)
-    public_plans_second_semester = PublicPlan.objects.filter(semester=2)
+    public_plans_first_semester = PublicPlan.objects.filter(semester=1, group=group)
+    public_plans_second_semester = PublicPlan.objects.filter(semester=2, group=group)
 
     for index, plan in enumerate(public_plans_first_semester):
         ws['A' + str(start_index)] = index + 1
