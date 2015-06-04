@@ -64,9 +64,9 @@ class GroupView(APIView):
         if isinstance(data['healthWork'], dict):
             data['healthWork'] = data['healthWork']['id']
         if isinstance(data['editorialBoard'], dict):
-            data['editorialBoard'] = data['editorialBoard']['id']
+            data['editorialBoard'] = [item['id'] for item in data['editorialBoard'] if isinstance(item, dict)]
         if isinstance(data['otherTasks'], dict):
-            data['otherTasks'] = data['otherTasks']['id']
+            data['otherTasks'] = [item['id'] for item in data['otherTasks'] if isinstance(item, dict)]
         if isinstance(data['curator'], dict):
             data['curator'] = data['curator']['id']
         snippet = get_object_or_404(Group, pk=request.data["id"])
