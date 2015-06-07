@@ -10,7 +10,14 @@ PERMISSIONS = {
     'Deputy Dean': None,
     'Head of Department': None,
     'group_leader': Permission.objects.all(),
-    'curator': Permission.objects.all(),
+    'curator': Permission.objects.filter(codename__in=[
+        'add_studentwork',
+        'change_studentwork',
+        'delete_studentwork',
+        'add_publicplan',
+        'change_publicplan',
+        'delete_publicplan'
+    ]),
     'teacher': Permission.objects.all()
 }
 

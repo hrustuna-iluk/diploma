@@ -5,12 +5,11 @@ from django.http import HttpResponseForbidden
 
 DEPARTMENT_SCREENS = [
     'teachers',
-    'groups',
-    'search'
+    'groups'
 ]
 
 GROUP_SCREENS = [
-    'students',
+    'students'
     'reduction',
     'scheduler',
     'journal',

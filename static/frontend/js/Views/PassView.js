@@ -7,14 +7,7 @@ var PassView = BaseView.extend ({
         watch: 'Чергування'
     },
 
-    popoverTemplate: _.template(
-        '<select class="pass_type" style="color: black;">' +
-            '<option value="" disabled selected>Виберіть причину пропуску</option>' +
-            '<% _.each(pass_types, function(value, key) { %>' +
-                '<option value="<%=key %>"><%=value%></option>' +
-            '<% }); %>' +
-        '</select>'
-    ),
+    popoverTemplate: _.template($('#popoverTemplate').html()),
 
     className: 'pass',
 

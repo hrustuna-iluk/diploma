@@ -29,8 +29,8 @@
                     <div class="span20" id="page-content">
                         <span class="title-page">Система контролю відвідувань</span>
                         <div class="row">
-                            <div class="span4" >
-                                <div class="add-department-form" style="display: {% if role == 'admin' %} block {% else %} none {% endif %}">
+                            <div class="span4" style="display: {% if role == 'admin' %} block {% else %} none {% endif %}">
+                                <div class="add-department-form">
                                     <form role="form" id="addDepartmentForm" onsubmit="return false;">
                                         <div class="form-group">
                                             <input type="text" placeholder="Назва кафедри" name="departmentName" id="departmentName" class="form-control">
@@ -72,7 +72,7 @@
         <!--New department template-->
         <script type="text/template" id="newDepartmentTemplate">
             <div class="tile double bg-darkTransparent fg-active-darkTransparent text-center">
-                {% if role == 'admin' or role == 'student' %}
+                {% if role == 'admin' %}
                     <div class="toolbar transparent place-right">
                     <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-department"></i></button>
                     <span class="divider"></span>
@@ -157,7 +157,7 @@
             </td>
             <td><%if(department){ %><%=department.title%><%}%></td>
             <td colspan="2">
-                {% if role == 'admin' or role == 'student' %}
+                {% if role == 'admin' %}
                     <div class="toolbar transparent place-right">
                         <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-teacher-data"></i></button>
                         <span class="divider"></span>
@@ -170,7 +170,7 @@
         <!--Group Template-->
         <script type="text/template" id="groupTemplate">
             <div class="tile double bg-darkTransparent fg-active-darkTransparent text-center">
-                {% if role == 'admin' or role == 'student' %}
+                {% if role == 'admin' %}
                     <div class="toolbar transparent place-right">
                         <button class="bg-hover-transparent"><i class="icon-pencil fg-active-cyan fg-white change-group"></i></button>
                         <span class="divider"></span>
@@ -326,8 +326,8 @@
                     <div class="span20" id="page-content">
                         <span class="title-page">Система контролю відвідувань</span>
                         <div class="row">
-                            <div class="span4" >
-                                <div class="add-student-form" style="display: {% if role == 'student' or role == 'teacher' or role == 'admin' %} block {% else %} none {% endif %}">
+                            <div class="span4" style="display: {% if role == 'student' or role == 'teacher' or role == 'admin' %} block {% else %} none {% endif %}">
+                                <div class="add-student-form">
                                     <form role="form" id="addStudentForm" onsubmit="return false;">
                                         <div class="form-group">
                                             <input type="text" placeholder="Прізвище" name="studentSurname" id="studentSurname" class="form-control">
@@ -539,21 +539,26 @@
                             <h4 class="modal-title">Додати пару</h4>
                         </div>
                         <div class="modal-body">
-                            <input type="text" name="subjectTitle" class="subjectTitle form-control"
+                            {% if role == 'admin' or role == 'student' %}
+                                <input type="text" name="subjectTitle" class="subjectTitle form-control"
                                    placeholder="Назва предмету" value="<% if (subject) { %> <%=subject%> <% } %>">
-                            <select class="typeClass form-control">
-                                <option selected value="lecture">Лекційне заняття</option>
-                                <option value="practice">Практичне заняття</option>
-                            </select>
-                            <select class="classTeacher form-control">
-                                <option disabled selected>Викладач</option>
-                            </select>
-                            <input type="text" name="classNumber" class="classNumber form-control"
-                                   placeholder="Номер аудиторії" value="<% if (subject) { %> <%=classroom%> <% } %>">
+                                <select class="typeClass form-control">
+                                    <option selected value="lecture">Лекційне заняття</option>
+                                    <option value="practice">Практичне заняття</option>
+                                </select>
+                                <select class="classTeacher form-control">
+                                    <option disabled selected>Викладач</option>
+                                </select>
+                                <input type="text" name="classNumber" class="classNumber form-control"
+                                       placeholder="Номер аудиторії" value="<% if (subject) { %> <%=classroom%> <% } %>">
+                            {% else %}
+                                <h2>Ви не можете додати пару</h2>
+                            {% endif %}
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default closeModal" data-dismiss="modal">Закрити</button>
-                            <button type="button" class="btn btn-primary addClass">Додати</button>
+                            <button type="button" class="btn btn-primary addClass" {% if role == 'admin' or role == 'student' %} {% else %} disabled {% endif %}>Додати</button>
                         </div>
                     </div>
                 </div>
@@ -569,7 +574,7 @@
 
         <!--Select option template for teachers-->
         <script type="text/template" id="classInformation">            
-            {% if role == 'admin' or role == 'student' or role == 'teacher' %}
+            {% if role == 'admin' or role == 'student' %}
                 <div class="toolbar transparent place-right">
                     <button class="bg-hover-transparent"><i class="icon-remove fg-active-cyan fg-white deleteClass"></i></button>
                 </div>
@@ -842,7 +847,6 @@
                         <input type="text" placeholder="Дата" name="publicPlanDate" id="publicPlanDate" class="form-control">
                         <input type="text" placeholder="Відповідальний" name="publicPlanResponsive" id="publicPlanResponsive" class="form-control">
                         <input type="text" placeholder="Примітка" name="publicPlanDescription" id="publicPlanDescription" class="form-control">
-
                     </div>
 
                      <button  class="no-display btn btn-primary" name="changePublicPlan" id="changePublicPlan">Змінити</button>
@@ -1038,7 +1042,7 @@
 
         <!--Add Public Orders Form Template-->
         <script type="text/template" id="addPublicOrdersFormTemplate">
-            <div class="add-publicOrders-form" style="display: {% if role == 'student' or role == 'teacher' or role == 'admin' %} block {% else %} none {% endif %}">
+            <div class="add-publicOrders-form" style="display: {% if role == 'student' or role == 'admin' %} block {% else %} none {% endif %}">
                 <form role="form" id="addPublicOrdersForm" onsubmit="return false;">
                     <div class="form-group">
                         <select id="groupLeaderSelect" class="form-control">
@@ -1110,6 +1114,15 @@
             <option value="<%=id%>">
                 <%=lastName%> <%=firstName%>
             </option>
+        </script>
+
+        <script type="text/template" id="popoverTemplate">
+            <select class="pass_type" style="color: black;" {% if role == 'admin' or role == 'student' %} {% else %} disabled {% endif %}>
+                <option value="" disabled selected>Виберіть причину пропуску</option>
+                <% _.each(pass_types, function(value, key) { %>
+                    <option value="<%=key %>"><%=value%></option>
+                <% }); %>
+            </select>
         </script>
 
 
