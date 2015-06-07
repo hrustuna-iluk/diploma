@@ -148,6 +148,7 @@ class Teacher(models.Model):
 
     class Meta:
         verbose_name = 'Teacher'
+        ordering = ['lastName', 'firstName']
 
     def __str__(self):
         return self.firstName + ' ' + self.lastName
@@ -187,6 +188,7 @@ class Student(models.Model):
 
     class Meta:
         verbose_name = 'Student'
+        ordering = ['lastName', 'firstName']
 
     def __str__(self):
         return self.firstName + ' ' + self.lastName
@@ -208,7 +210,7 @@ class Parents(models.Model):
 
 
 class Class(models.Model):
-    subject = models.CharField(max_length=25)
+    subject = models.CharField(max_length=100)
     type = models.CharField(max_length=50, choices=SUBJECT_TYPES)
     teacher = models.ForeignKey(Teacher, null=True, blank=True)
     classroom = models.CharField(max_length=25)

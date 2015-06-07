@@ -58,6 +58,7 @@ var StudentsView = BaseView.extend({
     },
 
     _onStudentChange: function(model) {
+        this.model = model;
         $(this.selectors.studentSurnameInput).val(model.getSurname());
         $(this.selectors.studentNameInput).val(model.getName());
         $(this.selectors.studentMiddleNameInput).val(model.getMiddleName());
@@ -98,7 +99,9 @@ var StudentsView = BaseView.extend({
             isProcurement: this.$(this.selectors.isProcurement).val() === 'on' ? true : false,
             language: this.$(this.selectors.studentStudyLanguageSelect).val(),
             email: this.$(this.selectors.studentEmail).val(),
-            additional: this.$(this.selectors.studentAdditionalInput).val()
+            additional: this.$(this.selectors.studentAdditionalInput).val(),
+            father: this.model.get('father'),
+            mother: this.model.get('mother')
         });
 
     },
@@ -123,6 +126,7 @@ var StudentsView = BaseView.extend({
     },
 
     _addStudent: function() {
+        this.model = new StudentModel();
         this.model.set({
             group: this.group.get("id")
         });

@@ -545,7 +545,9 @@
                                 <option selected value="lecture">Лекційне заняття</option>
                                 <option value="practice">Практичне заняття</option>
                             </select>
-                            <select class="classTeacher form-control"></select>
+                            <select class="classTeacher form-control">
+                                <option disabled selected>Викладач</option>
+                            </select>
                             <input type="text" name="classNumber" class="classNumber form-control"
                                    placeholder="Номер аудиторії" value="<% if (subject) { %> <%=classroom%> <% } %>">
                         </div>

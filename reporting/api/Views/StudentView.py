@@ -85,9 +85,20 @@ class StudentView(APIView):
         if isinstance(data['group'], dict):
             data['group'] = data['group']['id']
         if isinstance(data['mother'], dict):
-            data['mother'] = data['mother']['id']
+            mother = Parents.objects.get(id=data['mother']['id'])
+            mother.fullName = data['mother']['fullName']
+            mother.position = data['mother']['position']
+            mother.phone = data['mother']['phone']
+            mother.save()
+            data['mother'] = mother.id
         if isinstance(data['father'], dict):
-            data['father'] = data['father']['id']
+            father = Parents.objects.get(id=data['father']['id'])
+            father = Parents.objects.get(id=data['father']['id'])
+            father.fullName = data['father']['fullName']
+            father.position = data['father']['position']
+            father.phone = data['father']['phone']
+            father.save()
+            data['father'] = father.id
         data['benefits'] = [item['id'] for item in data['benefits'] if isinstance(item, dict)]
         snippet = get_object_or_404(Student, pk=request.data["id"])
         if not snippet.user and snippet.group.leader and snippet.group.leader.id == snippet.id:
