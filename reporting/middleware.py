@@ -31,7 +31,7 @@ class CheckPermission(object):
                 group = None
                 if screen == 'departments':
                     if isinstance(user, Teacher):
-                        if user.position != 'dean' or user.position != 'Deputy Dean':
+                        if user.position != 'dean' and user.position != 'Deputy Dean':
                             request.session['permission_denied'] = True
                     else:
                         request.session['permission_denied'] = True

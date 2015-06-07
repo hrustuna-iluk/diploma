@@ -201,8 +201,8 @@
                         <h3 class="department-title">Кафедра</h3>
                         <h3 class="department-title"><%=title%></h3>
                         <div class="row">
-                            <div class="span4" >
-                                <div class="add-group-form" style="display: {% if role == 'admin' %} block {% else %} none {% endif %}">
+                            <div class="span4" style="display: {% if role == 'admin' %} block {% else %} none {% endif %}">
+                                <div class="add-group-form">
                                     <form role="form" id="addGroupForm" onsubmit="return false;">
                                         <div class="form-group">
                                             <input type="text" placeholder="Номер групи" name="groupNumber" id="groupNumber" class="form-control">
