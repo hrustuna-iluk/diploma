@@ -23,7 +23,7 @@ def index(request):
         role = request.user.teacher_set.all().first().position
     elif request.user.is_superuser:
         role = 'admin'
-    return render_to_response('index.html', {'request': request, 'role': role}, context_instance = RequestContext(request))
+    return render_to_response('index.html', {'request': request, 'role': role}, context_instance=RequestContext(request))
 
 
 def login_user(request):
@@ -36,6 +36,7 @@ def login_user(request):
 
         user = authenticate(username=username, password=password)
         if user is not None:
+            login(request, user)
             if user.student_set and user.student_set.all().first():
                 persona = user.student_set.all().first()
                 group = Group.objects.filter(leader=persona)
@@ -49,15 +50,25 @@ def login_user(request):
                         start_page += 'groups/' + str(department.first().id)
                 elif persona.position == 'teacher':
                     group = Group.objects.filter(curator=persona)
-                    if group.count():
+                    if group.count() > 1:
+                        return HttpResponseRedirect(reverse_lazy('show_groups'))
+                    elif group.count():
                         start_page += 'reduction/' + str(group.first().id)
-            if user.is_active:
-                login(request, user)
-                return HttpResponseRedirect(reverse_lazy('index') + start_page)
+            return HttpResponseRedirect(reverse_lazy('index') + start_page)
     return render_to_response('login.html', context_instance=RequestContext(request))
 
 
 @login_required
+def show_groups(request):
+    if request.user.teacher_set and request.user.teacher_set.all().first():
+        persona = request.user.teacher_set.all().first()
+        group = Group.objects.filter(curator=persona)
+        return render_to_response('groups.html',
+                                  {'request': request, 'teacher': persona, 'groups': group},
+                                  context_instance=RequestContext(request))
+    return HttpResponseBadRequest()
+
+
 def logout_user(request):
     logout(request)
     return HttpResponseRedirect(reverse_lazy('login_user'))
@@ -97,6 +108,7 @@ def send_email(request):
             return HttpResponse(json.dumps({'error': 'Invalid header found.'}), content_type='application/json')
         return HttpResponse(json.dumps({'success': True}), content_type='application/json')
     return HttpResponseBadRequest()
+
 
 @login_required
 def delete_schedule(request):

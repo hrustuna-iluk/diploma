@@ -120,11 +120,12 @@ var AdminUserAccessView = BaseView.extend({
 
     _renderTeachersUser: function() {
         this.$("#userTeacherTable table tbody").empty();
-        this.teachersCollection.each($.proxy(function (model) {
+        this.teachersCollection.each($.proxy(function (model, index) {
             if (!model.get('user')) return;
             this.$("#userTeacherTable table tbody").append(
                 new UserTableView({
-                    model: model
+                    model: model,
+                    index: index + 1
                 }).render().el
             );
         }, this));

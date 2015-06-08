@@ -4,6 +4,9 @@ body {
     min-width: 100%;
 }
 
+tbody tr {
+    cursor: pointer;
+}
 .no-display {
     display: none;
 }

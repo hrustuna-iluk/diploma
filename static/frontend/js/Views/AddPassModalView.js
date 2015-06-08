@@ -5,6 +5,11 @@ var AddPassModalView = BaseView.extend({
         close: '.closeModal'
     },
 
+    classTypes: {
+        lecture: 'Лекція',
+        practice: 'Практика'
+    },
+
     template: _.template($('#addPassModalTemplate').html()),
 
     events: function () {
@@ -36,7 +41,7 @@ var AddPassModalView = BaseView.extend({
         this.classesCollection.reduce($.proxy(function ($el, classItem) {
             var option = new Option();
             option.value = classItem.get('id');
-            option.innerText = classItem.get('subject');
+            option.innerText = classItem.get('subject') + ' (' + this.classTypes[classItem.get('type')] + ')';
             return $el.add(option);
         }, this), $()).appendTo(this.$(this.selectors.addPassForm).find('.class_passed'));
 

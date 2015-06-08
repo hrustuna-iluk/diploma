@@ -2,6 +2,7 @@ from django.conf.urls import patterns, include, url
 from reporting.views import *
 
 urlpatterns = patterns('',
+   url(r'groups/$', show_groups, name='show_groups'),
     url(r'reduction/$', generate_reduction, name='generate_reduction'),
     url(r'journal/$', generate_journal, name='generate_journal'),
     url(r'journal/remove/$', remove_journal, name='remove_journal'),

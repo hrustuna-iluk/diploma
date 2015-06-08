@@ -1,0 +1,29 @@
+{% load staticfiles static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <link rel="stylesheet" href="{% static 'frameworks/Metro-UI-CSS-master/docs/css/metro-bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'frameworks/Metro-UI-CSS-master/docs/css/iconFont.css' %}">
+        <link rel="stylesheet" href="{% static 'frameworks/Metro-UI-CSS-master/docs/css/metro-bootstrap-responsive.css' %}">
+        <link rel="stylesheet" href="{% static 'frameworks/Metro-UI-CSS-master/docs/css/docs.css' %}">
+        <link rel="stylesheet" href="{% static 'frameworks/bootstrap/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'frontend/styles/styles.css' %}">
+    </head>
+    <body class="metro">
+        <header>
+            <nav style="text-align: right; margin-right: 30px; font-size: 12pt;"><i class="icon-profile"> </i>
+                <a style="color: white" href="/app/logout">Вийти</a>
+            </nav>
+        </header>
+        <center id="main">
+            <h2 style="color: white"><span style="text-decoration: underline">{{ teacher.firstName}}&nbsp;{{teacher.middleName }}</span> Ви являєтеся куратором кількох груп.</h2>
+            <h2 style="color: white">Для перегляду інформації про групу перейдіть по посиланню</h2>
+            <hr>
+            {% for group in groups %}
+                <a style="color: white; font-size: 15pt;" href="/app/reporting/#reduction/{{ group.id }}">{{ group.number }}</a><br>
+            {% endfor %}
+        </center>
+    </body>
+</html>
